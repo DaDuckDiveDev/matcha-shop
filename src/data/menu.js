@@ -129,7 +129,7 @@ export const ITEMS = [
   // ---- Take home
   {
     id: 'tin', cat: 'shop', jp: '抹茶 缶', price: 2900, img: 'powderSpoon',
-    name: { en: 'Mochiko ceremonial blend, 30 g', sr: 'Mochiko ceremonijalna mešavina, 30 g' },
+    name: { en: 'Machiko ceremonial blend, 30 g', sr: 'Machiko ceremonijalna mešavina, 30 g' },
     note: { en: 'The tin we whisk from. Samidori and Okumidori, first harvest, stone-milled in Uji.', sr: 'Limenka iz koje mutimo. Samidori i Okumidori, prva berba, mleveno na kamenom mlinu u Udžiju.' },
     spec: ''
   },

@@ -25,11 +25,11 @@ export default function AppShell() {
   return (
     <div className="app-shell">
       <div className="app-bg" aria-hidden="true">
-        <img src={src('latteCup', 1200)} alt={alt('latteCup')} />
+        <img src={src('tatamiShoji', 1200)} alt={alt('tatamiShoji')} />
       </div>
       <div className="app-main">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link to="/" className="wordmark" aria-label="Mochiko website"><Mark size={24} /><span className="wordmark__latin" style={{ fontSize: 15 }}>MOCHIKO</span></Link>
+          <Link to="/" className="wordmark" aria-label="Machiko website"><Mark size={24} /><span className="wordmark__latin" style={{ fontSize: 15 }}>MACHIKO</span></Link>
           <LangToggle />
         </div>
         <AnimatePresence mode="wait">

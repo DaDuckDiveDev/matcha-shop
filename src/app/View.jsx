@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from 'motion/react';
 export default function View({ title, children }) {
   const reduce = useReducedMotion();
   useEffect(() => {
-    document.title = `${title} — Mochiko`;
+    document.title = `${title} — Machiko`;
     window.scrollTo(0, 0);
   }, [title]);
   return (

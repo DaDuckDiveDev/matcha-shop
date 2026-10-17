@@ -1,15 +1,15 @@
-# Mochiko もちこ — matcha & coffee, Belgrade
+# Machiko まちこ — matcha & coffee, Belgrade
 
-Mobile-first website and guest web app for a premium matcha and specialty
-coffee shop. Kyoto restraint, cream and matcha green, wabi-sabi glass over
-real photography. One Vite + React build serves both the marketing site and
+Mobile-first website and guest web app for a premium matcha and wellness
+house. Kyoto restraint, cream and matcha green, wabi-sabi glass over real
+photography of tea rooms, gardens and the café itself. One Vite + React build serves both the marketing site and
 the installable guest app under `/app`.
 
 ## What is in here
 
 | Route | What |
 | --- | --- |
-| `/` | Home: noren intro, hero, season strip (24 solar terms), three ways of matcha, the shade, mochi, slow bar / kitchen / take-home, guest-app band |
+| `/` | Home: noren intro, Kyoto tea-room hero, season strip (24 solar terms), three ways of matcha, the room (café), the shade, why matcha (calm), kitchen, slow bar / kitchen / take-home, guest-app band |
 | `/menu` | Full menu with sticky category chips, seasonal row, prices in RSD |
 | `/matcha` | The tin: origin, cultivars, shading, milling; how usucha is made; FAQ |
 | `/visit` | Hours, address, map placeholder, workshops, reservation CTA |
@@ -21,7 +21,7 @@ carry their own EN/SR copy in `src/data/menu.js`.
 
 ## Stack
 
-- [Vite 5](https://vitejs.dev) + React 18, plain CSS (`src/styles/mochiko.css`, tokens at the top)
+- [Vite 5](https://vitejs.dev) + React 18, plain CSS (`src/styles/machiko.css`, tokens at the top)
 - [Motion](https://motion.dev) (`motion/react`) for the noren intro, page transitions, scroll reveals, option pills, the stamp thump and the price tween
 - `react-router-dom` for routes; `vite-plugin-pwa` for the manifest and service worker
 - Fonts from Google Fonts: EB Garamond (display and body), Hanken Grotesk (UI), Zen Old Mincho (Japanese)
@@ -70,4 +70,4 @@ Copy `.env.example` to `.env` and set `VITE_RESERVE_WEBHOOK` to a URL that accep
 
 ## Design
 
-The design canvas (Claude Design) holds the mobile home and menu boards, the app screens, the logo board and the design-system tile. Palette and type are documented there and mirrored in the `:root` tokens of `mochiko.css`.
+The design canvas (Claude Design) holds the mobile home and menu boards, the app screens, the logo board and the design-system tile. Palette and type are documented there and mirrored in the `:root` tokens of `machiko.css`.

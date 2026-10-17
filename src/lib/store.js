@@ -3,7 +3,7 @@
 // wrapped in try/catch so a blocked localStorage never breaks the UI.
 import { useCallback, useEffect, useState } from 'react';
 
-const KEY = 'mochiko.guest.v1';
+const KEY = 'machiko.guest.v1';
 
 const initial = {
   name: '',

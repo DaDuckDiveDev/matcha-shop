@@ -9,6 +9,7 @@ import Seals from '../components/Seals.jsx';
 import Reveal from '../components/Reveal.jsx';
 import Rule from '../components/Rule.jsx';
 import Footer from '../components/Footer.jsx';
+import CalmPoints from '../components/CalmPoints.jsx';
 import { findItem } from '../data/menu.js';
 import { alt, src } from '../data/images.js';
 import { IconArrow } from '../components/Icons.jsx';
@@ -21,15 +22,15 @@ export default function Home() {
     <Page title={null}>
       <NorenIntro />
 
-      {/* Hero: the whisk, the curtain, the card */}
+      {/* Hero: a tea room in Kyoto, the curtain, the card */}
       <PhotoBand
-        image="heroWhisk"
+        image="teaRoomKyoto"
         className="hero"
         priority
         light
         overlay={(
           <div className="hero__noren" aria-hidden="true">
-            <span>もちこ</span>
+            <span>まちこ</span>
             <span>抹茶と珈琲</span>
           </div>
         )}
@@ -61,8 +62,22 @@ export default function Home() {
         <Link to="/menu" className="textlink" style={{ marginTop: 10 }}>{t('common.fullMenu')} <IconArrow /></Link>
       </section>
 
+      {/* The room: the café itself */}
+      <PhotoBand image="cafeSunlit" style={{ padding: '72px 0', marginTop: 64 }} light>
+        <div className="wrap inner">
+          <Reveal className="glass" style={{ padding: '28px 24px 26px', maxWidth: 560 }}>
+            <div className="stack" style={{ gap: 14 }}>
+              <div className="eyebrow"><span className="jp">間</span><span>— {t('home.roomEyebrow')}</span></div>
+              <h2 className="h2">{t('home.roomTitle')}</h2>
+              <p className="body">{t('home.roomBody')}</p>
+              <Link to="/visit" className="textlink">{t('nav.visit')} <IconArrow /></Link>
+            </div>
+          </Reveal>
+        </div>
+      </PhotoBand>
+
       {/* The shade, over the tea fields */}
-      <PhotoBand image="teaMist" className="section" style={{ padding: '72px 0', marginTop: 64 }}>
+      <PhotoBand image="teaMist" style={{ padding: '72px 0' }}>
         <div className="wrap inner">
           <Reveal className="glass glass--green on-green" style={{ padding: '28px 24px 26px', maxWidth: 640 }}>
             <div className="stack" style={{ gap: 16 }}>
@@ -76,7 +91,22 @@ export default function Home() {
         </div>
       </PhotoBand>
 
-      {/* Mochi */}
+      {/* Why matcha: calm, over a raked garden */}
+      <PhotoBand image="zenRaked" style={{ padding: '72px 0' }} light>
+        <div className="wrap inner">
+          <Reveal className="glass" style={{ padding: '28px 24px 26px', maxWidth: 680 }}>
+            <div className="stack" style={{ gap: 16 }}>
+              <div className="eyebrow"><span className="jp">静</span><span>— {t('home.calmEyebrow')}</span></div>
+              <h2 className="h2">{t('home.calmTitle')}</h2>
+              <p className="body">{t('home.calmBody')}</p>
+              <CalmPoints />
+              <div className="caption" style={{ textTransform: 'none', letterSpacing: '0.04em', fontSize: 12, lineHeight: 1.5 }}>{t('home.calmNote')}</div>
+            </div>
+          </Reveal>
+        </div>
+      </PhotoBand>
+
+      {/* Kitchen: mochi */}
       <section className="section wrap inner section--two">
         <Reveal className="glass tile" style={{ padding: 0 }}>
           <img className="tile__img" src={src('mochiHands', 1200)} alt={alt('mochiHands')} loading="lazy" decoding="async" style={{ aspectRatio: '4 / 5' }} />
@@ -111,8 +141,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Guest app */}
-      <PhotoBand image="bambooKyoto" style={{ padding: '72px 0', marginTop: 72 }}>
+      {/* Guest app, over a Kyoto riverside */}
+      <PhotoBand image="kyotoRiver" style={{ padding: '72px 0', marginTop: 72 }}>
         <div className="wrap inner">
           <Reveal className="glass" style={{ padding: '28px 24px 26px', maxWidth: 560 }}>
             <div className="stack" style={{ gap: 14 }}>

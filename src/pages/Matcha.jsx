@@ -7,6 +7,7 @@ import Seals from '../components/Seals.jsx';
 import Rule from '../components/Rule.jsx';
 import Footer from '../components/Footer.jsx';
 import { alt, src } from '../data/images.js';
+import CalmPoints from '../components/CalmPoints.jsx';
 
 export default function Matcha() {
   const { t } = useLang();
@@ -16,7 +17,7 @@ export default function Matcha() {
 
   return (
     <Page title={t('matcha.eyebrow')}>
-      <PhotoBand image="bowlRustic" style={{ padding: '72px 0 48px' }} light>
+      <PhotoBand image="whiskClose" style={{ padding: '72px 0 48px' }} light>
         <div className="wrap inner">
           <Reveal className="glass" style={{ padding: '26px 24px', maxWidth: 620 }}>
             <div className="stack" style={{ gap: 12 }}>
@@ -61,7 +62,14 @@ export default function Matcha() {
             </ol>
           </Reveal>
           <Reveal className="glass tile" style={{ padding: 0 }}>
-            <img className="tile__img" src={src('handsWhisk', 1200)} alt={alt('handsWhisk')} loading="lazy" decoding="async" style={{ aspectRatio: '16 / 10' }} />
+            <img className="tile__img" src={src('whiskCeremony', 1200)} alt={alt('whiskCeremony')} loading="lazy" decoding="async" style={{ aspectRatio: '16 / 10' }} />
+          </Reveal>
+          <Reveal className="stack" style={{ gap: 14 }}>
+            <div className="eyebrow"><span className="jp">静</span><span>— {t('home.calmEyebrow')}</span></div>
+            <h2 className="h2">{t('home.calmTitle')}</h2>
+            <p className="body">{t('home.calmBody')}</p>
+            <CalmPoints />
+            <div className="caption" style={{ textTransform: 'none', letterSpacing: '0.04em', fontSize: 12, lineHeight: 1.5 }}>{t('home.calmNote')}</div>
           </Reveal>
           <Reveal className="stack" style={{ gap: 14 }}>
             <div className="eyebrow"><span className="jp">質問</span><span>— {t('matcha.faqTitle')}</span></div>

@@ -7,26 +7,36 @@ export const STRINGS = {
     common: {
       seeMenu: 'See the menu', orderAhead: 'Order ahead', fullMenu: 'Full menu', back: 'Back', close: 'Close',
       rsd: 'RSD', each: 'each', openDaily: 'Daily 08:00–20:00', address: '[Street & number], Dorćol, 11000 Beograd',
-      phone: '+381 [phone]', instagram: '@mochiko.beograd', copyright: 'Mochiko もちこ · matcha & coffee · 2026',
+      phone: '+381 [phone]', instagram: '@machiko.beograd', copyright: 'Machiko まちこ · matcha & coffee · 2026',
       photoCredit: 'Photography from Pexels; replace with your own shots when you have them.'
     },
     season: { term: 'solar term', fortnight: 'This fortnight', until: 'until', fallback: 'Ask what is in season.' },
     home: {
-      eyebrow: 'Matcha bar & slow coffee · Dorćol, Beograd',
-      title: 'Matcha from Uji, mochi from this morning.',
-      lede: 'Ceremonial matcha whisked to order with a bamboo chasen. Slow coffee. A small Japanese kitchen that pounds its own mochi.',
+      eyebrow: 'Matcha · wellness · Dorćol, Beograd',
+      title: 'An hour of Kyoto, in Belgrade.',
+      lede: 'Ceremonial matcha from Uji, whisked to order with a bamboo chasen. Slow coffee, a small Japanese kitchen, and a room made for slowing down.',
+      roomEyebrow: 'The room', roomTitle: 'Twenty seats and a lot of quiet.',
+      roomBody: 'Shoji light, raw wood, a counter you can watch from and a retail corner by the window. No music louder than the kettle. Phones welcome, laptops until noon.',
+      calmEyebrow: 'Why matcha', calmTitle: 'Calm, not a jolt.',
+      calmBody: 'Matcha is the whole leaf, ground and whisked, so you drink what the plant made in the shade.',
+      calm: [
+        ['L-theanine', 'Shaded leaves are rich in it. Paired with matcha\'s gentle caffeine it is associated with alert calm rather than a spike and a crash.'],
+        ['Catechins', 'Whole-leaf tea keeps its catechins, EGCG among them, the polyphenols green tea is studied for.'],
+        ['Fifteen seconds', 'Sifting, pouring, whisking. The ritual is short, and it is the point: a pause you can feel before the first sip.']
+      ],
+      calmNote: 'We are a tea house, not a clinic: enjoy matcha for how it tastes and how it makes you feel, and ask a doctor about the rest.',
       waysEyebrow: 'Matcha', waysTitle: 'Three ways to drink it.',
       shadeEyebrow: 'The shade', shadeTitle: 'Twenty days in the shade.',
       shadeBody: 'Three weeks before the May harvest, the tea fields of Uji are covered. Starved of sun, the leaves hold on to their chlorophyll and L-theanine: the colour deepens, the bitterness falls away, the umami builds. That shade is where the flavour comes from. Every tin we open is first-harvest tencha, ground on a stone mill at thirty grams an hour, and finished within two weeks of opening.',
       seals: { uji: 'Uji, Kyoto', first: 'First harvest', stone: 'Stone-milled', whisk: 'Whisked to order' },
-      mochiEyebrow: 'The kitchen', mochiTitle: 'A mochi is never a perfect circle.',
-      mochiBody: 'Neither are we. Glutinous rice is steamed, pounded and shaped every morning while the first matcha is whisked. Daifuku around sweet azuki, warabi mochi with kinako, and whatever the season puts on the counter.',
+      mochiEyebrow: 'The kitchen', mochiTitle: 'Pounded this morning.',
+      mochiBody: 'Glutinous rice is steamed, pounded and shaped every morning while the first matcha is whisked. Daifuku around sweet azuki, warabi mochi with kinako, tamago sando on shokupan, and whatever the season puts on the counter.',
       coffeeTitle: 'Slow bar', coffeeBody: 'Nel drip, V60 and espresso. One seasonal single origin, roasted in Belgrade, changed with the solar term.',
       kitchenTitle: 'Small kitchen', kitchenBody: 'Daifuku and warabi mochi pounded each morning, tamago sando on shokupan, salmon and umeboshi onigiri, ogura toast.',
       shopTitle: 'Take it home', shopBody: 'Our ceremonial blend in 30 g tins, chasen from Takayama, chawan and chashaku. We show you how.',
       visitEyebrow: 'Visit', visitTitle: 'Dorćol, Beograd.',
       appEyebrow: 'Guest app', appTitle: 'Order ahead, collect stamps, reserve a seat.',
-      appBody: 'Add Mochiko to your home screen. Every drink earns a stamp; ten stamps are an usucha on the house.',
+      appBody: 'Add Machiko to your home screen. Every drink earns a stamp; ten stamps are an usucha on the house.',
       openApp: 'Open the guest app'
     },
     menu: {
@@ -57,7 +67,7 @@ export const STRINGS = {
       ]
     },
     visit: {
-      eyebrow: 'Visit', title: 'A quiet room in Dorćol.',
+      eyebrow: 'Visit', title: 'A quiet room in Dorćol.', galleryEyebrow: 'The space', galleryTitle: 'What you walk into.',
       lede: 'Twenty seats, a counter you can watch from, and a retail corner by the window. Children and dogs welcome; laptops welcome until noon.',
       hoursTitle: 'Hours', findTitle: 'Find us', reserveTitle: 'Reserve a seat', reserveBody: 'Walk-ins first. For four or more, or for a workshop seat, reserve in the guest app.',
       directions: 'Two minutes from Skadarlija, five from Trg Republike. Street parking is scarce; the tram stops around the corner.',
@@ -73,7 +83,7 @@ export const STRINGS = {
       openUntil: 'open until 20:00', closedNow: 'closed now · opens 08:00', quiet: 'quiet right now',
       stampCard: 'Stamp card', of: 'of', stampsLeft: (n) => `${n} more and the next usucha is on the house.`, stampsFull: 'Your next usucha is on the house. Show this at the counter.',
       showAtCounter: 'Show the card at the counter; we stamp it.', yourUsual: 'Your usual', reorder: 'Reorder', lastTime: 'Last time',
-      installTitle: 'Add Mochiko to your home screen', installBody: 'One tap to order, your stamps always with you.', install: 'Add', installed: 'Installed',
+      installTitle: 'Add Machiko to your home screen', installBody: 'One tap to order, your stamps always with you.', install: 'Add', installed: 'Installed',
       workshop: 'Workshop', seatsLeft: (n) => `${n} of 4 seats left`,
       menuTitle: 'Order ahead', menuLede: 'Pick up at the counter. We start whisking when you confirm.',
       customise: 'Make it yours', temp: 'Temperature', milk: 'Milk', size: 'Size', strength: 'Strength', quantity: 'Quantity',
@@ -96,26 +106,36 @@ export const STRINGS = {
     common: {
       seeMenu: 'Pogledaj meni', orderAhead: 'Naruči unapred', fullMenu: 'Ceo meni', back: 'Nazad', close: 'Zatvori',
       rsd: 'RSD', each: 'kom', openDaily: 'Svakog dana 08:00–20:00', address: '[Ulica i broj], Dorćol, 11000 Beograd',
-      phone: '+381 [telefon]', instagram: '@mochiko.beograd', copyright: 'Mochiko もちこ · matcha i kafa · 2026',
+      phone: '+381 [telefon]', instagram: '@machiko.beograd', copyright: 'Machiko まちこ · matcha i kafa · 2026',
       photoCredit: 'Fotografije sa Pexelsa; zameni svojim kada ih budeš imao.'
     },
     season: { term: 'solarni period', fortnight: 'Ove dve nedelje', until: 'do', fallback: 'Pitaj šta je u sezoni.' },
     home: {
-      eyebrow: 'Matcha bar i spora kafa · Dorćol, Beograd',
-      title: 'Matcha iz Udžija, mochi od jutros.',
-      lede: 'Ceremonijalna matcha umućena po porudžbini bambusovim chasenom. Spora kafa. Mala japanska kuhinja koja sama tuca svoj mochi.',
+      eyebrow: 'Matcha · wellness · Dorćol, Beograd',
+      title: 'Sat vremena Kjota, u Beogradu.',
+      lede: 'Ceremonijalna matcha iz Udžija, umućena po porudžbini bambusovim chasenom. Spora kafa, mala japanska kuhinja i prostor napravljen za usporavanje.',
+      roomEyebrow: 'Prostor', roomTitle: 'Dvadeset mesta i mnogo tišine.',
+      roomBody: 'Svetlo kroz shoji, sirovo drvo, šank sa kog se sve vidi i prodajni kutak kod prozora. Muzika nikad glasnija od čajnika. Telefoni dobrodošli, laptopovi do podneva.',
+      calmEyebrow: 'Zašto matcha', calmTitle: 'Mir, a ne trzaj.',
+      calmBody: 'Matcha je ceo list, samleven i umućen, pa piješ ono što je biljka stvorila u hladu.',
+      calm: [
+        ['L-teanin', 'Zasenjeni listovi su bogati njime. U paru sa blagim kofeinom matche povezuje se sa budnim mirom, a ne sa skokom i padom.'],
+        ['Katehini', 'Čaj od celog lista zadržava katehine, među njima EGCG, polifenole zbog kojih se zeleni čaj proučava.'],
+        ['Petnaest sekundi', 'Prosejavanje, sipanje, mućenje. Ritual je kratak i u tome je poenta: pauza koju osetiš pre prvog gutljaja.']
+      ],
+      calmNote: 'Mi smo čajdžinica, ne klinika: uživaj u matchi zbog ukusa i osećaja, a za ostalo pitaj lekara.',
       waysEyebrow: 'Matcha', waysTitle: 'Tri načina da se pije.',
       shadeEyebrow: 'Hlad', shadeTitle: 'Dvadeset dana u hladu.',
       shadeBody: 'Tri nedelje pre majske berbe, čajna polja Udžija se prekrivaju. Bez sunca, listovi zadržavaju hlorofil i L-teanin: boja postaje dublja, gorčina nestaje, umami raste. Iz tog hlada dolazi ukus. Svaka limenka koju otvorimo je tencha prve berbe, mlevena na kamenom mlinu brzinom od trideset grama na sat, i potrošena u roku od dve nedelje od otvaranja.',
       seals: { uji: 'Uji, Kjoto', first: 'Prva berba', stone: 'Kameni mlin', whisk: 'Mućeno po porudžbini' },
-      mochiEyebrow: 'Kuhinja', mochiTitle: 'Mochi nikad nije savršen krug.',
-      mochiBody: 'Nismo ni mi. Lepljivi pirinač se kuva na pari, tuca i oblikuje svakog jutra dok se muti prva matcha. Daifuku oko slatkog azukija, warabi mochi sa kinakom, i šta god sezona stavi na pult.',
+      mochiEyebrow: 'Kuhinja', mochiTitle: 'Tucano jutros.',
+      mochiBody: 'Lepljivi pirinač se kuva na pari, tuca i oblikuje svakog jutra dok se muti prva matcha. Daifuku oko slatkog azukija, warabi mochi sa kinakom, tamago sendvič na shokupanu i šta god sezona stavi na pult.',
       coffeeTitle: 'Spori bar', coffeeBody: 'Nel drip, V60 i espresso. Jedna sezonska kafa jednog porekla, pržena u Beogradu, menja se sa solarnim periodom.',
       kitchenTitle: 'Mala kuhinja', kitchenBody: 'Daifuku i warabi mochi tucani svakog jutra, tamago sendvič na shokupanu, onigiri sa lososom i umebošijem, ogura tost.',
       shopTitle: 'Ponesi kući', shopBody: 'Naša ceremonijalna mešavina u limenkama od 30 g, chasen iz Takajame, chawan i chashaku. Pokazaćemo ti kako.',
       visitEyebrow: 'Poseta', visitTitle: 'Dorćol, Beograd.',
       appEyebrow: 'Aplikacija', appTitle: 'Naruči unapred, skupljaj pečate, rezerviši mesto.',
-      appBody: 'Dodaj Mochiko na početni ekran. Svako piće donosi pečat; deset pečata je usucha na račun kuće.',
+      appBody: 'Dodaj Machiko na početni ekran. Svako piće donosi pečat; deset pečata je usucha na račun kuće.',
       openApp: 'Otvori aplikaciju'
     },
     menu: {
@@ -146,7 +166,7 @@ export const STRINGS = {
       ]
     },
     visit: {
-      eyebrow: 'Poseta', title: 'Mirna soba na Dorćolu.',
+      eyebrow: 'Poseta', title: 'Mirna soba na Dorćolu.', galleryEyebrow: 'Prostor', galleryTitle: 'U šta ulaziš.',
       lede: 'Dvadeset mesta, šank sa kog se sve vidi, i prodajni kutak kod prozora. Deca i psi dobrodošli; laptopovi do podneva.',
       hoursTitle: 'Radno vreme', findTitle: 'Gde smo', reserveTitle: 'Rezerviši mesto', reserveBody: 'Prvo ko dođe. Za četvoro ili više, ili za mesto na radionici, rezerviši u aplikaciji.',
       directions: 'Dva minuta od Skadarlije, pet od Trga Republike. Parkinga na ulici je malo; tramvaj staje iza ugla.',
@@ -162,7 +182,7 @@ export const STRINGS = {
       openUntil: 'otvoreno do 20:00', closedNow: 'zatvoreno · otvara u 08:00', quiet: 'trenutno mirno',
       stampCard: 'Kartica pečata', of: 'od', stampsLeft: (n) => `Još ${n} i sledeća usucha je na račun kuće.`, stampsFull: 'Sledeća usucha je na račun kuće. Pokaži ovo na šanku.',
       showAtCounter: 'Pokaži karticu na šanku; mi udaramo pečat.', yourUsual: 'Tvoje uobičajeno', reorder: 'Ponovi', lastTime: 'Prošli put',
-      installTitle: 'Dodaj Mochiko na početni ekran', installBody: 'Jedan dodir za porudžbinu, pečati uvek uz tebe.', install: 'Dodaj', installed: 'Instalirano',
+      installTitle: 'Dodaj Machiko na početni ekran', installBody: 'Jedan dodir za porudžbinu, pečati uvek uz tebe.', install: 'Dodaj', installed: 'Instalirano',
       workshop: 'Radionica', seatsLeft: (n) => `još ${n} od 4 mesta`,
       menuTitle: 'Naruči unapred', menuLede: 'Preuzmi na šanku. Počinjemo da mutimo kad potvrdiš.',
       customise: 'Po tvojoj meri', temp: 'Temperatura', milk: 'Mleko', size: 'Veličina', strength: 'Jačina', quantity: 'Količina',

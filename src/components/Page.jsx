@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from 'motion/react';
 export default function Page({ title, children, className = '' }) {
   const reduce = useReducedMotion();
   useEffect(() => {
-    document.title = title ? `${title} — Mochiko` : 'Mochiko — Matcha & Coffee in Belgrade';
+    document.title = title ? `${title} — Machiko` : 'Machiko — Matcha & Coffee in Belgrade';
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   }, [title]);
   return (

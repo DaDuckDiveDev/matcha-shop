@@ -11,7 +11,7 @@ export default function Visit() {
   const workshops = t('visit.workshops');
   return (
     <Page title={t('visit.eyebrow')}>
-      <PhotoBand image="mossPath" style={{ padding: '72px 0 48px' }} light>
+      <PhotoBand image="kyotoStreet" style={{ padding: '72px 0 48px' }} light>
         <div className="wrap inner">
           <Reveal className="glass" style={{ padding: '26px 24px', maxWidth: 620 }}>
             <div className="stack" style={{ gap: 12 }}>
@@ -22,6 +22,20 @@ export default function Visit() {
           </Reveal>
         </div>
       </PhotoBand>
+
+      <section className="section wrap inner">
+        <Reveal className="stack" style={{ gap: 10, marginBottom: 22 }}>
+          <div className="eyebrow"><span className="jp">間</span><span>— {t('visit.galleryEyebrow')}</span></div>
+          <h2 className="h2">{t('visit.galleryTitle')}</h2>
+        </Reveal>
+        <div className="tiles">
+          {['cafeMinimal', 'tatamiShoji', 'cafeGreen'].map((k, i) => (
+            <Reveal key={k} delay={i * 0.08} className="glass tile" style={{ padding: 0 }}>
+              <img className="tile__img" src={src(k, 900)} alt={alt(k)} loading="lazy" decoding="async" />
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       <section className="section wrap inner section--two" style={{ alignItems: 'start' }}>
         <div className="stack" style={{ gap: 28 }}>
@@ -42,7 +56,7 @@ export default function Visit() {
         </div>
         <div className="stack" style={{ gap: 28 }}>
           <Reveal className="glass tile" style={{ padding: 0 }}>
-            <img className="tile__img" src={src('matchaShop', 1200)} alt={alt('matchaShop')} loading="lazy" decoding="async" style={{ aspectRatio: '4 / 5' }} />
+            <img className="tile__img" src={src('kyotoPatio', 1200)} alt={alt('kyotoPatio')} loading="lazy" decoding="async" style={{ aspectRatio: '4 / 5' }} />
           </Reveal>
           <Reveal className="stack" style={{ gap: 12 }}>
             <div className="eyebrow"><span className="jp">席</span><span>— {t('visit.reserveTitle')}</span></div>

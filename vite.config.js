@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// Mochiko — site + guest app in one Vite build.
+// Machiko — site + guest app in one Vite build.
 // The PWA manifest installs the guest app (start_url /app/); the marketing
 // site is served from the same bundle and the same service worker.
 //
@@ -18,9 +18,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png', 'brand/og-image.jpg', 'img/*.png'],
       manifest: {
-        name: 'Mochiko — matcha & coffee',
-        short_name: 'Mochiko',
-        description: 'Order ahead, collect stamps and reserve a seat at Mochiko, Belgrade.',
+        name: 'Machiko — matcha & coffee',
+        short_name: 'Machiko',
+        description: 'Order ahead, collect stamps and reserve a seat at Machiko, Belgrade.',
         lang: 'en',
         start_url: `${base}app/`,
         scope: base,

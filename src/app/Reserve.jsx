@@ -15,7 +15,7 @@ export default function Reserve() {
   const submit = async (e) => {
     e.preventDefault();
     setState('sending');
-    const payload = { ...form, at: new Date().toISOString(), source: 'mochiko-app' };
+    const payload = { ...form, at: new Date().toISOString(), source: 'machiko-app' };
     const { sent } = await sendReservation(payload);
     store.setName(form.name.trim());
     store.addReservation({ ...payload, sent });

@@ -4,7 +4,7 @@ import { Mark } from './Logo.jsx';
 
 // The noren: two cloth panels you walk through. Plays once per session,
 // parts to the sides, and gets out of the way. Skipped when motion is reduced.
-const KEY = 'mochiko.noren';
+const KEY = 'machiko.noren';
 
 export default function NorenIntro() {
   const reduce = useReducedMotion();
@@ -30,7 +30,7 @@ export default function NorenIntro() {
             <Mark cream className="noren-intro__mark" size={160} />
           </motion.div>
           <motion.div className="noren-intro__panel" exit={{ x: '100%', rotate: 2, transition: { duration: 0.95, ease } }}>
-            <span className="vert">もちこ</span>
+            <span className="vert">まちこ</span>
           </motion.div>
         </motion.div>
       )}

@@ -1,8 +1,8 @@
 {
-  "name": "mochiko",
+  "name": "machiko",
   "private": true,
   "version": "0.1.0",
-  "description": "Mochiko もちこ — matcha & coffee, Belgrade. Mobile-first site and guest web app.",
+  "description": "Machiko まちこ — matcha & coffee, Belgrade. Mobile-first site and guest web app.",
   "type": "module",
   "scripts": {
     "dev": "vite",

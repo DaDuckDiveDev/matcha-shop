@@ -45,9 +45,9 @@ export default function TopBar({ overHero = false }) {
   return (
     <>
       <header className={`topbar ${over ? 'topbar--over' : ''}`}>
-        <Link to="/" className="wordmark" aria-label="Mochiko home">
+        <Link to="/" className="wordmark" aria-label="Machiko home">
           <Mark size={26} cream={over} />
-          <span className="wordmark__latin">MOCHIKO</span>
+          <span className="wordmark__latin">MACHIKO</span>
         </Link>
         <nav className="nav-desktop" aria-label="Primary">
           {links.map((l) => (
@@ -74,7 +74,7 @@ export default function TopBar({ overHero = false }) {
             aria-modal="true"
           >
             <div className="drawer__top">
-              <Link to="/" className="wordmark"><Mark size={26} cream /><span className="wordmark__latin">MOCHIKO</span></Link>
+              <Link to="/" className="wordmark"><Mark size={26} cream /><span className="wordmark__latin">MACHIKO</span></Link>
               <button type="button" className="icon-btn" aria-label={t('common.close')} onClick={() => setOpen(false)}><IconClose /></button>
             </div>
             <ul className="drawer__list">

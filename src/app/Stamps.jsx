@@ -12,8 +12,8 @@ function guestCode(name) {
 }
 function localStorageSeed() {
   try {
-    let s = localStorage.getItem('mochiko.seed');
-    if (!s) { s = String(Math.floor(Math.random() * 1e9)); localStorage.setItem('mochiko.seed', s); }
+    let s = localStorage.getItem('machiko.seed');
+    if (!s) { s = String(Math.floor(Math.random() * 1e9)); localStorage.setItem('machiko.seed', s); }
     return s;
   } catch { return 'x'; }
 }

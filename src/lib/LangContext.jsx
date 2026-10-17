@@ -3,7 +3,7 @@ import { STRINGS } from '../data/i18n.js';
 
 const LangContext = createContext({ lang: 'en', setLang: () => {}, t: (k) => k, pick: (o) => o });
 
-const KEY = 'mochiko.lang';
+const KEY = 'machiko.lang';
 
 function detect() {
   try {

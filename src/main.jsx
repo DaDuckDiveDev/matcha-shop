@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { registerSW } from 'virtual:pwa-register';
 import App from './App.jsx';
 import { LangProvider } from './lib/LangContext.jsx';
-import './styles/mochiko.css';
+import './styles/machiko.css';
 
 registerSW({ immediate: true });
 

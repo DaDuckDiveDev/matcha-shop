@@ -49,6 +49,23 @@ export const photos = {
   mossPath: { id: 37735407, alt: 'A mossy stone path in a Japanese garden', by: 'kamilas-pariestis' },
   mossGarden: { id: 36937664, alt: 'A Japanese garden in Komoro, Nagano', by: 'hiropon9228923' },
   mossKyoto: { id: 31418378, alt: 'Moss-covered statues at a Kyoto temple', by: 'daniel-gubo' },
+  teaHouseGarden: { id: 38658903, alt: 'A traditional Japanese tea house in a garden', by: 'technobulka' },
+  teaRoomKyoto: { id: 36352180, alt: 'A tea room in Kyoto', by: 'ekrulila' },
+  tatamiCeremony: { id: 35680926, alt: 'A tea ceremony in a tatami room', by: 'ekrulila' },
+  tatamiShoji: { id: 35680939, alt: 'A tatami room with shoji screens', by: 'ekrulila' },
+  kyotoPatio: { id: 10274613, alt: 'A sunlit patio with sliding doors, Kyoto', by: 'satoshi' },
+  kyotoStreet: { id: 33116164, alt: 'A traditional street in Kyoto with wooden houses', by: 'faruktokluoglu' },
+  kyotoAutumn: { id: 35119552, alt: 'Autumn in a historic Kyoto neighbourhood', by: 'eugeniofr' },
+  kyotoRiver: { id: 29570368, alt: 'A riverside path in Kyoto with traditional houses', by: 'mistermacri' },
+  zenRaked: { id: 37309550, alt: 'A Japanese zen garden with raked sand', by: 'wal_' },
+  mossCheck: { id: 27666769, alt: 'A checkerboard of moss and stone in a Japanese garden', by: 'hugosykes' },
+  zenAutumn: { id: 34977548, alt: 'Autumn leaves on gravel in a zen garden, Nara', by: 'chris-zhou' },
+  cafeMinimal: { id: 29458907, alt: 'A bright, minimal café interior', by: 'oyeyogi' },
+  cafeSunlit: { id: 34839408, alt: 'A sunlit café with wooden chairs and tables', by: 'stephanie-hooben' },
+  cafeGreen: { id: 18721982, alt: 'A café interior with wooden chairs and greenery', by: 'arda-kaykisiz' },
+  cafeWhite: { id: 7934522, alt: 'A spacious café with round white tables', by: 'larissa-farber' },
+  whiskClose: { id: 8951773, alt: 'A hand whisking matcha in a bowl', by: 'ivan-s' },
+  whiskCeremony: { id: 8951771, alt: 'Hands preparing matcha in a tea ceremony', by: 'ivan-s' },
   mossClose: { id: 32667141, alt: 'Moss on a forest floor, close up', by: 'magda-ehlers' }
 };
 
