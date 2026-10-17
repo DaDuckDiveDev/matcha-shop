@@ -42,7 +42,11 @@ npm run preview    # serve dist/ locally
 2. Upload the contents of `dist/` to the document root (`public_html/`). The included `.htaccess` rewrites every path to `index.html` (SPA routing) and sets cache headers.
 3. The site must be served over HTTPS for the PWA install prompt and the service worker.
 
-For a subfolder deployment, set `base` in `vite.config.js` and `start_url`/`scope` in the manifest.
+For a subfolder deployment, build with `VITE_BASE=/subfolder/`; the manifest, router and service worker follow it.
+
+## Preview on GitHub Pages
+
+Every push to `main` runs `.github/workflows/deploy-pages.yml`, which builds with `VITE_BASE=/matcha-shop/` and publishes to https://daduckdivedev.github.io/matcha-shop/ (Settings → Pages → Source must be "GitHub Actions"). It is a preview; the real site goes on your own domain.
 
 ## Editing content
 

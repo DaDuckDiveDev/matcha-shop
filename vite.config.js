@@ -5,7 +5,13 @@ import { VitePWA } from 'vite-plugin-pwa';
 // Mochiko — site + guest app in one Vite build.
 // The PWA manifest installs the guest app (start_url /app/); the marketing
 // site is served from the same bundle and the same service worker.
+//
+// VITE_BASE sets the public path: '/' on your own domain (SiteGround),
+// '/matcha-shop/' for the GitHub Pages preview (see .github/workflows).
+const base = process.env.VITE_BASE || '/';
+
 export default defineConfig({
+  base,
   plugins: [
     react(),
     VitePWA({
@@ -16,20 +22,20 @@ export default defineConfig({
         short_name: 'Mochiko',
         description: 'Order ahead, collect stamps and reserve a seat at Mochiko, Belgrade.',
         lang: 'en',
-        start_url: '/app/',
-        scope: '/',
+        start_url: `${base}app/`,
+        scope: base,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#F4F0E4',
         theme_color: '#F4F0E4',
         icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/icons/icon-512-maskable.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icons/icon-512-maskable.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
         ]
       },
       workbox: {
-        navigateFallback: '/index.html',
+        navigateFallback: `${base}index.html`,
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,woff2}'],
         runtimeCaching: [
           {
