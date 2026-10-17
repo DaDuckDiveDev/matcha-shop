@@ -1,0 +1,24 @@
+{
+  "name": "mochiko",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Mochiko もちこ — matcha & coffee, Belgrade. Mobile-first site and guest web app.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "images:fetch": "bash scripts/fetch-images.sh"
+  },
+  "dependencies": {
+    "motion": "^11.11.9",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.2",
+    "vite": "^5.4.8",
+    "vite-plugin-pwa": "^0.20.5"
+  }
+}
