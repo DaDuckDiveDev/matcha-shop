@@ -5,6 +5,7 @@ import { registerSW } from 'virtual:pwa-register';
 import App from './App.jsx';
 import { LangProvider } from './lib/LangContext.jsx';
 import './styles/machiko.css';
+import './styles/experience.css';
 
 registerSW({ immediate: true });
 

@@ -9,6 +9,7 @@ import Footer from '../components/Footer.jsx';
 import PhotoBand from '../components/PhotoBand.jsx';
 import { CATEGORIES, byCategory } from '../data/menu.js';
 import { currentSekki } from '../data/sekki.js';
+import { scrollToTarget } from '../lib/smooth.js';
 
 export default function Menu() {
   const { t, pick } = useLang();
@@ -20,7 +21,7 @@ export default function Menu() {
   useEffect(() => {
     if (!hash) return;
     const el = document.getElementById(hash.slice(1));
-    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
+    if (el) setTimeout(() => scrollToTarget(el), 350);
   }, [hash]);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function Menu() {
 
   return (
     <Page title={t('menu.eyebrow')}>
-      <PhotoBand image="powderTray" style={{ padding: '56px 0 40px' }} light>
+      <PhotoBand image="powderTray" style={{ padding: '56px 0 40px' }} light data-rail="top" data-rail-label={t('nav.menu')} data-rail-jp="献立">
         <div className="wrap inner">
           <Reveal className="glass" style={{ padding: '26px 24px', maxWidth: 620 }}>
             <div className="stack" style={{ gap: 12 }}>
@@ -52,7 +53,7 @@ export default function Menu() {
       <div className="wrap inner">
         <nav className="chips chips--sticky" aria-label="Menu sections">
           {CATEGORIES.map((c) => (
-            <a key={c.id} href={`#${c.id}`} className="chip" aria-current={active === c.id ? 'true' : undefined} onClick={(e) => { e.preventDefault(); document.getElementById(c.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>
+            <a key={c.id} href={`#${c.id}`} className="chip" aria-current={active === c.id ? 'true' : undefined} onClick={(e) => { e.preventDefault(); const el = document.getElementById(c.id); if (el) scrollToTarget(el); }}>
               <span className="jp" style={{ letterSpacing: '0.1em', textTransform: 'none' }}>{c.kanji}</span>{pick({ en: c.en, sr: c.sr })}
             </a>
           ))}
@@ -61,7 +62,7 @@ export default function Menu() {
         <div style={{ marginTop: 16 }}><SeasonStrip /></div>
 
         {CATEGORIES.map((c) => (
-          <section key={c.id} id={c.id} className="section--tight" style={{ scrollMarginTop: 130 }}>
+          <section key={c.id} id={c.id} className="section--tight" style={{ scrollMarginTop: 130 }} data-rail={c.id} data-rail-label={pick({ en: c.en, sr: c.sr })} data-rail-jp={c.kanji}>
             <Reveal className="section-head">
               <h2>{pick({ en: c.en, sr: c.sr })}<span className="jp">{c.kanji}</span></h2>
               <span className="caption">{pick(c.tag)}</span>

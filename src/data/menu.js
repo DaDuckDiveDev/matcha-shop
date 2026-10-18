@@ -21,7 +21,7 @@ export const STRENGTH = [
 ];
 
 export const CATEGORIES = [
-  { id: 'matcha', kanji: '抹茶', en: 'Matcha', sr: 'Matcha', tag: { en: 'Uji · ceremonial', sr: 'Uji · ceremonijalna' } },
+  { id: 'matcha', kanji: '抹茶', en: 'Matcha', sr: 'Matcha', tag: { en: 'Uji · ceremonial', sr: 'Udži · ceremonijalna' } },
   { id: 'coffee', kanji: '珈琲', en: 'Coffee', sr: 'Kafa', tag: { en: 'Slow bar', sr: 'Spori bar' } },
   { id: 'kitchen', kanji: '台所', en: 'Kitchen', sr: 'Kuhinja', tag: { en: 'All day', sr: 'Ceo dan' } },
   { id: 'shop', kanji: '売店', en: 'Take home', sr: 'Za poneti', tag: { en: 'Retail corner', sr: 'Prodajni kutak' } }

@@ -5,14 +5,14 @@ import { alt, photos, src, srcSet } from '../data/images.js';
 // A full-bleed photograph with a soft tint and a gentle parallax; glass
 // content sits on top. `light` keeps the top of the image brighter for
 // dark text in a cream glass card.
-export default function PhotoBand({ image, children, overlay = null, className = '', style, light = false, priority = false, credit = true }) {
+export default function PhotoBand({ image, children, overlay = null, className = '', style, light = false, priority = false, credit = true, ...rest }) {
   const ref = useRef(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], ['-4%', '4%']);
   const p = photos[image];
   return (
-    <section ref={ref} className={`band ${className}`} style={style}>
+    <section ref={ref} className={`band ${className}`} style={style} {...rest}>
       <motion.img
         className="band__img"
         src={src(image, 1600)}

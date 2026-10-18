@@ -9,9 +9,10 @@ import { alt, src } from '../data/images.js';
 export default function Visit() {
   const { t } = useLang();
   const workshops = t('visit.workshops');
+  const rail = (key, label, jp) => ({ 'data-rail': key, 'data-rail-label': label, 'data-rail-jp': jp });
   return (
     <Page title={t('visit.eyebrow')}>
-      <PhotoBand image="kyotoStreet" style={{ padding: '72px 0 48px' }} light>
+      <PhotoBand image="kyotoStreet" style={{ padding: '72px 0 48px' }} light {...rail('top', t('nav.visit'), '訪問')}>
         <div className="wrap inner">
           <Reveal className="glass" style={{ padding: '26px 24px', maxWidth: 620 }}>
             <div className="stack" style={{ gap: 12 }}>
@@ -23,7 +24,7 @@ export default function Visit() {
         </div>
       </PhotoBand>
 
-      <section className="section wrap inner">
+      <section className="section wrap inner" {...rail('space', t('rail.space'), '間')}>
         <Reveal className="stack" style={{ gap: 10, marginBottom: 22 }}>
           <div className="eyebrow"><span className="jp">間</span><span>— {t('visit.galleryEyebrow')}</span></div>
           <h2 className="h2">{t('visit.galleryTitle')}</h2>
@@ -37,9 +38,23 @@ export default function Visit() {
         </div>
       </section>
 
+      <section className="section wrap inner" {...rail('kyoto', t('visit.kyotoEyebrow'), '京都')}>
+        <Reveal className="stack" style={{ gap: 10, marginBottom: 22 }}>
+          <div className="eyebrow"><span className="jp">京都</span><span>— {t('visit.kyotoEyebrow')}</span></div>
+          <h2 className="h2">{t('visit.kyotoTitle')}</h2>
+        </Reveal>
+        <div className="mosaic">
+          {['norenTwilight', 'teaRoomBowl', 'higashiyama', 'kiyomizu', 'norenLantern', 'kyotoDusk'].map((k, i) => (
+            <Reveal key={k} delay={(i % 3) * 0.06} className={`glass tile mosaic__item mosaic__item--${i + 1}`} style={{ padding: 0 }}>
+              <img className="tile__img" src={src(k, 900)} alt={alt(k)} loading="lazy" decoding="async" />
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       <section className="section wrap inner section--two" style={{ alignItems: 'start' }}>
         <div className="stack" style={{ gap: 28 }}>
-          <Reveal className="glass" style={{ padding: '22px 20px' }}>
+          <Reveal className="glass" style={{ padding: '22px 20px' }} {...rail('hours', t('rail.hours'), '時間')}>
             <div className="stack" style={{ gap: 10 }}>
               <div className="eyebrow"><span className="jp">時間</span><span>— {t('visit.hoursTitle')}</span></div>
               <div className="h3">{t('common.openDaily')}</div>
@@ -47,7 +62,7 @@ export default function Visit() {
               <div className="caption" style={{ textTransform: 'none', letterSpacing: '0.04em', fontSize: 13 }}>{t('common.phone')} · {t('common.instagram')}</div>
             </div>
           </Reveal>
-          <Reveal className="stack" style={{ gap: 12 }}>
+          <Reveal className="stack" style={{ gap: 12 }} {...rail('find', t('rail.find'), '道')}>
             <div className="eyebrow"><span className="jp">道</span><span>— {t('visit.findTitle')}</span></div>
             <p className="body">{t('visit.directions')}</p>
             <div className="map-stub"><span className="caption">{t('visit.mapNote')}</span></div>
@@ -63,7 +78,7 @@ export default function Visit() {
             <p className="body">{t('visit.reserveBody')}</p>
             <Link to="/app/reserve" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>{t('app.reserve')}</Link>
           </Reveal>
-          <Reveal className="stack" style={{ gap: 12 }}>
+          <Reveal className="stack" style={{ gap: 12 }} {...rail('workshops', t('rail.workshops'), '稽古')}>
             <div className="eyebrow"><span className="jp">稽古</span><span>— {t('visit.workshopsTitle')}</span></div>
             <ol className="steps" style={{ listStyle: 'none' }}>
               {workshops.map(([title, body], i) => (

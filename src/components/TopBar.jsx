@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useLang } from '../lib/LangContext.jsx';
 import { Mark } from './Logo.jsx';
 import { IconClose, IconMenu } from './Icons.jsx';
+import { holdScroll } from '../lib/smooth.js';
 
 export function LangToggle({ className = 'lang' }) {
   const { lang, setLang } = useLang();
@@ -18,6 +19,7 @@ export function LangToggle({ className = 'lang' }) {
 const links = [
   { to: '/menu', key: 'nav.menu', jp: '献立' },
   { to: '/matcha', key: 'nav.matcha', jp: '抹茶' },
+  { to: '/journal', key: 'nav.journal', jp: '物語' },
   { to: '/visit', key: 'nav.visit', jp: '訪問' },
   { to: '/app', key: 'nav.app', jp: '注文' }
 ];
@@ -37,7 +39,8 @@ export default function TopBar({ overHero = false }) {
   }, []);
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    holdScroll(open);
+    return () => { document.body.style.overflow = ''; holdScroll(false); };
   }, [open]);
 
   const over = overHero && atTop;
@@ -78,7 +81,7 @@ export default function TopBar({ overHero = false }) {
               <button type="button" className="icon-btn" aria-label={t('common.close')} onClick={() => setOpen(false)}><IconClose /></button>
             </div>
             <ul className="drawer__list">
-              {[{ to: '/', key: 'nav.home', jp: '家' }, ...links].map((l, i) => (
+              {[{ to: '/', key: 'nav.home', jp: '家' }, ...links, { to: '/join', key: 'nav.join', jp: '暖簾' }].map((l, i) => (
                 <motion.li key={l.to} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.08 + i * 0.05 }}>
                   <Link to={l.to}>{t(l.key)}<span className="jp">{l.jp}</span></Link>
                 </motion.li>

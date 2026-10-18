@@ -1,5 +1,5 @@
 // 二十四節気 — the 24 solar terms. The menu's seasonal special follows them.
-// Start dates are the usual ones (they shift by a day in some years).
+// m/d are the usual start dates; currentSekki() computes the real ones.
 // Order starts at Risshun, the first term of the traditional year.
 export const SEKKI = [
   { n: 1, kanji: '立春', romaji: 'Risshun', en: 'Start of Spring', sr: 'Početak proleća', m: 2, d: 4 },
@@ -45,37 +45,104 @@ export const SPECIALS = {
   2: { en: 'Ichigo daifuku: a whole strawberry inside', sr: 'Ichigo daifuku: cela jagoda unutra', itemId: 'daifuku' },
   3: { en: 'Warabi mochi with the first kinako of the year', sr: 'Warabi mochi sa prvim kinakom godine', itemId: 'warabi-mochi' },
   4: { en: 'Sakura matcha latte', sr: 'Sakura matcha late', itemId: 'matcha-latte' },
-  5: { en: 'Shincha: the new harvest, as usucha', sr: 'Shincha: nova berba, kao usucha', itemId: 'usucha' },
-  6: { en: 'Shincha koicha, two weeks only', sr: 'Shincha koicha, samo dve nedelje', itemId: 'koicha' },
-  7: { en: 'Iced usucha with yuzu peel', sr: 'Ledena usucha sa korom juzua', itemId: 'matcha-tonic' },
+  5: { en: 'Kusa mochi with yomogi, beside your usucha', sr: 'Kusa mochi sa jomogijem, uz tvoju usuchu', itemId: 'usucha' },
+  6: { en: 'Iced usucha with yuzu peel, for the first warm afternoons', sr: 'Ledena usucha sa korom juzua, za prva topla popodneva', itemId: 'matcha-tonic' },
+  7: { en: 'Shincha: the year\'s first sencha, two weeks only', sr: 'Shincha: prva sencha godine, samo dve nedelje', itemId: 'usucha' },
   8: { en: 'Matcha tonic, the long way', sr: 'Matcha tonik, na dug način', itemId: 'matcha-tonic' },
-  9: { en: 'Slow-drip cold brew, eight hours', sr: 'Hladno spravljena kafa, osam sati', itemId: 'cold-brew' },
+  9: { en: 'Shin-matcha: the new harvest, whisked as usucha', sr: 'Shin-matcha: nova berba, umućena kao usucha', itemId: 'usucha' },
   10: { en: 'Matcha kakigōri with condensed milk', sr: 'Matcha kakigōri sa kondenzovanim mlekom', itemId: 'matcha-latte' },
-  11: { en: 'Iced hojicha latte', sr: 'Ledena hojicha late', itemId: 'kuri-hojicha' },
+  11: { en: 'Slow-drip cold brew, eight hours, with an iced hojicha latte beside it', sr: 'Hladno spravljena kafa, osam sati, i ledena hojicha late', itemId: 'cold-brew' },
   12: { en: 'Warabi mochi, ice-cold, with kuromitsu', sr: 'Warabi mochi, ledeno hladan, sa kuromitsuom', itemId: 'warabi-mochi' },
   13: { en: 'Iced matcha latte with coconut', sr: 'Ledena matcha late sa kokosom', itemId: 'matcha-latte' },
   14: { en: 'Nashi pear matcha tonic', sr: 'Matcha tonik sa nashi kruškom', itemId: 'matcha-tonic' }
 };
 
-function termIndexFor(date) {
-  const y = date.getFullYear();
-  // Build the boundaries for this calendar year, in order of date.
-  const marks = SEKKI.map((t) => ({ t, when: new Date(y, t.m - 1, t.d) })).sort((a, b) => a.when - b.when);
-  let current = marks[marks.length - 1].t; // before Jan 5 we are still in Tōji (Dec 21)
-  for (const m of marks) {
-    if (date >= m.when) current = m.t;
+// ---------------------------------------------------------------------------
+// When each term really starts. A term begins when the sun's apparent
+// longitude reaches a multiple of 15° (Risshun 315°, Shunbun 0°, Seimei 15°…).
+// We compute that moment (Meeus, low precision: well under an hour) and take
+// its date in Belgrade, so the strip turns on the right day every year, e.g.
+// Shunbun on 20 March 2027 and Seimei on 5 April 2027. The fixed m/d above
+// are only the fallback.
+const DAY = 86400000;
+const rad = (d) => (d * Math.PI) / 180;
+
+function sunLongitude(ms) {
+  const T = (ms / DAY + 2440587.5 - 2451545.0) / 36525;
+  const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+  const M = rad(357.52911 + 35999.05029 * T - 0.0001537 * T * T);
+  const C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M)
+    + (0.019993 - 0.000101 * T) * Math.sin(2 * M) + 0.000289 * Math.sin(3 * M);
+  const omega = rad(125.04 - 1934.136 * T);
+  const lon = L0 + C - 0.00569 - 0.00478 * Math.sin(omega);
+  return ((lon % 360) + 360) % 360;
+}
+
+// Signed distance from the target longitude, in (-180, 180].
+const off = (ms, target) => ((sunLongitude(ms) - target + 540) % 360) - 180;
+
+function termMoment(year, t) {
+  const target = (315 + 15 * (t.n - 1)) % 360;
+  let a = Date.UTC(year, t.m - 1, t.d) - 4 * DAY;
+  let fa = off(a, target);
+  for (let i = 0; i < 40 && fa >= 0; i++) { a -= DAY; fa = off(a, target); }
+  let b = a;
+  for (let i = 0; i < 80; i++) { // step 6 h until the longitude passes the target
+    b = a + DAY / 4;
+    if (off(b, target) >= 0) break;
+    a = b;
   }
-  return current;
+  for (let i = 0; i < 30; i++) {
+    const mid = (a + b) / 2;
+    if (off(mid, target) < 0) a = mid; else b = mid;
+  }
+  return b;
+}
+
+let belgradeFmt;
+function belgradeDate(ms) {
+  try {
+    belgradeFmt = belgradeFmt || new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Belgrade', year: 'numeric', month: '2-digit', day: '2-digit' });
+    const [y, m, d] = belgradeFmt.format(new Date(ms)).split('-').map(Number);
+    return new Date(y, m - 1, d);
+  } catch {
+    const d = new Date(ms + 3600000); // CET without the timezone database
+    return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  }
+}
+
+const cache = new Map();
+function startsFor(year) {
+  if (!cache.has(year)) {
+    cache.set(year, SEKKI.map((t) => {
+      let when;
+      try { when = belgradeDate(termMoment(year, t)); } catch { when = new Date(year, t.m - 1, t.d); }
+      return { t, when };
+    }));
+  }
+  return cache.get(year);
+}
+
+// Every term start from the year before to the year after, in date order.
+function timeline(date) {
+  const y = date.getFullYear();
+  return [...startsFor(y - 1), ...startsFor(y), ...startsFor(y + 1)].sort((a, b) => a.when - b.when);
 }
 
 export function currentSekki(date = new Date()) {
-  const t = termIndexFor(date);
-  const next = SEKKI[t.n % 24];
-  const y = date.getFullYear();
-  const start = new Date(y, t.m - 1, t.d);
-  const endYear = next.m < t.m ? y + 1 : y;
-  const end = new Date(endYear, next.m - 1, next.d - 1);
-  return { ...t, start, end, next, special: SPECIALS[t.n] };
+  const today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const marks = timeline(date);
+  let i = 0;
+  for (let k = 0; k < marks.length; k++) if (marks[k].when <= today) i = k;
+  const { t, when: start } = marks[i];
+  const nextMark = marks[i + 1];
+  const end = new Date(nextMark.when.getFullYear(), nextMark.when.getMonth(), nextMark.when.getDate() - 1);
+  return { ...t, start, end, next: nextMark.t, nextStart: nextMark.when, special: SPECIALS[t.n] };
+}
+
+// The start date of a given term in a given year (Belgrade date).
+export function sekkiStart(n, year) {
+  return startsFor(year).find((s) => s.t.n === n)?.when;
 }
 
 export function fmtRange(start, end, lang = 'en') {

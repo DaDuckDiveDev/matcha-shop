@@ -3,7 +3,7 @@
 // their own translations in menu.js.
 export const STRINGS = {
   en: {
-    nav: { menu: 'Menu', matcha: 'Matcha', visit: 'Visit', order: 'Order', stamps: 'Stamps', app: 'Guest app', home: 'Home' },
+    nav: { menu: 'Menu', matcha: 'Matcha', visit: 'Visit', order: 'Order', stamps: 'Stamps', app: 'Guest app', home: 'Home', journal: 'Journal', join: 'Founding list' },
     common: {
       seeMenu: 'See the menu', orderAhead: 'Order ahead', fullMenu: 'Full menu', back: 'Back', close: 'Close',
       rsd: 'RSD', each: 'each', openDaily: 'Daily 08:00–20:00', address: '[Street & number], Dorćol, 11000 Beograd',
@@ -11,6 +11,78 @@ export const STRINGS = {
       photoCredit: 'Photography from Pexels; replace with your own shots when you have them.'
     },
     season: { term: 'solar term', fortnight: 'This fortnight', until: 'until', fallback: 'Ask what is in season.' },
+    rail: {
+      label: 'Sections on this page', top: 'Back to top',
+      enter: 'Enter', bowl: 'One bowl', matcha: 'Matcha', room: 'The room', shade: 'The shade', way: 'The way',
+      calm: 'Calm', kitchen: 'Kitchen', journal: 'Journal', visit: 'Visit',
+      specs: 'The tin', how: 'How we whisk', faq: 'Questions', space: 'The space', hours: 'Hours', find: 'Find us', workshops: 'Workshops'
+    },
+    hero: {
+      clockBg: 'Beograd', clockKy: 'Kyoto',
+      chipSeason: 'this fortnight', chipUsucha: 'Usucha · 2 g · 70 ml · 70 °C · 15 s', chipOrigin: 'Uji, Kyoto · first flush · stone-milled',
+      chipOpening: (n) => `Opening 20.03.2027 · ${n} ${n === 1 ? 'day' : 'days'} to go`, chipOpenToday: 'We open today, on the equinox', chipOpen: 'Open daily · 08:00–20:00',
+      chipStamps: 'Ten stamps, one usucha on us',
+      proof: [['宇治', 'Uji'], ['一番茶', 'First flush'], ['石臼', 'Stone-milled'], ['春分', 'Opens on the equinox']]
+    },
+    garden: {
+      eyebrow: 'Ichigo ichie · one time, one meeting',
+      title: 'Every bowl is whisked once, for you.',
+      body: 'Japanese tea masters have a phrase for it: this meeting will not come again. So the water is measured, the matcha sifted and the bowl warmed for one person at a time. Sit down; we will bring it to you.',
+      cta: 'How we make it'
+    },
+    marquee: [
+      ['一期一会', 'ichigo ichie', 'one time, one meeting'],
+      ['和敬清寂', 'wa kei sei jaku', 'harmony, respect, purity, tranquillity'],
+      ['侘寂', 'wabi-sabi', 'beauty in the imperfect'],
+      ['間', 'ma', 'the pause between things'],
+      ['旬', 'shun', 'a food at its best'],
+      ['一服', 'ippuku', 'one bowl, one breath']
+    ],
+    way: {
+      eyebrow: 'The way · from field to bowl', title: 'Six steps between a hill in Uji and your table.',
+      hint: 'Scroll', steps: [
+        ['畑', 'hatake', 'The field', 'The hills of Uji, south of Kyoto, where tea has been grown for centuries. The first flush is picked in May.'],
+        ['蔭', 'kage', 'The shade', 'Twenty days before picking, the bushes go under cover. Less sun, more chlorophyll and L-theanine: a deeper green, a softer taste.'],
+        ['碾', 'hiki', 'The mill', 'The leaves are steamed, dried flat and ground between granite stones, about thirty grams an hour, so the powder never heats up.'],
+        ['篩', 'furui', 'The sieve', 'Two grams go through a fine sieve into a warm bowl. Sifting is what makes the foam fine.'],
+        ['点', 'ten', 'The whisk', 'Seventy millilitres at seventy degrees, and fifteen seconds of quick strokes with the bamboo chasen.'],
+        ['一服', 'ippuku', 'The bowl', 'Served at once, its front turned towards you. Drink it while the foam is alive.']
+      ]
+    },
+    journal: {
+      eyebrow: 'Journal', title: 'Stories about matcha, and about us.',
+      lede: 'Short reads from the counter: how matcha is grown and made, the seasons our menu follows, and how to whisk a bowl at home.',
+      read: 'Read the story', minRead: (n) => `${n} min read`, comingSoon: 'Coming soon',
+      ourStoryTitle: 'Our story', ourStoryBody: 'How Machiko began, and why in Dorćol. We are writing it now.',
+      all: 'All stories', next: 'Next story', homeTitle: 'From the journal', published: 'Published'
+    },
+    join: {
+      eyebrow: 'Founding list', title: 'Be first through the noren.',
+      lede: 'Leave your name and email and we will invite you to the soft opening, 11–17 March 2027, before the doors open to everyone on the spring equinox.',
+      perks: ['Your first bowl is on us during the soft opening', 'An invitation before anyone else, 11–17 March', 'The seasonal menu, every two weeks'],
+      name: 'First name', email: 'Email', phone: 'Mobile (optional)', phoneHint: 'Only if you would like a text the day before. Serbian numbers start with +381.',
+      consentEmail: 'Yes, email me about the opening and the seasonal menu: about two emails a month, unsubscribe in one click.',
+      consentSms: 'Yes, text me as well: at most three messages around the opening.',
+      privacy: 'How we use your details', submit: 'Join the founding list', sending: 'Sending…',
+      done: 'Almost there. Check your inbox and confirm your email; then you are on the list.',
+      error: 'Something went wrong. Please try again, or write to hello@machiko.rs.',
+      needEmailConsent: 'Tick the email box so we can send your invitation.',
+      needPhone: 'Add your mobile number for the text, or untick the box.',
+      notConnected: 'Preview: this form is not connected to the mailing list yet.'
+    },
+    privacy: {
+      eyebrow: 'Privacy', title: 'What we keep, and why.',
+      lede: 'What we collect when you join the founding list or use the guest app, and what we do with it.',
+      sections: [
+        ['Who we are', 'Machiko, [company name] DOO, [street and number], Belgrade, PIB [number]. Write to hello@machiko.rs about anything on this page.'],
+        ['What we collect', 'Your first name and email address and, if you give it, your mobile number; when and how you agreed to hear from us; and your language. The guest app keeps your stamps and orders on your own phone.'],
+        ['Why', 'To send you the emails and texts you asked for, and nothing else. We do not sell your details or share them for advertising. Our email and SMS providers process them on our behalf, under contract.'],
+        ['For how long', 'Until you unsubscribe or ask us to delete them. Every email has an unsubscribe link, and every text tells you how to stop them.'],
+        ['Your rights', 'You can ask to see, correct or delete your details at any time by writing to hello@machiko.rs. If you think we have handled them badly, you can complain to the Commissioner for Information of Public Importance and Personal Data Protection.']
+      ],
+      note: 'Draft, to be checked against the Law on Personal Data Protection before the list opens.'
+    },
+    foot: { journal: 'Journal', join: 'Founding list', privacy: 'Privacy' },
     home: {
       eyebrow: 'Matcha · wellness · Dorćol, Beograd',
       title: 'An hour of Kyoto, in Belgrade.',
@@ -68,6 +140,7 @@ export const STRINGS = {
     },
     visit: {
       eyebrow: 'Visit', title: 'A quiet room in Dorćol.', galleryEyebrow: 'The space', galleryTitle: 'What you walk into.',
+      kyotoEyebrow: 'Kyoto', kyotoTitle: 'Where the idea comes from.',
       lede: 'Twenty seats, a counter you can watch from, and a retail corner by the window. Children and dogs welcome; laptops welcome until noon.',
       hoursTitle: 'Hours', findTitle: 'Find us', reserveTitle: 'Reserve a seat', reserveBody: 'Walk-ins first. For four or more, or for a workshop seat, reserve in the guest app.',
       directions: 'Two minutes from Skadarlija, five from Trg Republike. Street parking is scarce; the tram stops around the corner.',
@@ -102,7 +175,7 @@ export const STRINGS = {
     }
   },
   sr: {
-    nav: { menu: 'Meni', matcha: 'Matcha', visit: 'Poseta', order: 'Naruči', stamps: 'Pečati', app: 'Aplikacija', home: 'Početna' },
+    nav: { menu: 'Meni', matcha: 'Matcha', visit: 'Poseta', order: 'Naruči', stamps: 'Pečati', app: 'Aplikacija', home: 'Početna', journal: 'Priče', join: 'Lista prvih' },
     common: {
       seeMenu: 'Pogledaj meni', orderAhead: 'Naruči unapred', fullMenu: 'Ceo meni', back: 'Nazad', close: 'Zatvori',
       rsd: 'RSD', each: 'kom', openDaily: 'Svakog dana 08:00–20:00', address: '[Ulica i broj], Dorćol, 11000 Beograd',
@@ -110,6 +183,78 @@ export const STRINGS = {
       photoCredit: 'Fotografije sa Pexelsa; zameni svojim kada ih budeš imao.'
     },
     season: { term: 'solarni period', fortnight: 'Ove dve nedelje', until: 'do', fallback: 'Pitaj šta je u sezoni.' },
+    rail: {
+      label: 'Delovi ove stranice', top: 'Nazad na vrh',
+      enter: 'Ulaz', bowl: 'Jedna činija', matcha: 'Matcha', room: 'Prostor', shade: 'Hlad', way: 'Put',
+      calm: 'Mir', kitchen: 'Kuhinja', journal: 'Priče', visit: 'Poseta',
+      specs: 'Limenka', how: 'Kako mutimo', faq: 'Pitanja', space: 'Prostor', hours: 'Radno vreme', find: 'Gde smo', workshops: 'Radionice'
+    },
+    hero: {
+      clockBg: 'Beograd', clockKy: 'Kjoto',
+      chipSeason: 'ove dve nedelje', chipUsucha: 'Usucha · 2 g · 70 ml · 70 °C · 15 s', chipOrigin: 'Udži, Kjoto · prva berba · kameni mlin',
+      chipOpening: (n) => `Otvaramo 20.03.2027. · još ${n} ${n % 10 === 1 && n % 100 !== 11 ? 'dan' : 'dana'}`, chipOpenToday: 'Danas otvaramo, na ravnodnevicu', chipOpen: 'Svakog dana · 08:00–20:00',
+      chipStamps: 'Deset pečata, usucha na račun kuće',
+      proof: [['宇治', 'Udži'], ['一番茶', 'Prva berba'], ['石臼', 'Kameni mlin'], ['春分', 'Otvaramo na ravnodnevicu']]
+    },
+    garden: {
+      eyebrow: 'Ichigo ichie · jedan put, jedan susret',
+      title: 'Svaka činija se muti jednom, za tebe.',
+      body: 'Japanski majstori čaja imaju izraz za to: ovaj susret se neće ponoviti. Zato se voda meri, matcha proseje i činija zagreje za jednu osobu. Sedi; doneti ćemo ti je.',
+      cta: 'Kako je pravimo'
+    },
+    marquee: [
+      ['一期一会', 'ichigo ichie', 'jedan put, jedan susret'],
+      ['和敬清寂', 'wa kei sei jaku', 'sklad, poštovanje, čistota, mir'],
+      ['侘寂', 'wabi-sabi', 'lepota nesavršenog'],
+      ['間', 'ma', 'pauza između stvari'],
+      ['旬', 'shun', 'namirnica u najboljem trenutku'],
+      ['一服', 'ippuku', 'jedna činija, jedan predah']
+    ],
+    way: {
+      eyebrow: 'Put · od polja do činije', title: 'Šest koraka između brda u Udžiju i tvog stola.',
+      hint: 'Skroluj', steps: [
+        ['畑', 'hatake', 'Polje', 'Brda Udžija, južno od Kjota, gde se čaj gaji vekovima. Prva berba se bere u maju.'],
+        ['蔭', 'kage', 'Hlad', 'Dvadeset dana pre berbe žbunovi idu pod pokrivač. Manje sunca, više hlorofila i L-teanina: dublja zelena, mekši ukus.'],
+        ['碾', 'hiki', 'Mlin', 'Listovi se pare, suše ravno i melju između granitnog kamenja, tridesetak grama na sat, da se prah nikad ne zagreje.'],
+        ['篩', 'furui', 'Sito', 'Dva grama kroz fino sito u toplu činiju. Od prosejavanja zavisi fina pena.'],
+        ['点', 'ten', 'Metlica', 'Sedamdeset mililitara na sedamdeset stepeni i petnaest sekundi brzih pokreta bambusovim chasenom.'],
+        ['一服', 'ippuku', 'Činija', 'Služi se odmah, okrenuta prednjom stranom ka tebi. Popij je dok je pena živa.']
+      ]
+    },
+    journal: {
+      eyebrow: 'Priče', title: 'Priče o matchi, i o nama.',
+      lede: 'Kratka čitanja sa šanka: kako se matcha gaji i pravi, doba koja naš meni prati i kako da umutiš činiju kod kuće.',
+      read: 'Pročitaj priču', minRead: (n) => `${n} min čitanja`, comingSoon: 'Uskoro',
+      ourStoryTitle: 'Naša priča', ourStoryBody: 'Kako je nastao Machiko, i zašto baš na Dorćolu. Upravo je pišemo.',
+      all: 'Sve priče', next: 'Sledeća priča', homeTitle: 'Iz naših priča', published: 'Objavljeno'
+    },
+    join: {
+      eyebrow: 'Lista prvih gostiju', title: 'Budi prvi kroz noren.',
+      lede: 'Ostavi ime i email i pozvaćemo te na probno otvaranje, 11–17. marta 2027, pre nego što se vrata otvore za sve na prolećnu ravnodnevicu.',
+      perks: ['Prva činija je na nas tokom probnog otvaranja', 'Poziv pre svih, 11–17. marta', 'Sezonski meni, na svake dve nedelje'],
+      name: 'Ime', email: 'Email', phone: 'Mobilni (nije obavezno)', phoneHint: 'Samo ako želiš poruku dan ranije. Srpski brojevi počinju sa +381.',
+      consentEmail: 'Da, šaljite mi email o otvaranju i sezonskom meniju: oko dva emaila mesečno, odjava jednim klikom.',
+      consentSms: 'Da, pošaljite mi i SMS: najviše tri poruke oko otvaranja.',
+      privacy: 'Kako koristimo tvoje podatke', submit: 'Prijavi se na listu', sending: 'Šaljem…',
+      done: 'Skoro gotovo. Proveri inbox i potvrdi email; onda si na listi.',
+      error: 'Nešto nije u redu. Pokušaj ponovo ili piši na hello@machiko.rs.',
+      needEmailConsent: 'Označi polje za email da bismo mogli da ti pošaljemo pozivnicu.',
+      needPhone: 'Upiši broj mobilnog za SMS, ili skini oznaku.',
+      notConnected: 'Pregled: forma još nije povezana sa listom.'
+    },
+    privacy: {
+      eyebrow: 'Privatnost', title: 'Šta čuvamo i zašto.',
+      lede: 'Šta prikupljamo kada se prijaviš na listu prvih gostiju ili koristiš aplikaciju za goste, i šta s tim radimo.',
+      sections: [
+        ['Ko smo', 'Machiko, [naziv firme] DOO, [ulica i broj], Beograd, PIB [broj]. Za sve sa ove stranice piši na hello@machiko.rs.'],
+        ['Šta prikupljamo', 'Tvoje ime i email adresu i, ako ga ostaviš, broj mobilnog; kada i kako si pristao/la da ti se javljamo; i tvoj jezik. Aplikacija za goste čuva tvoje pečate i porudžbine na tvom telefonu.'],
+        ['Zašto', 'Da ti šaljemo emailove i poruke koje si tražio/la, i ništa drugo. Ne prodajemo tvoje podatke i ne delimo ih za oglašavanje. Naši dobavljači za email i SMS ih obrađuju u naše ime, po ugovoru.'],
+        ['Koliko dugo', 'Dok se ne odjaviš ili ne zatražiš brisanje. Svaki email ima link za odjavu, a svaka poruka kaže kako da ih zaustaviš.'],
+        ['Tvoja prava', 'U svakom trenutku možeš da tražiš uvid, ispravku ili brisanje svojih podataka pišući na hello@machiko.rs. Ako misliš da smo s njima postupili loše, možeš se žaliti Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti.']
+      ],
+      note: 'Nacrt, za proveru prema Zakonu o zaštiti podataka o ličnosti pre otvaranja liste.'
+    },
+    foot: { journal: 'Priče', join: 'Lista prvih gostiju', privacy: 'Privatnost' },
     home: {
       eyebrow: 'Matcha · wellness · Dorćol, Beograd',
       title: 'Sat vremena Kjota, u Beogradu.',
@@ -167,6 +312,7 @@ export const STRINGS = {
     },
     visit: {
       eyebrow: 'Poseta', title: 'Mirna soba na Dorćolu.', galleryEyebrow: 'Prostor', galleryTitle: 'U šta ulaziš.',
+      kyotoEyebrow: 'Kjoto', kyotoTitle: 'Odakle dolazi ideja.',
       lede: 'Dvadeset mesta, šank sa kog se sve vidi, i prodajni kutak kod prozora. Deca i psi dobrodošli; laptopovi do podneva.',
       hoursTitle: 'Radno vreme', findTitle: 'Gde smo', reserveTitle: 'Rezerviši mesto', reserveBody: 'Prvo ko dođe. Za četvoro ili više, ili za mesto na radionici, rezerviši u aplikaciji.',
       directions: 'Dva minuta od Skadarlije, pet od Trga Republike. Parkinga na ulici je malo; tramvaj staje iza ugla.',

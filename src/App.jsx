@@ -8,6 +8,12 @@ import Menu from './pages/Menu.jsx';
 import Matcha from './pages/Matcha.jsx';
 import Visit from './pages/Visit.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Journal from './pages/Journal.jsx';
+import Story from './pages/Story.jsx';
+import Join from './pages/Join.jsx';
+import Privacy from './pages/Privacy.jsx';
+import SectionRail from './components/SectionRail.jsx';
+import { startSmooth, stopSmooth } from './lib/smooth.js';
 import AppShell from './app/AppShell.jsx';
 import Today from './app/Today.jsx';
 import Order from './app/Order.jsx';
@@ -19,7 +25,11 @@ import Reserve from './app/Reserve.jsx';
 
 function Site() {
   const location = useLocation();
-  useEffect(() => { document.body.classList.add('site'); }, []);
+  useEffect(() => {
+    document.body.classList.add('site');
+    startSmooth();
+    return () => { stopSmooth(); document.body.classList.remove('site'); };
+  }, []);
   return (
     <>
       <TopBar />
@@ -29,9 +39,14 @@ function Site() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/matcha" element={<Matcha />} />
           <Route path="/visit" element={<Visit />} />
+          <Route path="/journal" element={<Journal />} />
+          <Route path="/journal/:slug" element={<Story />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AnimatePresence>
+      <SectionRail />
       <BottomBar />
     </>
   );

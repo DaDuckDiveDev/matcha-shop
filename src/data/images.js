@@ -66,7 +66,31 @@ export const photos = {
   cafeWhite: { id: 7934522, alt: 'A spacious café with round white tables', by: 'larissa-farber' },
   whiskClose: { id: 8951773, alt: 'A hand whisking matcha in a bowl', by: 'ivan-s' },
   whiskCeremony: { id: 8951771, alt: 'Hands preparing matcha in a tea ceremony', by: 'ivan-s' },
-  mossClose: { id: 32667141, alt: 'Moss on a forest floor, close up', by: 'magda-ehlers' }
+  mossClose: { id: 32667141, alt: 'Moss on a forest floor, close up', by: 'magda-ehlers' },
+
+  // October 2026 additions: noren, the tea room, the bowl, wagashi, Kyoto lanes
+  norenGreen: { id: 2187311, alt: 'A green noren curtain with white kanji', by: 'evgeny-tchebotarev' },
+  norenKyoto: { id: 8780831, alt: 'Looking through a noren curtain in Kyoto, with green leaves beyond', by: 'satoshi' },
+  norenLantern: { id: 15829719, alt: 'A lit entrance in Kyoto with a paper lantern and a noren', by: 'willianjusten' },
+  norenTwilight: { id: 35132879, alt: 'The entrance of a Japanese house with a noren at twilight', by: 'muharrem-alper' },
+  teaRoomBowl: { id: 7537519, alt: 'A tea room in Kyoto with a clay bowl on a tatami mat', by: 'daisuke-fujita' },
+  hishaku: { id: 6249726, alt: 'A wooden ladle pouring hot water into a tea bowl on tatami', by: 'ryutaro' },
+  steamBowl: { id: 31199969, alt: 'Steam rising from a bowl of matcha as it is prepared', by: 'silviopelegrin' },
+  utensilsFlat: { id: 8474084, alt: 'Matcha things from above: a bamboo whisk, bowls and green powder', by: 'cup-of-couple' },
+  ceremonySet: { id: 7113832, alt: 'A quiet tea set with ceramic bowls and a bamboo whisk, from above', by: 'ekaterina-bolovtsova' },
+  bowlTop: { id: 15712200, alt: 'Bright green matcha in a rustic ceramic bowl with a bamboo whisk, from above', by: 'andrii-zholobovych' },
+  foamBowl: { id: 29574692, alt: 'Frothy matcha in a ceramic bowl with a bamboo whisk', by: 'anna-androshuk' },
+  whiskSoft: { id: 8474186, alt: 'A bamboo whisk in a hand, mixing matcha', by: 'cup-of-couple' },
+  chasenShadow: { id: 8474098, alt: 'A bamboo whisk casting a long shadow on white', by: 'cup-of-couple' },
+  wagashiTatami: { id: 32330102, alt: 'A bowl of matcha and a Japanese sweet on a tatami mat', by: 'viridianaor' },
+  wagashiCeremony: { id: 29518256, alt: 'Matcha and wagashi set out for a tea ceremony', by: 'g-n' },
+  wagashiPine: { id: 24186411, alt: 'A wagashi sweet on fresh pine needles in a wooden box', by: 'change-c-c' },
+  latteCraft: { id: 17190058, alt: 'A barista pouring milk into a matcha latte', by: 'masudriguez' },
+  icedPour: { id: 32972520, alt: 'Iced matcha latte poured from a small jug into a tall glass', by: 'dickydikiw' },
+  kiyomizu: { id: 30947495, alt: 'Kiyomizu-dera in Kyoto among green trees', by: 'jp-pasku' },
+  higashiyama: { id: 5745821, alt: 'Old wooden houses and a street lamp on a lane in Higashiyama, Kyoto', by: 'ryutaro' },
+  kyotoDusk: { id: 34215917, alt: 'A traditional street in Kyoto at dusk', by: 'talharesitoglu' },
+  kyotoAlley: { id: 2641279, alt: 'A narrow Kyoto lane with paper lanterns', by: 'satoshi' }
 };
 
 export function src(key, w = 1600) {

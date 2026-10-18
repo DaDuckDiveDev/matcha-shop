@@ -14,7 +14,12 @@ export default function Footer() {
           <div>{t('common.openDaily')}</div>
           <div className="tnum">{t('common.phone')}</div>
           <div>{t('common.instagram')}</div>
-          <div style={{ marginTop: 10 }}><Link to="/visit" className="textlink">{t('nav.visit')} →</Link></div>
+          <div className="foot__links">
+            <Link to="/visit">{t('nav.visit')}</Link>
+            <Link to="/journal">{t('foot.journal')}</Link>
+            <Link to="/join">{t('foot.join')}</Link>
+            <Link to="/privacy">{t('foot.privacy')}</Link>
+          </div>
         </div>
         <div className="foot__row">
           <span>{t('common.copyright')}</span>

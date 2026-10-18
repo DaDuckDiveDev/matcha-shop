@@ -14,10 +14,11 @@ export default function Matcha() {
   const specs = t('matcha.specs');
   const steps = t('matcha.steps');
   const faq = t('matcha.faq');
+  const rail = (key, label, jp) => ({ 'data-rail': key, 'data-rail-label': label, 'data-rail-jp': jp });
 
   return (
     <Page title={t('matcha.eyebrow')}>
-      <PhotoBand image="whiskClose" style={{ padding: '72px 0 48px' }} light>
+      <PhotoBand image="whiskClose" style={{ padding: '72px 0 48px' }} light {...rail('top', t('nav.matcha'), '抹茶')}>
         <div className="wrap inner">
           <Reveal className="glass" style={{ padding: '26px 24px', maxWidth: 620 }}>
             <div className="stack" style={{ gap: 12 }}>
@@ -30,7 +31,7 @@ export default function Matcha() {
       </PhotoBand>
 
       <section className="section wrap inner two-col">
-        <Reveal className="glass sticky" style={{ padding: '22px 20px' }}>
+        <Reveal className="glass sticky" style={{ padding: '22px 20px' }} {...rail('specs', t('rail.specs'), '缶')}>
           <div className="stack" style={{ gap: 12 }}>
             <div className="eyebrow"><span className="jp">缶</span><span>— {t('matcha.specsTitle')}</span></div>
             <table className="spec-table">
@@ -44,13 +45,13 @@ export default function Matcha() {
           </div>
         </Reveal>
         <div className="stack" style={{ gap: 44 }}>
-          <Reveal className="stack" style={{ gap: 14 }}>
+          <Reveal className="stack" style={{ gap: 14 }} {...rail('shade', t('rail.shade'), '蔭')}>
             <div className="eyebrow"><span className="jp">蔭</span><span>— {t('home.shadeEyebrow')}</span></div>
             <h2 className="h2">{t('home.shadeTitle')}</h2>
             <p className="body">{t('home.shadeBody')}</p>
             <Rule seed={7} />
           </Reveal>
-          <Reveal className="stack" style={{ gap: 14 }}>
+          <Reveal className="stack" style={{ gap: 14 }} {...rail('how', t('rail.how'), '点前')}>
             <div className="eyebrow"><span className="jp">点前</span><span>— {t('matcha.howTitle')}</span></div>
             <ol className="steps">
               {steps.map(([title, body], i) => (
@@ -61,17 +62,21 @@ export default function Matcha() {
               ))}
             </ol>
           </Reveal>
-          <Reveal className="glass tile" style={{ padding: 0 }}>
-            <img className="tile__img" src={src('whiskCeremony', 1200)} alt={alt('whiskCeremony')} loading="lazy" decoding="async" style={{ aspectRatio: '16 / 10' }} />
+          <Reveal className="photo-strip">
+            {['whiskCeremony', 'steamBowl', 'hishaku'].map((k) => (
+              <figure key={k} className="glass tile photo-strip__item">
+                <img className="tile__img" src={src(k, 900)} alt={alt(k)} loading="lazy" decoding="async" />
+              </figure>
+            ))}
           </Reveal>
-          <Reveal className="stack" style={{ gap: 14 }}>
+          <Reveal className="stack" style={{ gap: 14 }} {...rail('calm', t('rail.calm'), '静')}>
             <div className="eyebrow"><span className="jp">静</span><span>— {t('home.calmEyebrow')}</span></div>
             <h2 className="h2">{t('home.calmTitle')}</h2>
             <p className="body">{t('home.calmBody')}</p>
             <CalmPoints />
             <div className="caption" style={{ textTransform: 'none', letterSpacing: '0.04em', fontSize: 12, lineHeight: 1.5 }}>{t('home.calmNote')}</div>
           </Reveal>
-          <Reveal className="stack" style={{ gap: 14 }}>
+          <Reveal className="stack" style={{ gap: 14 }} {...rail('faq', t('rail.faq'), '質問')}>
             <div className="eyebrow"><span className="jp">質問</span><span>— {t('matcha.faqTitle')}</span></div>
             <div className="faq">
               {faq.map(([q, a]) => (

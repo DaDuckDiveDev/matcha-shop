@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
+import { scrollToTop } from '../lib/smooth.js';
 
 // Page wrapper: sets the title, scrolls to the top, and fades the page in.
 export default function Page({ title, children, className = '' }) {
   const reduce = useReducedMotion();
   useEffect(() => {
     document.title = title ? `${title} — Machiko` : 'Machiko — Matcha & Coffee in Belgrade';
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    scrollToTop({ immediate: true });
   }, [title]);
   return (
     <motion.main
