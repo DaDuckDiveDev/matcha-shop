@@ -1,0 +1,49 @@
+name: Screenshots
+
+# Builds the site, opens it in a browser on the build machine and saves clean
+# screenshots (scripts/shots.mjs) to the branch "shots". Run it by hand from
+# the Actions tab when new pictures are wanted for a portfolio or the press.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  shots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - uses: actions/cache@v4
+        with:
+          path: |
+            public/photos
+            src/data/photos.manifest.json
+          key: photos-${{ hashFiles('src/data/images.js', 'scripts/photos.mjs') }}
+      - run: npm run photos
+      - name: Build
+        run: VITE_BASE=/ VITE_SITE_URL=https://machiko.rs npm run build
+      - name: Install the browser
+        run: |
+          npm i --no-save --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+      - name: Take the screenshots
+        run: |
+          npx vite preview --port 4173 --strictPort > /dev/null 2>&1 &
+          for i in $(seq 1 30); do curl -s -o /dev/null http://localhost:4173/ && break; sleep 1; done
+          node scripts/shots.mjs
+      - name: Save them to the shots branch
+        run: |
+          cd shots
+          git init -q -b shots
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Screenshots of ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" shots

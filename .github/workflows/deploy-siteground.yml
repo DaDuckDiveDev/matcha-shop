@@ -16,7 +16,7 @@ on:
   push:
     branches: [main]
     # pictures for social media do not change the site
-    paths-ignore: ['social/**']
+    paths-ignore: ['social/**', 'shop/**', 'scripts/shots.mjs', '.github/workflows/shots.yml', '.github/workflows/shop.yml']
   workflow_dispatch:
     inputs:
       replace_wordpress:
