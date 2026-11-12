@@ -19,8 +19,8 @@
   --paper-2: #F2F0E8;
   --white: #FFFFFF;
   --ink: #161915;          /* sumi */
-  --ink-2: #565C52;
-  --ink-3: #868B80;
+  --ink-2: #4A5046;
+  --ink-3: #646A5F;        /* the lightest text: still 4.5:1 on every background */
   --line: #E3E0D6;
   --uji: #3E5A33;          /* the brand green */
   --uji-deep: #263D21;
@@ -316,7 +316,7 @@ button.link, button.textlink { background: none; border: 0; padding: 0; cursor: 
 .story-card__title { font-family: var(--serif); font-size: 1.5rem; line-height: 1.14; }
 .story-card__text { display: grid; gap: 6px; padding-right: 8px; }
 .story-card__excerpt { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.5; }
-.story-card--soon { opacity: 0.6; }
+.story-card--soon .photo { opacity: 0.55; }
 @media (hover: hover) { .story-card:hover .photo img { transform: scale(1.04); } }
 @media (min-width: 900px) {
   .stories { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-columns: auto; gap: 16px 24px; overflow: visible; margin-inline: 0; padding-inline: 0; }
@@ -553,6 +553,12 @@ html[data-morph] .morph-target { view-transition-name: media; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
+
+/* before the shop opens, and the preview banner */
+.app-closed { flex: 1 1 auto; display: grid; align-content: center; justify-items: start; gap: 20px; padding: 24px 4px 40px; }
+.app-closed .jp { font-size: 1.25rem; color: var(--uji); }
+.app-closed .btn { margin-top: 4px; }
+.app-preview { display: flex; gap: 10px; align-items: baseline; padding: 10px 14px; border-radius: var(--r-s); background: var(--foam); color: var(--uji-deep); font-size: 0.8125rem; line-height: 1.4; }
 
 /* ==================================================================
    Guest app (the installable part: order ahead, stamps, reserve)

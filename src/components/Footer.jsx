@@ -33,7 +33,7 @@ export default function Footer() {
             <a href={`https://www.instagram.com/${SHOP.instagram}/`} target="_blank" rel="noreferrer">Instagram</a>
             <a href={`mailto:${SHOP.email}`}>{SHOP.email}</a>
             {SHOP.phone && <a href={`tel:${SHOP.phone.replace(/\s/g, '')}`}>{SHOP.phone}</a>}
-            <a href={`${import.meta.env.BASE_URL}app/`}>{t('foot.app')}</a>
+            {opened && <a href={`${import.meta.env.BASE_URL}app/`}>{t('foot.app')}</a>}
           </div>
         </div>
         <div className="foot__word" aria-hidden="true">Machiko<span className="vert">まちこ</span></div>

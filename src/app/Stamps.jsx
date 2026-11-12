@@ -2,6 +2,7 @@ import View from './View.jsx';
 import StampCard from './StampCard.jsx';
 import { useLang } from '../lib/LangContext.jsx';
 import { store, useStore } from '../lib/store.js';
+import { inPreview } from './AppShell.jsx';
 
 function guestCode(name) {
   // Stable per-phone code the counter can type in; not a security feature.
@@ -37,7 +38,7 @@ export default function Stamps() {
         <div className="ticket__num" style={{ fontSize: 40 }}>{guestCode(name)}</div>
         {stamps >= 10 ? (
           <button type="button" className="btn btn--primary" onClick={() => store.redeem()}>薄茶 · usucha</button>
-        ) : (
+        ) : (import.meta.env.DEV || inPreview()) && (
           <button type="button" className="textlink" style={{ justifyContent: 'center' }} onClick={() => store.addStamp()}>{t('app.demoStamp')}</button>
         )}
       </section>

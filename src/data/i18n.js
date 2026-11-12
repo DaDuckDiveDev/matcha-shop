@@ -136,6 +136,9 @@ export const STRINGS = {
     app: {
       today: 'Today', order: 'Order', stamps: 'Stamps', reserve: 'Reserve',
       stampsLede: 'Every drink earns a stamp. Ten stamps are an usucha on the house.',
+      closedTitle: 'The app opens with the shop.',
+      closedBody: 'From 20 March 2027 you can order ahead, collect stamps and reserve a seat here. Until then, the founding list gets the first invitation.',
+      closedPreview: 'Look around the preview', previewNote: 'Preview. Orders and reservations made here are not sent to the shop.',
       greeting: { morning: 'Good morning', afternoon: 'Good afternoon', evening: 'Good evening' },
       openUntil: 'open until 20:00', closedNow: 'closed now · opens 08:00', quiet: 'quiet right now',
       stampCard: 'Stamp card', of: 'of', stampsLeft: (n) => `${n} more and the next usucha is on the house.`, stampsFull: 'Your next usucha is on the house. Show this at the counter.',
@@ -292,6 +295,9 @@ export const STRINGS = {
     app: {
       today: 'Danas', order: 'Naruči', stamps: 'Pečati', reserve: 'Rezerviši',
       stampsLede: 'Svako piće donosi pečat. Deset pečata je usucha na račun kuće.',
+      closedTitle: 'Aplikacija se otvara kad i radnja.',
+      closedBody: 'Od 20. marta 2027. ovde ćeš moći da naručiš unapred, skupljaš pečate i rezervišeš mesto. Do tada, lista prvih gostiju dobija prvi poziv.',
+      closedPreview: 'Pogledaj probnu verziju', previewNote: 'Probna verzija. Porudžbine i rezervacije odavde ne stižu u radnju.',
       greeting: { morning: 'Dobro jutro', afternoon: 'Dobar dan', evening: 'Dobro veče' },
       openUntil: 'otvoreno do 20:00', closedNow: 'zatvoreno · otvara u 08:00', quiet: 'trenutno mirno',
       stampCard: 'Kartica pečata', of: 'od', stampsLeft: (n) => `Još ${n} i sledeća usucha je na račun kuće.`, stampsFull: 'Sledeća usucha je na račun kuće. Pokaži ovo na šanku.',

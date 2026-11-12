@@ -1,0 +1,50 @@
+name: QA
+
+# Checks the live site in a real browser (scripts/qa.mjs) and measures it
+# with Lighthouse (scripts/lighthouse.mjs). Runs after every deploy to
+# SiteGround, and by hand from the Actions tab. The report and screenshots
+# are attached to the run as "qa-report".
+
+on:
+  workflow_run:
+    workflows: [Deploy to SiteGround]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Address to check
+        default: https://machiko.rs
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      QA_URL: ${{ inputs.url || 'https://machiko.rs' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install the browser and the checkers
+        run: |
+          npm i --no-save --no-audit --no-fund playwright axe-core lighthouse
+          npx playwright install --with-deps chromium
+      - name: Browser checks
+        run: node scripts/qa.mjs
+      - name: Lighthouse on a phone profile
+        if: always()
+        run: node scripts/lighthouse.mjs
+      - name: Summary
+        if: always()
+        run: |
+          { cat qa-out/report.md 2>/dev/null; echo; echo '```'; cat qa-out/lighthouse.txt 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-report
+          path: qa-out
+          retention-days: 30

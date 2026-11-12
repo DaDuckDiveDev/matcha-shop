@@ -12,3 +12,4 @@ public/photos/
 public/photos/
 src/data/photos.manifest.json
 photos-src/
+qa-out/
