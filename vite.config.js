@@ -20,7 +20,16 @@ function searchFiles() {
   return {
     name: 'machiko-search-files',
     apply: 'build',
-    transformIndexHtml: (html) => (base === '/' ? html : html.replace('</title>', '</title>\n    <meta name="robots" content="noindex" />')),
+    transformIndexHtml(html) {
+      // What the page may load and talk to: itself, the photographs that are
+      // still on Pexels, and the two places the forms post to.
+      const origin = (u) => { try { return new URL(u).origin; } catch { return ''; } };
+      const connect = ["'self'", origin(process.env.VITE_API_URL), origin(process.env.VITE_JOIN_ENDPOINT), origin(process.env.VITE_RESERVE_WEBHOOK)].filter(Boolean).join(' ');
+      const csp = `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.pexels.com; font-src 'self' data:; connect-src ${connect} https://images.pexels.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'`;
+      const extra = [`<meta http-equiv="Content-Security-Policy" content="${csp}" />`];
+      if (base !== '/') extra.push('<meta name="robots" content="noindex" />');
+      return html.replace('</title>', `</title>\n    ${extra.join('\n    ')}`);
+    },
     async closeBundle() {
       if (!real) return;
       const { PUBLISHED } = await import('./src/data/journal.js');

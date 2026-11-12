@@ -13,3 +13,8 @@ public/photos/
 src/data/photos.manifest.json
 photos-src/
 qa-out/
+
+# the API
+server/node_modules/
+server/.env
+server/logs/

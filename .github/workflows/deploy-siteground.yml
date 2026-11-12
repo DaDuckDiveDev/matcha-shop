@@ -7,7 +7,9 @@ name: Deploy to SiteGround
 #   SFTP_KEY_PASSPHRASE  its password; leave unset if the key has none
 # Until SFTP_KEY is set, the workflow runs but skips the upload.
 #
-# Optional repository variable JOIN_ENDPOINT: the Brevo form address for /join.
+# Optional repository variables:
+#   API_URL        the shop's API, for example https://api.machiko.rs (see server/README.md)
+#   JOIN_ENDPOINT  a Brevo form address for /join, used only when there is no API
 # The upload never deletes anything on the server (see scripts/deploy-sftp.mjs).
 
 on:
@@ -92,9 +94,11 @@ jobs:
       - name: Build for the real domain
         env:
           JOIN_ENDPOINT: ${{ vars.JOIN_ENDPOINT }}
+          API_URL: ${{ vars.API_URL }}
         run: |
           export VITE_BASE=/ VITE_SITE_URL="https://$DOMAIN"
           if [ -n "$JOIN_ENDPOINT" ]; then export VITE_JOIN_ENDPOINT="$JOIN_ENDPOINT"; fi
+          if [ -n "$API_URL" ]; then export VITE_API_URL="$API_URL"; fi
           npm run build
 
       - name: Prepare SSH key and verify the server

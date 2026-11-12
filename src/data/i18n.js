@@ -38,15 +38,20 @@ export const STRINGS = {
       error: 'Something went wrong. Please try again, or write to hello@machiko.rs.',
       needEmailConsent: 'Tick the email box so we can send your invitation.',
       needPhone: 'Add your mobile number for the text, or untick the box.',
-      notConnected: 'Preview: this form is not connected to the mailing list yet.'
+      notConnected: 'Preview: this form is not connected to the mailing list yet.',
+      confirmed: 'You are on the list. We will write before the soft opening.',
+      already: 'You are already on the list. See you in March.',
+      left: 'You are off the list. No more messages from us.',
+      expired: 'That link was already used or is too old. Sign up again and we will send a new one.',
+      badEmail: 'That email address does not look right.', tooMany: 'Too many tries from this connection. Please try again in an hour.'
     },
     privacy: {
       eyebrow: 'Privacy', title: 'What we keep, and why.',
       lede: 'What we collect when you join the founding list or use the guest app, and what we do with it.',
       sections: [
         ['Who we are', 'Machiko, [company name] DOO, [street and number], Belgrade, PIB [number]. Write to hello@machiko.rs about anything on this page.'],
-        ['What we collect', 'Your first name and email address and, if you give it, your mobile number; when and how you agreed to hear from us; and your language. The guest app keeps your stamps and orders on your own phone.'],
-        ['Why', 'To send you the emails and texts you asked for, and nothing else. We do not sell your details or share them for advertising. Our email and SMS providers process them on our behalf, under contract.'],
+        ['What we collect', 'Your first name and email address and, if you give it, your mobile number; when and how you agreed to hear from us (we ask you to confirm by email); and your language. The guest app keeps your stamps and orders on your own phone.'],
+        ['Why', 'To send you the emails and texts you asked for, and nothing else. We do not sell your details or share them for advertising. They are kept in our own database, hosted by SiteGround. When campaigns start, our email and SMS provider (Brevo) sends the messages on our behalf, under contract.'],
         ['For how long', 'Until you unsubscribe or ask us to delete them. Every email has an unsubscribe link, and every text tells you how to stop them.'],
         ['Your rights', 'You can ask to see, correct or delete your details at any time by writing to hello@machiko.rs. If you think we have handled them badly, you can complain to the Commissioner for Information of Public Importance and Personal Data Protection.']
       ],
@@ -156,7 +161,7 @@ export const STRINGS = {
       statusBody: { received: 'We have your order. The water is on.', whisking: 'The chasen is moving. About four minutes.', ready: 'On the counter. Show this screen.' },
       orderNumber: 'Order', newOrder: 'New order', remove: 'Remove',
       reserveTitle: 'Reserve', reserveLede: 'A table for four or more, or a seat in a workshop.',
-      date: 'Date', time: 'Time', guests: 'Guests', seatOrWorkshop: 'What for', table: 'A table', note: 'Anything we should know', send: 'Send request',
+      date: 'Date', time: 'Time', guests: 'Guests', seatOrWorkshop: 'What for', table: 'A table', note: 'Anything we should know', contact: 'Mobile or email, so we can confirm', send: 'Send request',
       reserveSent: 'Request sent. We confirm by message within the hour.', reserveLocal: 'Saved on this phone. Connect the reservation webhook to send it to the shop.',
       profileLang: 'Language', demoStamp: 'Demo: add a stamp'
     }
@@ -197,15 +202,20 @@ export const STRINGS = {
       error: 'Nešto nije u redu. Pokušaj ponovo ili piši na hello@machiko.rs.',
       needEmailConsent: 'Označi polje za email da bismo mogli da ti pošaljemo pozivnicu.',
       needPhone: 'Upiši broj mobilnog za SMS, ili skini oznaku.',
-      notConnected: 'Pregled: forma još nije povezana sa listom.'
+      notConnected: 'Pregled: forma još nije povezana sa listom.',
+      confirmed: 'Na listi si. Javljamo se pre probnog otvaranja.',
+      already: 'Već si na listi. Vidimo se u martu.',
+      left: 'Odjavljen/a si sa liste. Više ti ne pišemo.',
+      expired: 'Taj link je već iskorišćen ili je istekao. Prijavi se ponovo i poslaćemo novi.',
+      badEmail: 'Ta email adresa ne izgleda ispravno.', tooMany: 'Previše pokušaja sa ove veze. Probaj ponovo za sat vremena.'
     },
     privacy: {
       eyebrow: 'Privatnost', title: 'Šta čuvamo i zašto.',
       lede: 'Šta prikupljamo kada se prijaviš na listu prvih gostiju ili koristiš aplikaciju za goste, i šta s tim radimo.',
       sections: [
         ['Ko smo', 'Machiko, [naziv firme] DOO, [ulica i broj], Beograd, PIB [broj]. Za sve sa ove stranice piši na hello@machiko.rs.'],
-        ['Šta prikupljamo', 'Tvoje ime i email adresu i, ako ga ostaviš, broj mobilnog; kada i kako si pristao/la da ti se javljamo; i tvoj jezik. Aplikacija za goste čuva tvoje pečate i porudžbine na tvom telefonu.'],
-        ['Zašto', 'Da ti šaljemo emailove i poruke koje si tražio/la, i ništa drugo. Ne prodajemo tvoje podatke i ne delimo ih za oglašavanje. Naši dobavljači za email i SMS ih obrađuju u naše ime, po ugovoru.'],
+        ['Šta prikupljamo', 'Tvoje ime i email adresu i, ako ga ostaviš, broj mobilnog; kada i kako si pristao/la da ti se javljamo (tražimo potvrdu emailom); i tvoj jezik. Aplikacija za goste čuva tvoje pečate i porudžbine na tvom telefonu.'],
+        ['Zašto', 'Da ti šaljemo emailove i poruke koje si tražio/la, i ništa drugo. Ne prodajemo tvoje podatke i ne delimo ih za oglašavanje. Čuvamo ih u sopstvenoj bazi, na hostingu SiteGround. Kada kampanje krenu, naš dobavljač za email i SMS (Brevo) šalje poruke u naše ime, po ugovoru.'],
         ['Koliko dugo', 'Dok se ne odjaviš ili ne zatražiš brisanje. Svaki email ima link za odjavu, a svaka poruka kaže kako da ih zaustaviš.'],
         ['Tvoja prava', 'U svakom trenutku možeš da tražiš uvid, ispravku ili brisanje svojih podataka pišući na hello@machiko.rs. Ako misliš da smo s njima postupili loše, možeš se žaliti Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti.']
       ],
@@ -315,7 +325,7 @@ export const STRINGS = {
       statusBody: { received: 'Imamo tvoju porudžbinu. Voda se greje.', whisking: 'Chasen radi. Oko četiri minuta.', ready: 'Na šanku je. Pokaži ovaj ekran.' },
       orderNumber: 'Porudžbina', newOrder: 'Nova porudžbina', remove: 'Ukloni',
       reserveTitle: 'Rezervacija', reserveLede: 'Sto za četvoro ili više, ili mesto na radionici.',
-      date: 'Datum', time: 'Vreme', guests: 'Gosti', seatOrWorkshop: 'Za šta', table: 'Sto', note: 'Nešto što treba da znamo', send: 'Pošalji zahtev',
+      date: 'Datum', time: 'Vreme', guests: 'Gosti', seatOrWorkshop: 'Za šta', table: 'Sto', note: 'Nešto što treba da znamo', contact: 'Mobilni ili email, da potvrdimo', send: 'Pošalji zahtev',
       reserveSent: 'Zahtev poslat. Potvrđujemo porukom u roku od sat vremena.', reserveLocal: 'Sačuvano na ovom telefonu. Poveži webhook za rezervacije da bi stiglo do lokala.',
       profileLang: 'Jezik', demoStamp: 'Demo: dodaj pečat'
     }

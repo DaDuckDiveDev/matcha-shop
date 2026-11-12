@@ -88,8 +88,7 @@ async function server() {
     }
   }
   if (LIVE) {
-    const sw = await head(`${BASE}/sw.js`);
-    (!/max-age=(\d{5,})/.test(sw.h.get('cache-control') || '') ? pass : warn)(A, 'service worker is not cached for long', sw.h.get('cache-control') || 'no cache-control');
+    // (the service worker file may carry a long cache header: browsers re-check it regardless)
     for (const p of ['/.htaccess', '/.htaccess.before-machiko', '/.git/config', '/.env', '/package.json']) {
       const r = await head(`${BASE}${p}`);
       const leaked = r.status === 200 && !r.text.includes('<div id="root">');
@@ -153,7 +152,7 @@ async function pages(browser) {
           await page.evaluate(() => window.scrollTo(0, 0));
           // headings fade in as they are scrolled to; measure them as they are read
           await page.addStyleTag({ content: '.ink > span, .unveil, .foot__word { animation: none !important; }' });
-          await page.addScriptTag({ content: axeSource });
+          await page.evaluate(axeSource);   // not addScriptTag: the page's security policy rightly refuses inline scripts
           const res = await page.evaluate(async () => (await window.axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa'] } })).violations.map((v) => ({ id: v.id, impact: v.impact, n: v.nodes.length, at: v.nodes[0].target.join(' '), why: (v.nodes[0].failureSummary || '').split('\n').slice(1, 2).join(' ').trim() })));
           const fresh = res.filter((v) => !axeSeen.has(`${v.id}|${v.at}`));
           for (const v of res) axeSeen.set(`${v.id}|${v.at}`, true);
@@ -181,7 +180,19 @@ async function flows(browser) {
   const step = async (name, fn) => { try { const r = await fn(); if (r !== undefined && r !== true) fail(A, name, String(r)); else pass(A, name); } catch (e) { fail(A, name, String(e.message).split('\n')[0].slice(0, 180)); } };
 
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' }); await page.waitForTimeout(2500);
-  await step('the bowl is drawn live (WebGL)', async () => (await page.evaluate(() => getComputedStyle(document.querySelector('.bowl__still')).opacity === '0')) || 'the still fallback is showing');
+  const gpu = await page.evaluate(() => { const g = document.createElement('canvas').getContext('webgl2'); if (!g) return 'none'; const i = g.getExtension('WEBGL_debug_renderer_info'); return String(i ? g.getParameter(i.UNMASKED_RENDERER_WEBGL) : g.getParameter(g.RENDERER)); });
+  const software = /swiftshader|llvmpipe|softpipe|software|none/i.test(gpu);
+  await step(software ? 'no graphics acceleration here: the still bowl is shown, as designed' : 'the bowl is drawn live (WebGL)', async () => {
+    const still = await page.evaluate(() => getComputedStyle(document.querySelector('.bowl__still')).opacity);
+    return (software ? still === '1' : still === '0') || `still bowl opacity ${still} on ${gpu}`;
+  });
+  await step('the live bowl runs when asked for (?live)', async () => {
+    const p2 = await ctx.newPage(); const s2 = { errors: [], failed: [] }; watch(p2, s2);
+    await p2.goto(`${BASE}/?live`, { waitUntil: 'networkidle' }); await p2.waitForTimeout(2500);
+    const still = await p2.evaluate(() => getComputedStyle(document.querySelector('.bowl__still')).opacity);
+    await p2.close();
+    return (still === '0' && !s2.errors.length) || `still bowl opacity ${still}, errors ${s2.errors.join(' | ')}`;
+  });
   await step('hero text is visible', async () => (await page.evaluate(() => getComputedStyle(document.querySelector('.hero h1 .line > span')).transform)) !== undefined && (await page.locator('.hero h1').isVisible()));
   await step('menu sheet opens and closes', async () => {
     await page.click('.burger'); await page.waitForTimeout(500);
@@ -295,7 +306,7 @@ async function flows(browser) {
   await step('app: reserve form sends', async () => {
     await page.goto(`${BASE}/app/reserve`, { waitUntil: 'networkidle' }); await page.waitForTimeout(600);
     const d = new Date(Date.now() + 200 * 86400000).toISOString().slice(0, 10);
-    await page.fill('#r-date', d); await page.fill('#r-time', '10:00'); await page.fill('#r-name', 'QA');
+    await page.fill('#r-date', d); await page.fill('#r-time', '10:00'); await page.fill('#r-name', 'QA'); await page.fill('#r-contact', 'qa-check@example.com');
     await page.click('button[type="submit"]'); await page.waitForTimeout(1500);
     return (await page.locator('form').count()) === 0 || 'the form is still showing';
   });

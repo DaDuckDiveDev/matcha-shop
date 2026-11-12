@@ -5,17 +5,17 @@ import { useLang } from '../lib/LangContext.jsx';
 import { sendReservation, store, useStore } from '../lib/store.js';
 
 export default function Reserve() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { name } = useStore();
   const workshops = t('visit.workshops');
-  const [form, setForm] = useState({ kind: 'table', date: '', time: '10:00', guests: 4, name, note: '' });
+  const [form, setForm] = useState({ kind: 'table', date: '', time: '10:00', guests: 4, name, contact: '', note: '' });
   const [state, setState] = useState('idle'); // idle | sending | sent | local
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const submit = async (e) => {
     e.preventDefault();
     setState('sending');
-    const payload = { ...form, at: new Date().toISOString(), source: 'machiko-app' };
+    const payload = { ...form, lang, at: new Date().toISOString(), source: 'machiko-app' };
     const { sent } = await sendReservation(payload);
     store.setName(form.name.trim());
     store.addReservation({ ...payload, sent });
@@ -67,6 +67,10 @@ export default function Reserve() {
               <label htmlFor="r-name">{t('app.name')}</label>
               <input id="r-name" value={form.name} onChange={set('name')} placeholder={t('app.namePlaceholder')} required autoComplete="name" />
             </div>
+          </div>
+          <div className="field">
+            <label htmlFor="r-contact">{t('app.contact')}</label>
+            <input id="r-contact" value={form.contact} onChange={set('contact')} required />
           </div>
           <div className="field">
             <label htmlFor="r-note">{t('app.note')}</label>

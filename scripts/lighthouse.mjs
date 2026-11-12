@@ -30,7 +30,10 @@ for (const path of PAGES) {
   say(`  first paint ${m('first-contentful-paint')}, largest paint ${m('largest-contentful-paint')}, blocking ${m('total-blocking-time')}, layout shift ${m('cumulative-layout-shift')}, page weight ${m('total-byte-weight')}`);
   for (const cat of ['accessibility', 'best-practices', 'seo']) {
     const bad = r.categories[cat].auditRefs.map((a) => r.audits[a.id]).filter((a) => a.score !== null && a.score < 1 && a.scoreDisplayMode !== 'informative' && a.scoreDisplayMode !== 'manual');
-    for (const a of bad) say(`  ${cat}: ${a.title}${a.displayValue ? ` (${a.displayValue})` : ''}`);
+    for (const a of bad) {
+      say(`  ${cat}: ${a.title}${a.displayValue ? ` (${a.displayValue})` : ''}`);
+      for (const it of (a.details?.items || []).slice(0, 3)) if (it.node?.selector) say(`      at ${it.node.selector}`);
+    }
   }
   const slow = Object.values(r.audits).filter((a) => a.details?.type === 'opportunity' && (a.details.overallSavingsMs || 0) > 150).sort((a, b) => b.details.overallSavingsMs - a.details.overallSavingsMs).slice(0, 4);
   for (const a of slow) say(`  speed: ${a.title} (about ${Math.round(a.details.overallSavingsMs)} ms)`);

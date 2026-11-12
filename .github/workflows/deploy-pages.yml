@@ -32,11 +32,14 @@ jobs:
             src/data/photos.manifest.json
           key: photos-${{ hashFiles('src/data/images.js', 'scripts/photos.mjs') }}
       - run: npm run photos
-      - run: npm run build
+      - name: Build the preview
         env:
+          API_URL: ${{ vars.API_URL }}
+        run: |
           # The repo is served under /matcha-shop/ on github.io.
-          VITE_BASE: /matcha-shop/
-          VITE_SITE_URL: https://daduckdivedev.github.io/matcha-shop
+          export VITE_BASE=/matcha-shop/ VITE_SITE_URL=https://daduckdivedev.github.io/matcha-shop
+          if [ -n "$API_URL" ]; then export VITE_API_URL="$API_URL"; fi
+          npm run build
       # GitHub Pages serves 404.html for unknown paths; the app routes from there.
       - run: cp dist/index.html dist/404.html
       - uses: actions/configure-pages@v5

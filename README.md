@@ -16,7 +16,7 @@ and the installable guest app under `/app`.
 | `/journal`, `/journal/:slug` | Stories about matcha in English and Serbian; "Our story" shows as coming soon |
 | `/join` | The founding list: the page the poster and flyer QR codes open |
 | `/privacy` | Privacy notice for the founding list (draft, to be checked against the ZZPL) |
-| `/app` | Guest app (PWA): Today, Order ahead, customise, cart, live status, Stamps, Reserve |
+| `/app` | Guest app (PWA): Today, Order ahead, customise, cart, live status, Stamps, Reserve. Closed until opening day, with a labelled preview |
 
 Languages: English and Serbian (Latin), switched in the navigation and the
 footer and remembered on the device. Every string is in `src/data/i18n.js`;
@@ -73,19 +73,25 @@ Every push to `main` also runs `.github/workflows/deploy-pages.yml`, which build
 - **Journal**: `src/data/journal.js`, in English and Serbian. Body lines are plain strings: `## ` starts a heading, `> ` a pull quote, `- ` a bullet, `1. ` a numbered step, anything else a paragraph. "Our story" is a draft (`draft: true`) with prompts for John and Katarina.
 - **Brand**: `public/brand/` (mark, lockups, alternates, email images, OG image), `public/icons/` (PWA icons). The mark is also drawn by `src/components/Logo.jsx`; keep the path identical.
 
-## Founding list (Brevo)
+## The customer database (`server/`)
 
-`/join` posts to the Brevo form whose action URL you put in `VITE_JOIN_ENDPOINT` (in `.env.production`, then rebuild). Without it the page is a preview and sends nothing. In Brevo, build a form with double opt-in and these fields: `FIRSTNAME`, `EMAIL`, `SMS`, `OPT_IN` (email consent), plus contact attributes `SMS_OPT_IN` (boolean), `LANG` and `SOURCE`. The page adds `SOURCE` from `?src=`, so use `machiko.rs/join?src=instagram` in the bio and plain `/join` on the QR codes (recorded as `website`). Email and SMS consent are two separate, unticked boxes.
+`server/` is a Node.js and MySQL API that runs as a Node.js project on SiteGround: the founding list with a record of every consent, reservation requests, an owner's page with the numbers, and the CSV export for email and SMS. Setting it up is eight steps in `server/README.md`. When the repository variable `API_URL` holds its address, `/join` and the app's Reserve screen send to it; pushes that touch `server/` are tested against MariaDB and published to the `api` branch, which SiteGround deploys.
+
+Without the API, `/join` can post straight to a Brevo form instead: put the form's action URL in the repository variable `JOIN_ENDPOINT`. With neither, the form says it is not connected. Email and SMS consent are two separate, unticked boxes; `?src=` on the link is stored as the source (`machiko.rs/join?src=instagram`).
 
 ## Reservations webhook
 
-Copy `.env.example` to `.env` and set `VITE_RESERVE_WEBHOOK` to a URL that accepts a JSON POST (a Make.com webhook that writes to a Google Sheet works). Without it, requests are kept on the phone and the app says so.
+Reservations go to the API when `API_URL` is set. Without it, set `VITE_RESERVE_WEBHOOK` to a URL that accepts a JSON POST (a Make.com webhook that writes to a Google Sheet works); with neither, requests are kept on the phone and the app says so.
+
+## QA
+
+`scripts/qa.mjs` checks the live site in a real browser: the server (redirects, file types, private files), every page on a phone and a desktop (errors, failed requests, broken images, sideways scrolling, headings, alt text, links), accessibility with axe-core, and the things people do (language, menu, cards, sign-up, the app). `scripts/lighthouse.mjs` adds Lighthouse scores. The workflow "QA" runs both after every deploy to SiteGround and attaches the report and screenshots to the run; run it by hand from the Actions tab at any time.
 
 ## Next steps
 
 - Take our own photographs once the room is built, and replace the Pexels ones (shot list in the Launch Kit).
 - Write "Our story" in `src/data/journal.js` and remove `draft: true`.
-- Put the Brevo form address in `VITE_JOIN_ENDPOINT` so `/join` collects sign-ups.
+- Set up the API on SiteGround (`server/README.md`) so `/join` collects sign-ups.
 - Have a native speaker proofread the Serbian.
 - Serbian pages rendered at build time for search engines; today the Serbian copy is applied in the browser.
 - Point-of-sale integration so order status and stamps are real, and payment at checkout.

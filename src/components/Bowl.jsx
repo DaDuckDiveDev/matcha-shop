@@ -38,6 +38,7 @@ export default function Bowl({ label, ready = true, onWhisked }) {
     const small = window.matchMedia('(max-width: 720px)').matches;
     const bowl = createBowl(canvas.current, {
       reduced,
+      force: new URLSearchParams(window.location.search).has('live'),   // machiko.rs/?live draws it even without acceleration
       dye: small ? 320 : 448,
       onWork: (w) => { if (!told.current && w > 0.9) { told.current = true; onWhisked?.(); } }
     });

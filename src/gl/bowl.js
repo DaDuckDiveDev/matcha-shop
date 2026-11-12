@@ -246,12 +246,20 @@ function program(gl, vs, fragSrc) {
   return { p, u };
 }
 
-export function createBowl(canvas, { dye = 384, reduced = false, onWork } = {}) {
+export function createBowl(canvas, { dye = 384, reduced = false, force = false, onWork } = {}) {
   let gl;
   try {
-    gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'low-power' });
+    // Without graphics acceleration the simulation would run on the processor
+    // and make the whole page stutter, so the browser is asked to refuse
+    // (failIfMajorPerformanceCaveat) and the still bowl stays. `force` is for tests.
+    gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: !force });
   } catch { gl = null; }
   if (!gl) return null;
+  if (!force) {
+    const info = gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+    if (/swiftshader|llvmpipe|softpipe|software|basic render/i.test(renderer)) return null;
+  }
   if (!gl.getExtension('EXT_color_buffer_float') && !gl.getExtension('EXT_color_buffer_half_float')) return null;
 
   let P;

@@ -73,8 +73,11 @@ export const store = {
 
 // Optional: forward reservation requests to a webhook (Make.com, a Google
 // Sheet, your own API). Set VITE_RESERVE_WEBHOOK in .env to enable.
+// A reservation request goes to the shop's API when there is one, otherwise
+// to the webhook in VITE_RESERVE_WEBHOOK, otherwise it stays on the phone.
 export async function sendReservation(payload) {
-  const url = import.meta.env.VITE_RESERVE_WEBHOOK;
+  const api = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+  const url = api ? `${api}/api/reservations` : import.meta.env.VITE_RESERVE_WEBHOOK;
   if (!url) return { sent: false };
   try {
     const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });

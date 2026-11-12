@@ -5,19 +5,29 @@ import Page from '../components/Page.jsx';
 import Footer from '../components/Footer.jsx';
 import { A } from '../lib/go.jsx';
 import { IconArrow } from '../components/Icons.jsx';
+import { API, postJson } from '../lib/api.js';
 
 // The founding list. The QR codes on the window poster and the flyers open
-// this page (machiko.rs/join). It posts to the Brevo form set in
-// VITE_JOIN_ENDPOINT, with double opt-in switched on in Brevo; without it
-// the page is a preview and sends nothing. Two separate, unticked boxes:
-// one for email, one for SMS (Serbian e-commerce law needs prior consent).
+// this page (machiko.rs/join). Sign-ups go to the shop's own API
+// (VITE_API_URL), which stores them with the consent given and sends an
+// email to confirm. The links in that email come back here with
+// ?confirmed=1 or ?unsubscribed=1. Without the API it posts to the Brevo
+// form in VITE_JOIN_ENDPOINT; with neither it says it is not connected.
+// Two separate, unticked boxes: one for email, one for SMS (Serbian
+// e-commerce law needs prior consent).
 const ENDPOINT = import.meta.env.VITE_JOIN_ENDPOINT || '';
 
 export default function Join() {
   const { t, lang } = useLang();
   const [params] = useSearchParams();
   const source = useMemo(() => (params.get('src') || 'website').slice(0, 30), [params]);
-  const [state, setState] = useState('idle'); // idle | sending | done | error
+  // idle | sending | done (check your inbox) | confirmed | already | expired | left | error
+  const [state, setState] = useState(() => {
+    if (params.get('confirmed') === '1') return 'confirmed';
+    if (params.get('confirmed') === '0') return 'expired';
+    if (params.get('unsubscribed')) return 'left';
+    return 'idle';
+  });
   const [problem, setProblem] = useState('');
   const [form, setForm] = useState({ name: '', email: '', phone: '', okEmail: false, okSms: false, trap: '' });
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }));
@@ -28,6 +38,17 @@ export default function Join() {
     if (!form.okEmail) { setProblem(t('join.needEmailConsent')); return; }
     if (form.okSms && form.phone.replace(/\D/g, '').length < 8) { setProblem(t('join.needPhone')); return; }
     if (form.trap) { setState('done'); return; }
+    if (API) {
+      setState('sending');
+      try {
+        const r = await postJson('/api/join', { email: form.email.trim(), firstName: form.name.trim(), phone: form.phone.trim(), okEmail: form.okEmail, okSms: form.okSms, lang, source, trap: form.trap });
+        // confirm_sent: an email is on its way. recorded: stored, no email set up on the server yet.
+        if (r.ok) { setState(r.status === 'already' ? 'already' : r.status === 'confirm_sent' ? 'done' : 'confirmed'); return; }
+        setState('idle');
+        setProblem({ email: t('join.badEmail'), consent: t('join.needEmailConsent'), phone: t('join.needPhone'), too_many: t('join.tooMany') }[r.error] || t('join.error'));
+      } catch { setState('error'); }
+      return;
+    }
     if (!ENDPOINT) { setProblem(t('join.notConnected')); return; }
     setState('sending');
     const body = new URLSearchParams({
@@ -49,6 +70,8 @@ export default function Join() {
     }
   };
 
+  const outcome = { done: t('join.done'), confirmed: t('join.confirmed'), already: t('join.already'), left: t('join.left') }[state];
+
   return (
     <Page title={t('join.eyebrow')}>
       <div className="wrap">
@@ -62,10 +85,11 @@ export default function Join() {
           </div>
 
           <div className="card-form">
-            {state === 'done' ? (
+            {outcome ? (
               <div className="form__done" role="status">
-                <span className="jp" aria-hidden="true">受</span>
-                <p className="d3 serif">{t('join.done')}</p>
+                <span className="jp" aria-hidden="true">{state === 'left' ? '了' : '受'}</span>
+                <p className="d3 serif">{outcome}</p>
+                {state === 'left' && <button type="button" className="link small" onClick={() => setState('idle')}>{t('join.submit')}</button>}
               </div>
             ) : (
               <form className="form" onSubmit={submit}>
@@ -91,7 +115,7 @@ export default function Join() {
                   <span>{t('join.consentSms')}</span>
                 </label>
                 <input className="sr-only" tabIndex={-1} autoComplete="off" aria-hidden="true" name="email_address_check" value={form.trap} onChange={set('trap')} />
-                {(problem || state === 'error') && <p className="form__problem" role="alert">{problem || t('join.error')}</p>}
+                {(problem || state === 'error' || state === 'expired') && <p className="form__problem" role="alert">{problem || (state === 'expired' ? t('join.expired') : t('join.error'))}</p>}
                 <button type="submit" className="btn btn--solid btn--block" disabled={state === 'sending'}>
                   {state === 'sending' ? t('join.sending') : t('join.submit')}
                 </button>
