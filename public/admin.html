@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Machiko — the list</title>
+<style>
+  :root { --paper: #FBFAF6; --white: #fff; --ink: #161915; --ink-2: #4A5046; --ink-3: #646A5F; --line: #E3E0D6; --uji: #3E5A33; --foam: #E9EED8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 20px 80px; display: grid; gap: 28px; }
+  h1 { font: 400 32px/1.1 Georgia, serif; margin: 0; }
+  h2 { font: 400 22px/1.2 Georgia, serif; margin: 0 0 12px; }
+  p { margin: 0; color: var(--ink-2); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .card { background: var(--white); border-radius: 18px; padding: 18px 20px; box-shadow: 0 0 0 1px rgba(22,25,21,.06); }
+  .card b { display: block; font: 400 36px/1.1 Georgia, serif; font-variant-numeric: tabular-nums; }
+  .card span { font-size: 13px; color: var(--ink-3); }
+  .panel { background: var(--white); border-radius: 18px; padding: 20px; box-shadow: 0 0 0 1px rgba(22,25,21,.06); overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font-weight: 500; color: var(--ink-3); font-size: 13px; padding: 6px 12px 8px 0; white-space: nowrap; }
+  td { padding: 9px 12px 9px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  .two { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  button, .btn { font: inherit; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid transparent; background: var(--uji); color: #F6F4EC; cursor: pointer; }
+  button.line { background: transparent; color: var(--ink); border-color: rgba(22,25,21,.22); }
+  input { font: inherit; height: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); width: 100%; max-width: 420px; }
+  :focus-visible { outline: 2px solid #7FA052; outline-offset: 2px; }
+  .note { font-size: 13px; color: var(--ink-3); }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--foam); color: #263D21; font-size: 12px; }
+  [hidden] { display: none !important; }
+  #problem { color: #7A2E1B; }
+</style>
+</head>
+<body>
+<main>
+  <div class="row"><h1>Machiko — the list</h1><button class="line" id="leave" hidden>Sign out</button></div>
+
+  <form id="gate" class="panel" style="display:grid;gap:14px">
+    <label for="token">Admin password</label>
+    <input id="token" type="password" autocomplete="current-password" required>
+    <div><button type="submit">Open</button></div>
+    <p id="problem" role="alert"></p>
+  </form>
+
+  <div id="board" hidden style="display:grid;gap:28px">
+    <div class="cards" id="totals"></div>
+    <div class="panel">
+      <div class="row" style="margin-bottom:12px">
+        <h2 style="margin:0">For email and SMS</h2>
+        <div class="row">
+          <button id="dl-list">Download the list (CSV for Brevo)</button>
+          <button class="line" id="dl-all">Everyone, including unconfirmed</button>
+        </div>
+      </div>
+      <p class="note">The list holds people who confirmed their email and have not left. The SMS column is filled only for people who ticked the SMS box. Columns match the Brevo import: EMAIL, FIRSTNAME, SMS, LANG, SOURCE, OPT_IN, SMS_OPT_IN.</p>
+    </div>
+    <div class="two">
+      <div class="panel"><h2>Where they came from</h2><table id="sources"></table></div>
+      <div class="panel"><h2>Week by week</h2><table id="weeks"></table></div>
+    </div>
+    <div class="panel"><h2>Latest sign-ups</h2><table id="latest"></table></div>
+    <div class="panel">
+      <div class="row" style="margin-bottom:12px"><h2 style="margin:0">Reservation requests</h2><button class="line" id="dl-res">Download all (CSV)</button></div>
+      <table id="reservations"></table>
+    </div>
+    <div class="panel" style="display:grid;gap:12px">
+      <h2 style="margin:0">One person</h2>
+      <p class="note">When somebody asks what you hold about them, or asks to be deleted. Deleting removes the person and their consent history from this database and blocks the address in Brevo.</p>
+      <div class="row" style="justify-content:flex-start"><input id="who" type="email" placeholder="email address"><button class="line" id="look">Show</button><button class="line" id="erase">Delete</button></div>
+      <pre id="person" class="note" style="white-space:pre-wrap;margin:0"></pre>
+    </div>
+  </div>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  let token = sessionStorage.getItem('machiko.admin') || '';
+  const api = (path, opts = {}) => fetch(path, { ...opts, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', ...(opts.headers || {}) } });
+  const cell = (tag, text) => { const el = document.createElement(tag); el.textContent = text ?? ''; return el; };
+  function table(el, heads, rows) {
+    el.replaceChildren();
+    const h = document.createElement('tr'); heads.forEach((t) => h.append(cell('th', t))); el.append(h);
+    if (!rows.length) { const r = document.createElement('tr'); const c = cell('td', 'Nothing yet.'); c.colSpan = heads.length; r.append(c); el.append(r); }
+    rows.forEach((cols) => { const r = document.createElement('tr'); cols.forEach((t) => r.append(cell('td', t))); el.append(r); });
+  }
+  async function load() {
+    const res = await api('/api/admin/stats');
+    if (res.status === 401) { token = ''; sessionStorage.removeItem('machiko.admin'); $('problem').textContent = 'That password is not right.'; return show(false); }
+    if (!res.ok) { $('problem').textContent = res.status === 429 ? 'Too many tries. Wait a quarter of an hour.' : 'The server could not answer. Try again.'; return show(false); }
+    const d = await res.json();
+    const t = d.totals;
+    $('totals').replaceChildren(...[['On the list', t.confirmed], ['Waiting to confirm', t.waiting], ['SMS consent', t.sms], ['Left the list', t.left_list], ['All sign-ups', t.signups]].map(([label, n]) => { const c = document.createElement('div'); c.className = 'card'; c.append(cell('b', n), cell('span', label)); return c; }));
+    table($('sources'), ['Source', 'Sign-ups', 'Confirmed'], d.bySource.map((r) => [r.source, r.n, r.confirmed]));
+    table($('weeks'), ['Week', 'Sign-ups'], d.byWeek.map((r) => [r.week, r.n]));
+    table($('latest'), ['When', 'Name', 'Email', 'Language', 'Source', 'Confirmed'], d.latest.map((r) => [r.created_at, r.first_name, r.email, r.lang, r.source, r.confirmed ? 'yes' : 'not yet']));
+    table($('reservations'), ['Date', 'Time', 'For', 'Guests', 'Name', 'Contact', 'Note', 'Status'], d.reservations.map((r) => [r.on_date, String(r.at_time).slice(0, 5), r.kind, r.guests, r.name, r.contact, r.note, r.status]));
+    show(true);
+  }
+  function show(open) { $('gate').hidden = open; $('board').hidden = !open; $('leave').hidden = !open; }
+  async function download(path, name) {
+    const res = await api(path); if (!res.ok) return;
+    const a = document.createElement('a'); a.href = URL.createObjectURL(await res.blob());
+    a.download = (res.headers.get('content-disposition') || '').match(/filename="([^"]+)"/)?.[1] || name; a.click(); URL.revokeObjectURL(a.href);
+  }
+  $('gate').addEventListener('submit', (e) => { e.preventDefault(); token = $('token').value; sessionStorage.setItem('machiko.admin', token); $('problem').textContent = ''; load(); });
+  $('leave').addEventListener('click', () => { token = ''; sessionStorage.removeItem('machiko.admin'); $('token').value = ''; show(false); });
+  $('dl-list').addEventListener('click', () => download('/api/admin/customers.csv', 'machiko-list.csv'));
+  $('dl-all').addEventListener('click', () => download('/api/admin/customers.csv?all=1', 'machiko-everyone.csv'));
+  $('dl-res').addEventListener('click', () => download('/api/admin/reservations.csv', 'machiko-reservations.csv'));
+  $('look').addEventListener('click', async () => {
+    const res = await api(`/api/admin/person?email=${encodeURIComponent($('who').value.trim())}`);
+    $('person').textContent = res.ok ? JSON.stringify(await res.json(), null, 2) : 'Nobody by that address.';
+  });
+  $('erase').addEventListener('click', async () => {
+    const email = $('who').value.trim(); if (!email) return;
+    if (!window.confirm(`Delete ${email} and their consent history? This cannot be undone.`)) return;
+    const res = await api('/api/admin/erase', { method: 'POST', body: JSON.stringify({ email }) });
+    const d = await res.json(); $('person').textContent = d.removed ? 'Deleted.' : 'Nobody by that address.'; load();
+  });
+  show(false);
+  if (token) load();
+})();
+</script>
+</body>
+</html>
