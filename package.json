@@ -9,6 +9,7 @@
     "build": "node scripts/prepare.mjs && vite build",
     "preview": "vite preview --host",
     "photos": "node scripts/photos.mjs",
+    "shop:art": "node shop/art.mjs",
     "social": "esbuild social/reel-entry.js --bundle --format=iife --outfile=social/.build/reel-bundle.js --log-level=error && node social/cards.mjs && node social/reel.mjs full"
   },
   "dependencies": {

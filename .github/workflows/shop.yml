@@ -1,0 +1,82 @@
+name: Shop theme
+
+# Uploads the WooCommerce theme (shop/theme/machiko-shop) to the shop's WordPress
+# over SFTP, with the same key as the website. It does nothing until the
+# repository variable SHOP_REMOTE_DIR holds the WordPress folder of the shop,
+# for example /shop.machiko.rs/public_html (see shop/README.md).
+
+on:
+  push:
+    branches: [main]
+    paths: ['shop/theme/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shop
+  cancel-in-progress: false
+
+env:
+  SFTP_HOST: sftp.siteground.net
+  SFTP_PORT: "18765"
+  SFTP_USER: sftp6234-d725e521
+  HOST_FINGERPRINT: "SHA256:PvEri3iYKZeVBGSPE54fg2bDTfYxGpHqnRc+nOZMj/Q"
+  SHOP_REMOTE_DIR: ${{ vars.SHOP_REMOTE_DIR }}
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is the shop set up?
+        id: ready
+        env:
+          HAS_KEY: ${{ secrets.SFTP_KEY != '' }}
+        run: |
+          if [ -z "$SHOP_REMOTE_DIR" ]; then
+            echo "::notice::Nothing uploaded: the repository variable SHOP_REMOTE_DIR is not set yet (shop/README.md, step 3)."
+            echo "go=no" >> "$GITHUB_OUTPUT"
+          elif [ "$HAS_KEY" != "true" ]; then
+            echo "::error::The SFTP_KEY secret is missing."; exit 1
+          else
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.ready.outputs.go == 'yes'
+      - name: Prepare the key and check the server
+        if: steps.ready.outputs.go == 'yes'
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+          SFTP_KEY_PASSPHRASE: ${{ secrets.SFTP_KEY_PASSPHRASE }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SFTP_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          if [ -n "$SFTP_KEY_PASSPHRASE" ]; then
+            ssh-keygen -p -P "$SFTP_KEY_PASSPHRASE" -N "" -f ~/.ssh/deploy_key > /dev/null 2>&1 || true
+          fi
+          ssh-keygen -y -P "" -f ~/.ssh/deploy_key > /dev/null 2>&1 || { echo "::error::The SFTP key cannot be opened. Check SFTP_KEY and SFTP_KEY_PASSPHRASE (the website's deploy workflow explains each case)."; exit 1; }
+          ssh-keyscan -t ed25519 -p "$SFTP_PORT" "$SFTP_HOST" > ~/.ssh/known_hosts 2> /dev/null
+          if ! ssh-keygen -lf ~/.ssh/known_hosts | grep -qF "$HOST_FINGERPRINT"; then
+            echo "::error::Server fingerprint does not match the expected one"; exit 1
+          fi
+      - name: Upload the theme
+        if: steps.ready.outputs.go == 'yes'
+        run: |
+          themes="${SHOP_REMOTE_DIR%/}/wp-content/themes"
+          sftp_run() { sftp -q -b - -i ~/.ssh/deploy_key -P "$SFTP_PORT" -o IdentitiesOnly=yes -o BatchMode=yes "$SFTP_USER@$SFTP_HOST"; }
+          # the WordPress folder must already be there: this workflow never creates a site
+          if ! printf 'ls %s\n' "$themes" | sftp_run > /dev/null 2>&1; then
+            echo "::error::$themes was not found. Install WordPress for the shop first, then set SHOP_REMOTE_DIR to its folder."; exit 1
+          fi
+          {
+            echo "-mkdir $themes/machiko-shop"
+            ( cd shop/theme/machiko-shop && find . -mindepth 1 -type d | sed 's#^\./##' | sort | while read -r d; do echo "-mkdir $themes/machiko-shop/$d"; done )
+            ( cd shop/theme/machiko-shop && find . -type f | sed 's#^\./##' | sort | while read -r f; do echo "put shop/theme/machiko-shop/$f $themes/machiko-shop/$f"; done )
+          } > batch.txt
+          sftp_run < batch.txt
+          echo "::notice::Uploaded $(grep -c '^put ' batch.txt) files to $themes/machiko-shop."
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
