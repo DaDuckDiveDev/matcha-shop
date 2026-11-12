@@ -3,6 +3,8 @@ name: Deploy preview to GitHub Pages
 on:
   push:
     branches: [main]
+    # pictures for social media do not change the site
+    paths-ignore: ['social/**']
   workflow_dispatch:
 
 permissions:

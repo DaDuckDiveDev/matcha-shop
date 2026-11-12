@@ -18,3 +18,6 @@ qa-out/
 server/node_modules/
 server/.env
 server/logs/
+
+# working files of the social renderer (npm run social)
+social/.build/

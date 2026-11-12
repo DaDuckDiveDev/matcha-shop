@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/hina/index.css">
+<link rel="stylesheet" href="/hanken/index.css">
+<style>
+  html, body { margin: 0; }
+  body { width: 1080px; height: 1920px; overflow: hidden; background: #FBFAF6; color: #161915; position: relative;
+    font-family: 'Hanken Grotesk Variable', sans-serif; -webkit-font-smoothing: antialiased; }
+  #bowl { position: absolute; left: 124px; top: 232px; width: 832px; height: 832px; }
+  .words { position: absolute; left: 136px; right: 150px; top: 1106px; }
+  #name { display: flex; align-items: baseline; gap: 28px; font-family: 'Hina Mincho', serif; font-size: 140px; line-height: 1; letter-spacing: -0.01em; }
+  #name span { font-size: 46px; letter-spacing: 0.18em; color: #646A5F; }
+  #line { display: flex; align-items: center; gap: 30px; margin-top: 32px; font-size: 44px; color: #4A5046; }
+  #line i { width: 14px; height: 14px; border-radius: 50%; background: #7FA052; margin-left: 14px; }
+  #pill { display: inline-block; margin-top: 46px; padding: 30px 54px 32px; border-radius: 999px; background: #3E5A33; color: #FBFAF6; font-size: 44px; font-weight: 500; }
+  #name, #line, #pill { opacity: 0; will-change: transform, opacity; }
+</style>
+</head>
+<body>
+<script>window.requestAnimationFrame = () => 0;</script>
+<canvas id="bowl"></canvas>
+<div class="words">
+  <div id="name">Machiko <span lang="ja">まちこ</span></div>
+  <div id="line"><span>Dorćol, Beograd</span><i></i><span>20.03.2027</span></div>
+  <div id="pill">machiko.rs/join</div>
+</div>
+<script src="/app/.build/reel-bundle.js"></script>
+</body>
+</html>

@@ -15,6 +15,8 @@ name: Deploy to SiteGround
 on:
   push:
     branches: [main]
+    # pictures for social media do not change the site
+    paths-ignore: ['social/**']
   workflow_dispatch:
     inputs:
       replace_wordpress:
