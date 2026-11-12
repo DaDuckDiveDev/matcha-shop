@@ -37,20 +37,26 @@ export function holdScroll(hold) {
   if (hold) lenis.stop(); else lenis.start();
 }
 
-function topbarOffset() {
-  const bar = document.querySelector('.topbar');
-  return (bar ? bar.getBoundingClientRect().height : 60) + 12;
+// How far below the top of the screen a section should land: under the
+// floating navigation, or further if the section asks for it in CSS
+// (scroll-margin-top), as the menu's sections do to clear their tabs.
+function offsetFor(el) {
+  const own = el ? parseFloat(getComputedStyle(el).scrollMarginTop) || 0 : 0;
+  if (own) return own;
+  const pill = document.querySelector('.nav__pill');
+  return (pill ? pill.getBoundingClientRect().bottom : 70) + 20;
 }
 
-// Scroll to an element, a selector or a pixel position, under the top bar.
+// Scroll to an element, a selector or a pixel position.
 export function scrollToTarget(target, { immediate = false } = {}) {
   if (typeof window === 'undefined') return;
-  const el = typeof target === 'string' ? document.querySelector(target) : target;
+  const el = typeof target === 'string' ? document.querySelector(target) : typeof target === 'number' ? null : target;
+  if (typeof target !== 'number' && !el) return;
   if (lenis) {
-    lenis.scrollTo(typeof target === 'number' ? target : el, { offset: typeof target === 'number' ? 0 : -topbarOffset(), immediate });
+    lenis.scrollTo(el || target, { offset: el ? -offsetFor(el) : 0, immediate, force: true });
     return;
   }
-  const top = typeof target === 'number' ? target : (el ? el.getBoundingClientRect().top + window.scrollY - topbarOffset() : 0);
+  const top = el ? el.getBoundingClientRect().top + window.scrollY - offsetFor(el) : target;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.scrollTo({ top, behavior: immediate || reduce ? 'auto' : 'smooth' });
 }

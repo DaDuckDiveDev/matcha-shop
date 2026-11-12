@@ -45,7 +45,7 @@ export default function Visit() {
             <h2>{t('visit.goodTitle')}</h2>
             <ul>{t('visit.good').map((g) => <li key={g}>{g}</li>)}</ul>
           </div>
-          <div id="workshops" style={{ scrollMarginTop: 120 }}>
+          <div id="workshops">
             <h2>{t('visit.workshopsTitle')}</h2>
             <div className="stack" style={{ gap: 18, alignItems: 'flex-start' }}>
               <dl>

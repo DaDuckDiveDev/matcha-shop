@@ -44,6 +44,7 @@ export default function Home() {
   return (
     <Page>
       <section className={`hero ${ready ? 'is-in' : ''}`}>
+        <span className="vert hero__side hero__fade" lang="ja" aria-hidden="true">まちこ　抹茶と珈琲</span>
         <div className="hero__stage">
           <div className="hero__bowl"><Bowl label={t('home.bowlAlt')} ready={ready} onWhisked={() => setWhisked(true)} /></div>
           <p className="hero__hint hero__fade" aria-live="polite">{whisked ? t('home.whisked') : touch ? t('home.hintTouch') : t('home.hint')}</p>
@@ -72,7 +73,7 @@ export default function Home() {
           {OFFERS.map(([photo, to], i) => {
             const [title, body] = t('home.offers')[i];
             return (
-              <A key={to} to={to} morph className="offer">
+              <A key={to} to={to} morph={!to.includes('#workshops')} className="offer">
                 <Photo k={photo} morph sizes={i % 3 === 0 ? '(min-width: 900px) 33vw, 92vw' : '(min-width: 900px) 33vw, 46vw'} priority={i === 0} />
                 <span className="offer__go" aria-hidden="true"><IconUpRight /></span>
                 <span className="offer__text">

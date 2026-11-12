@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLang } from '../lib/LangContext.jsx';
 import { A } from '../lib/go.jsx';
 import { isOpen } from '../data/shop.js';
@@ -19,6 +20,7 @@ export default function Menu() {
   const seasonalId = currentSekki().special?.itemId;
   const [active, setActive] = useState(CATEGORIES[0].id);
   const opened = isOpen();
+  const arrived = useLocation().hash.slice(1) || CATEGORIES[0].id;
 
   // the tab of the section you are reading is the dark one
   useEffect(() => {
@@ -26,6 +28,7 @@ export default function Menu() {
     const io = new IntersectionObserver((entries) => {
       const seen = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
       if (seen[0]) setActive(seen[0].target.id);
+      else if (window.scrollY < 200) setActive(CATEGORIES[0].id);
     }, { rootMargin: '-30% 0px -55% 0px' });
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
@@ -54,7 +57,7 @@ export default function Menu() {
             <div className="cat__head">
               <div className="cat__title"><h2 className="d2">{pick(c)}</h2><span className="jp" lang="ja">{c.kanji}</span></div>
               <p className="muted">{pick(c.tag)}</p>
-              <Photo k={PHOTOS[c.id]} drift target={i === 0} sizes="(min-width: 900px) 34vw, 92vw" priority={i === 0} />
+              <Photo k={PHOTOS[c.id]} drift target={c.id === arrived} sizes="(min-width: 900px) 34vw, 92vw" priority={i === 0} />
             </div>
             <div className="rows">
               {byCategory(c.id).map((item) => <MenuRow key={item.id} item={item} showImage={false} seasonal={item.id === seasonalId} />)}
