@@ -109,6 +109,11 @@ jobs:
           if [ -n "$SFTP_KEY_PASSPHRASE" ]; then
             ssh-keygen -p -P "$SFTP_KEY_PASSPHRASE" -N "" -f ~/.ssh/deploy_key > /dev/null
           fi
+          # The key must now open without a password, or the upload cannot sign in.
+          if ! ssh-keygen -y -P "" -f ~/.ssh/deploy_key > ~/.ssh/deploy_key.pub 2> /dev/null; then
+            echo "::error::SFTP_KEY cannot be opened. Either it is not a complete private key (it must include the BEGIN and END lines), or it has a password and SFTP_KEY_PASSPHRASE is missing or wrong."; exit 1
+          fi
+          echo "Key in use (public fingerprint, safe to show): $(ssh-keygen -lf ~/.ssh/deploy_key.pub | awk '{print $2, $4}')"
           ssh-keyscan -t ed25519 -p "$SFTP_PORT" "$SFTP_HOST" > ~/.ssh/known_hosts 2> /dev/null
           if ! ssh-keygen -lf ~/.ssh/known_hosts | grep -qF "$HOST_FINGERPRINT"; then
             echo "::error::Server fingerprint does not match the expected one"; ssh-keygen -lf ~/.ssh/known_hosts; exit 1
@@ -121,7 +126,7 @@ jobs:
 
       - name: Remove the key
         if: always()
-        run: rm -f ~/.ssh/deploy_key
+        run: rm -f ~/.ssh/deploy_key ~/.ssh/deploy_key.pub
 
       - name: Is the domain serving this build?
         run: |

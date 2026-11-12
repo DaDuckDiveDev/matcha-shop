@@ -47,6 +47,16 @@ function sftp(commands) {
 const q = (p) => `"${p.replace(/(["\\])/g, '\\$1')}"`;
 const names = (dir) => { const r = sftp([`cd ${q(dir)}`, 'ls -1a']); return r.ok ? r.lines.map((l) => l.trim()).filter((n) => n && n !== '.' && n !== '..') : null; };
 
+// 0. can we sign in at all?
+const hello = sftp(['pwd']);
+if (!hello.ok) {
+  const why = hello.err.split('\n').filter(Boolean).slice(-3).join(' | ');
+  console.error(`sftp said: ${why || '(nothing)'}`);
+  fail(/permission denied/i.test(why)
+    ? `The server refused the key for ${SFTP_USER}. The SFTP_KEY secret is not the private key of that SFTP user (each Multisite SFTP key has its own username: compare it with SFTP_USER in the workflow).`
+    : `Could not connect to ${SFTP_HOST}: ${why}`);
+}
+
 // 1. the folder
 let here = names(remote);
 if (!here) {
