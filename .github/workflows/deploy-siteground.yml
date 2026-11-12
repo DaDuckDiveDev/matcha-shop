@@ -55,10 +55,19 @@ jobs:
           fi
       - name: Where the domain points today
         run: |
-          echo "DNS: $(getent ahostsv4 "$DOMAIN" | awk '{print $1}' | sort -u | tr '\n' ' ')"
-          curl -sS -o /dev/null -m 20 -w 'https: %{http_code} from %{remote_ip}\n' "https://$DOMAIN/" || true
-          curl -sS -o /dev/null -m 20 -w 'http:  %{http_code}\n' "http://$DOMAIN/" || true
-          curl -sSI -m 20 "https://$DOMAIN/" | grep -iE '^(server|host-header|x-proxy|x-httpd|location)' || true
+          status=$(dig +noall +comments "$DOMAIN" NS | grep -o 'status: [A-Z]*' | head -1)
+          servers=$(dig +short NS "$DOMAIN" | tr '\n' ' ')
+          address=$(dig +short A "$DOMAIN" | tr '\n' ' ')
+          echo "Lookup ${status:-failed}; name servers: ${servers:-none}; address: ${address:-none}"
+          if [ -z "$address" ]; then
+            if echo "$status" | grep -q NXDOMAIN; then
+              echo "::warning::$DOMAIN does not exist in DNS: the domain is not registered yet, or its registration has no name servers."
+            else
+              echo "::warning::$DOMAIN has no address yet: point it at SiteGround (name servers or an A record; Site Tools shows both)."
+            fi
+          else
+            curl -sS -o /dev/null -m 20 -w 'https: %{http_code} from %{remote_ip}\n' "https://$DOMAIN/" || true
+          fi
 
   deploy:
     needs: ready
