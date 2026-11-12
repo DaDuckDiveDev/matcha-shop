@@ -44,17 +44,25 @@ npm run build      # dist/
 npm run preview    # serve dist/ on your network, to test on a phone
 ```
 
-## Deploy (SiteGround or any Apache host)
+## Deploy to machiko.rs (SiteGround)
 
-1. `npm run photos`, then `npm run build`
-2. Upload the contents of `dist/` to the document root (`public_html/`). The included `.htaccess` rewrites every path to `index.html` and sets cache headers.
-3. Serve it over HTTPS: the service worker and the install prompt need it.
+Every push to `main` runs `.github/workflows/deploy-siteground.yml`. It prepares the photographs, builds for `https://machiko.rs` and uploads `dist/` over SFTP to `/machiko.rs/machiko.rs/public_html`, with the same SiteGround SFTP key the gymfit repo deploys with.
 
-For a subfolder, build with `VITE_BASE=/subfolder/`.
+One-time setup, in this repository on GitHub (Settings → Secrets and variables → Actions):
+
+1. Secret `SFTP_KEY`: the private key. Secret `SFTP_KEY_PASSPHRASE`: its password (leave it out if the key has none).
+2. Optional variable `JOIN_ENDPOINT`: the Brevo form address, so `/join` collects sign-ups.
+3. In SiteGround: the website machiko.rs exists, the SFTP key has access to it, SSL is installed and HTTPS Enforce is on (Site Tools → Security).
+
+Until `SFTP_KEY` is set the workflow runs and skips the upload. To deploy by hand: Actions → Deploy to SiteGround → Run workflow.
+
+What the upload does (`scripts/deploy-sftp.mjs`): it finds the site's folder (and says so if it is somewhere else), refuses to touch a folder that holds a WordPress site, keeps a copy of any `.htaccess` it did not write, skips photographs that are already on the server, and sends `index.html` last. It never deletes anything on the server, so old build files stay in `assets/`; clear that folder by hand once in a while if you like.
+
+To build and upload yourself instead: `npm run photos`, `npm run build`, then put the contents of `dist/` in `public_html/`. The included `.htaccess` sends every address to `index.html` and sets cache headers. For a subfolder, build with `VITE_BASE=/subfolder/`.
 
 ## Preview on GitHub Pages
 
-Every push to `main` runs `.github/workflows/deploy-pages.yml`, which prepares the photographs, builds with `VITE_BASE=/matcha-shop/` and publishes to https://daduckdivedev.github.io/matcha-shop/. It is a preview; the real site goes on your own domain.
+Every push to `main` also runs `.github/workflows/deploy-pages.yml`, which builds with `VITE_BASE=/matcha-shop/` and publishes to https://daduckdivedev.github.io/matcha-shop/. The preview asks search engines not to index it; the real site is machiko.rs.
 
 ## Editing content
 

@@ -1,0 +1,125 @@
+name: Deploy to SiteGround
+
+# Builds the site and uploads it to machiko.rs over SFTP whenever main changes.
+#
+# Needs two repository secrets (the same key the gymfit repo deploys with):
+#   SFTP_KEY             the private key
+#   SFTP_KEY_PASSPHRASE  its password; leave unset if the key has none
+# Until SFTP_KEY is set, the workflow runs but skips the upload.
+#
+# Optional repository variable JOIN_ENDPOINT: the Brevo form address for /join.
+# The upload never deletes anything on the server (see scripts/deploy-sftp.mjs).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      replace_wordpress:
+        description: Upload even if the folder holds a WordPress site
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: siteground
+  cancel-in-progress: false
+
+env:
+  DOMAIN: machiko.rs
+  SFTP_HOST: sftp.siteground.net
+  SFTP_PORT: "18765"
+  SFTP_USER: sftp6234-d725e521
+  REMOTE_DIR: /machiko.rs/machiko.rs/public_html
+  # Fingerprint of sftp.siteground.net; the job stops if the server presents a different one.
+  HOST_FINGERPRINT: SHA256:PvEri3iYKZeVBGSPE54fg2bDTfYxGpHqnRc+nOZMj/Q
+
+jobs:
+  ready:
+    runs-on: ubuntu-latest
+    outputs:
+      key: ${{ steps.key.outputs.set }}
+    steps:
+      - name: Is the upload key set?
+        id: key
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          if [ -n "$SFTP_KEY" ]; then
+            echo "set=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "set=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Not uploaded: add the SFTP_KEY secret (and SFTP_KEY_PASSPHRASE if the key has a password) under Settings > Secrets and variables > Actions, then run this workflow again."
+          fi
+      - name: Where the domain points today
+        run: |
+          echo "DNS: $(getent ahostsv4 "$DOMAIN" | awk '{print $1}' | sort -u | tr '\n' ' ')"
+          curl -sS -o /dev/null -m 20 -w 'https: %{http_code} from %{remote_ip}\n' "https://$DOMAIN/" || true
+          curl -sS -o /dev/null -m 20 -w 'http:  %{http_code}\n' "http://$DOMAIN/" || true
+          curl -sSI -m 20 "https://$DOMAIN/" | grep -iE '^(server|host-header|x-proxy|x-httpd|location)' || true
+
+  deploy:
+    needs: ready
+    if: needs.ready.outputs.key == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Photographs: fetched once, then kept between runs until the list changes.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            public/photos
+            src/data/photos.manifest.json
+          key: photos-${{ hashFiles('src/data/images.js', 'scripts/photos.mjs') }}
+      - run: npm run photos
+
+      - name: Build for the real domain
+        env:
+          JOIN_ENDPOINT: ${{ vars.JOIN_ENDPOINT }}
+        run: |
+          export VITE_BASE=/ VITE_SITE_URL="https://$DOMAIN"
+          if [ -n "$JOIN_ENDPOINT" ]; then export VITE_JOIN_ENDPOINT="$JOIN_ENDPOINT"; fi
+          npm run build
+
+      - name: Prepare SSH key and verify the server
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+          SFTP_KEY_PASSPHRASE: ${{ secrets.SFTP_KEY_PASSPHRASE }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SFTP_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # Strip the passphrase from this temporary copy so sftp can run unattended.
+          if [ -n "$SFTP_KEY_PASSPHRASE" ]; then
+            ssh-keygen -p -P "$SFTP_KEY_PASSPHRASE" -N "" -f ~/.ssh/deploy_key > /dev/null
+          fi
+          ssh-keyscan -t ed25519 -p "$SFTP_PORT" "$SFTP_HOST" > ~/.ssh/known_hosts 2> /dev/null
+          if ! ssh-keygen -lf ~/.ssh/known_hosts | grep -qF "$HOST_FINGERPRINT"; then
+            echo "::error::Server fingerprint does not match the expected one"; ssh-keygen -lf ~/.ssh/known_hosts; exit 1
+          fi
+
+      - name: Upload dist/
+        env:
+          ALLOW_REPLACE: ${{ inputs.replace_wordpress && '1' || '0' }}
+        run: SFTP_KEY_FILE="$HOME/.ssh/deploy_key" node scripts/deploy-sftp.mjs
+
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
+
+      - name: Is the domain serving this build?
+        run: |
+          bundle=$(grep -o 'assets/index-[^"]*\.js' dist/index.html | head -1)
+          sleep 5
+          if curl -sS -m 30 "https://$DOMAIN/" | grep -qF "$bundle"; then
+            echo "::notice::https://$DOMAIN is serving this build."
+          else
+            echo "::warning::Uploaded, but https://$DOMAIN is not serving this build yet. Check that the domain points at SiteGround and that SSL is on, then flush the cache in Site Tools (Speed > Caching)."
+          fi
