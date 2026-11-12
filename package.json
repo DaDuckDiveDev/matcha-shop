@@ -2,15 +2,17 @@
   "name": "machiko",
   "private": true,
   "version": "0.1.0",
-  "description": "Machiko まちこ — matcha & coffee, Belgrade. Mobile-first site and guest web app.",
+  "description": "Machiko まちこ — matcha house, Belgrade. Website and guest web app.",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node scripts/prepare.mjs && vite",
+    "build": "node scripts/prepare.mjs && vite build",
     "preview": "vite preview --host",
-    "images:fetch": "bash scripts/fetch-images.sh"
+    "photos": "node scripts/photos.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/hanken-grotesk": "^5.3.0",
+    "@fontsource/hina-mincho": "^5.3.0",
     "lenis": "^1.1.20",
     "motion": "^11.11.9",
     "react": "^18.3.1",
@@ -19,6 +21,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.2",
+    "sharp": "^0.35.5",
+    "subset-font": "^2.9.0",
     "vite": "^5.4.8",
     "vite-plugin-pwa": "^0.20.5"
   }

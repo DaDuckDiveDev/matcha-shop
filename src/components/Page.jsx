@@ -1,23 +1,16 @@
 import { useEffect } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
-import { scrollToTop } from '../lib/smooth.js';
+import { useLocation } from 'react-router-dom';
+import { scrollToTarget } from '../lib/smooth.js';
 
-// Page wrapper: sets the title, scrolls to the top, and fades the page in.
+// Every page: sets the tab title, and if the address carries a #section
+// (a link from outside, or a reload) goes to it once the page is laid out.
 export default function Page({ title, children, className = '' }) {
-  const reduce = useReducedMotion();
+  const { hash } = useLocation();
+  useEffect(() => { document.title = title ? `${title} — Machiko` : 'Machiko — matcha house, Belgrade'; }, [title]);
   useEffect(() => {
-    document.title = title ? `${title} — Machiko` : 'Machiko — Matcha & Coffee in Belgrade';
-    scrollToTop({ immediate: true });
-  }, [title]);
-  return (
-    <motion.main
-      className={className}
-      initial={reduce ? false : { opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={reduce ? undefined : { opacity: 0, y: -6 }}
-      transition={{ duration: 0.45, ease: [0.2, 0.7, 0.2, 1] }}
-    >
-      {children}
-    </motion.main>
-  );
+    if (!hash) return undefined;
+    const id = setTimeout(() => { const el = document.getElementById(hash.slice(1)); if (el) scrollToTarget(el, { immediate: true }); }, 60);
+    return () => clearTimeout(id);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return <main id="main" className={className}>{children}</main>;
 }

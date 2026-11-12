@@ -13,3 +13,4 @@ export const IconBack = () => (<svg width="20" height="14" viewBox="0 0 20 14" f
 export const IconSun = () => (<svg {...base}><circle cx="11" cy="11" r="6.5" /><path d="M11 4.5v13" /></svg>);
 export const IconBag = () => (<svg {...base}><path d="M5 8h12l-1 11H6L5 8z" /><path d="M8 8a3 3 0 0 1 6 0" /></svg>);
 export const IconCheck = () => (<svg {...base}><path d="M4 11.5l4.5 4.5L18 6.5" /></svg>);
+export const IconUpRight = () => (<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 7h10M7.5 2.5 12 7l-4.500 4.500" /></svg>);

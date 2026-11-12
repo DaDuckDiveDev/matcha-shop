@@ -4,12 +4,10 @@ import { AnimatePresence } from 'motion/react';
 import { useLang } from '../lib/LangContext.jsx';
 import { useStore } from '../lib/store.js';
 import { Mark } from '../components/Logo.jsx';
-import { LangToggle } from '../components/TopBar.jsx';
+import { LangToggle } from '../components/Nav.jsx';
 import { IconCalendar, IconCup, IconStamp, IconSun } from '../components/Icons.jsx';
-import { alt, src } from '../data/images.js';
 
-// The guest app shell: a blurred photograph behind, frosted glass in front,
-// four tabs. Everything inside is a view, so the PWA opens straight here.
+// The guest app shell: paper, white cards and four tabs in a floating bar. Everything inside is a view, so the PWA opens straight here.
 export default function AppShell() {
   const { t } = useLang();
   const { cart, stamps } = useStore();
@@ -24,12 +22,9 @@ export default function AppShell() {
 
   return (
     <div className="app-shell">
-      <div className="app-bg" aria-hidden="true">
-        <img src={src('tatamiShoji', 1200)} alt={alt('tatamiShoji')} />
-      </div>
       <div className="app-main">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link to="/" className="wordmark" aria-label="Machiko website"><Mark size={24} /><span className="wordmark__latin" style={{ fontSize: 15 }}>MACHIKO</span></Link>
+        <div className="app-top">
+          <Link to="/" className="brand" aria-label="Machiko"><Mark size={24} /><span>Machiko</span></Link>
           <LangToggle />
         </div>
         <AnimatePresence mode="wait">

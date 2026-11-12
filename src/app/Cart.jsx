@@ -65,7 +65,7 @@ export default function Cart() {
                     <div className="card__body">
                       <div className="card__title">{l.qty > 1 ? `${l.qty} × ` : ''}{pick(l.item.name)}</div>
                       {describe(l) && <div className="card__meta">{describe(l)}</div>}
-                      <button type="button" className="textlink" style={{ minHeight: 32, fontSize: 10 }} onClick={() => store.removeFromCart(l.key)}>{t('app.remove')}</button>
+                      <button type="button" className="textlink" style={{ minHeight: 32, fontSize: 13 }} onClick={() => store.removeFromCart(l.key)}>{t('app.remove')}</button>
                     </div>
                     <div className="row__price tnum">{fmtRsd(unitPrice(l.item, l.choice) * l.qty)}</div>
                   </motion.div>

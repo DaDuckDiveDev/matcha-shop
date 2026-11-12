@@ -7,3 +7,8 @@ dev-dist
 .env.local
 .env.*.local
 public/photos/
+
+# photographs prepared by `npm run photos` (fetched again on every fresh build)
+public/photos/
+src/data/photos.manifest.json
+photos-src/

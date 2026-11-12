@@ -24,6 +24,14 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # Photographs: fetched once, then kept between runs until the list changes.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            public/photos
+            src/data/photos.manifest.json
+          key: photos-${{ hashFiles('src/data/images.js', 'scripts/photos.mjs') }}
+      - run: npm run photos
       - run: npm run build
         env:
           # The repo is served under /matcha-shop/ on github.io.

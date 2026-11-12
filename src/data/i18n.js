@@ -3,44 +3,14 @@
 // their own translations in menu.js.
 export const STRINGS = {
   en: {
-    nav: { menu: 'Menu', matcha: 'Matcha', visit: 'Visit', order: 'Order', stamps: 'Stamps', app: 'Guest app', home: 'Home', journal: 'Journal', join: 'Founding list' },
+    nav: { menu: 'Menu', matcha: 'Matcha', journal: 'Journal', visit: 'Visit', join: 'Join the list', order: 'Order ahead', app: 'Guest app', home: 'Home', open: 'Open the menu', close: 'Close the menu', stamps: 'Stamps', skip: 'Skip to the page' },
     common: {
       seeMenu: 'See the menu', orderAhead: 'Order ahead', fullMenu: 'Full menu', back: 'Back', close: 'Close',
-      rsd: 'RSD', each: 'each', openDaily: 'Daily 08:00–20:00', address: '[Street & number], Dorćol, 11000 Beograd',
-      phone: '+381 [phone]', instagram: '@machiko.beograd', copyright: 'Machiko まちこ · matcha & coffee · 2026',
-      photoCredit: 'Photography from Pexels; replace with your own shots when you have them.'
+      rsd: 'RSD', each: 'each', openDaily: 'Daily 08:00–20:00', address: 'Dorćol, Belgrade'
     },
     season: { term: 'solar term', fortnight: 'This fortnight', until: 'until', fallback: 'Ask what is in season.' },
-    rail: {
-      label: 'Sections on this page', top: 'Back to top',
-      enter: 'Enter', bowl: 'One bowl', matcha: 'Matcha', room: 'The room', shade: 'The shade', way: 'The way',
-      calm: 'Calm', kitchen: 'Kitchen', journal: 'Journal', visit: 'Visit',
-      specs: 'The tin', how: 'How we whisk', faq: 'Questions', space: 'The space', hours: 'Hours', find: 'Find us', workshops: 'Workshops'
-    },
-    hero: {
-      clockBg: 'Beograd', clockKy: 'Kyoto',
-      chipSeason: 'this fortnight', chipUsucha: 'Usucha · 2 g · 70 ml · 70 °C · 15 s', chipOrigin: 'Uji, Kyoto · first flush · stone-milled',
-      chipOpening: (n) => `Opening 20.03.2027 · ${n} ${n === 1 ? 'day' : 'days'} to go`, chipOpenToday: 'We open today, on the equinox', chipOpen: 'Open daily · 08:00–20:00',
-      chipStamps: 'Ten stamps, one usucha on us',
-      proof: [['宇治', 'Uji'], ['一番茶', 'First flush'], ['石臼', 'Stone-milled'], ['春分', 'Opens on the equinox']]
-    },
-    garden: {
-      eyebrow: 'Ichigo ichie · one time, one meeting',
-      title: 'Every bowl is whisked once, for you.',
-      body: 'Japanese tea masters have a phrase for it: this meeting will not come again. So the water is measured, the matcha sifted and the bowl warmed for one person at a time. Sit down; we will bring it to you.',
-      cta: 'How we make it'
-    },
-    marquee: [
-      ['一期一会', 'ichigo ichie', 'one time, one meeting'],
-      ['和敬清寂', 'wa kei sei jaku', 'harmony, respect, purity, tranquillity'],
-      ['侘寂', 'wabi-sabi', 'beauty in the imperfect'],
-      ['間', 'ma', 'the pause between things'],
-      ['旬', 'shun', 'a food at its best'],
-      ['一服', 'ippuku', 'one bowl, one breath']
-    ],
     way: {
-      eyebrow: 'The way · from field to bowl', title: 'Six steps between a hill in Uji and your table.',
-      hint: 'Scroll', steps: [
+      title: 'Six steps between a hill in Uji and your table.', steps: [
         ['畑', 'hatake', 'The field', 'The hills of Uji, south of Kyoto, where tea has been grown for centuries. The first flush is picked in May.'],
         ['蔭', 'kage', 'The shade', 'Twenty days before picking, the bushes go under cover. Less sun, more chlorophyll and L-theanine: a deeper green, a softer taste.'],
         ['碾', 'hiki', 'The mill', 'The leaves are steamed, dried flat and ground between granite stones, about thirty grams an hour, so the powder never heats up.'],
@@ -82,37 +52,48 @@ export const STRINGS = {
       ],
       note: 'Draft, to be checked against the Law on Personal Data Protection before the list opens.'
     },
-    foot: { journal: 'Journal', join: 'Founding list', privacy: 'Privacy' },
     home: {
-      eyebrow: 'Matcha · wellness · Dorćol, Beograd',
-      title: 'An hour of Kyoto, in Belgrade.',
-      lede: 'Ceremonial matcha from Uji, whisked to order with a bamboo chasen. Slow coffee, a small Japanese kitchen, and a room made for slowing down.',
-      roomEyebrow: 'The room', roomTitle: 'Twenty seats and a lot of quiet.',
-      roomBody: 'Shoji light, raw wood, a counter you can watch from and a retail corner by the window. No music louder than the kettle. Phones welcome, laptops until noon.',
-      calmEyebrow: 'Why matcha', calmTitle: 'Calm, not a jolt.',
-      calmBody: 'Matcha is the whole leaf, ground and whisked, so you drink what the plant made in the shade.',
+      title: ['An hour of Kyoto,', 'in Belgrade.'],
+      lede: 'Ceremonial matcha from Uji, whisked by hand for every bowl. Slow coffee and a small Japanese kitchen, in Dorćol.',
+      opening: 'Opens Saturday 20 March 2027', openNow: 'Open every day, 08:00–20:00',
+      ctaJoin: 'Join the founding list', ctaMenu: 'See the menu', ctaOrder: 'Order ahead',
+      bowlAlt: 'A bowl of matcha seen from above. Move across the tea to whisk it.',
+      hint: 'Whisk it.', hintTouch: 'Whisk it with your finger.', whisked: 'Fifteen seconds of this, by hand, for every bowl.',
+      todayLabel: 'Today in the tea calendar', onCounter: 'On the counter',
+      offersTitle: 'On the counter',
+      offers: [
+        ['Ceremonial matcha', 'Usucha and koicha from first-harvest Uji leaves, whisked to order.'],
+        ['Matcha lattes', 'Usucha over oat or whole milk, hot or over ice.'],
+        ['Slow coffee', 'Nel drip, V60 and espresso. One single origin, roasted in Belgrade.'],
+        ['The kitchen', 'Daifuku and warabi mochi made every morning. Tamago sando, onigiri.'],
+        ['Take it home', 'Our blend in 30 g tins, a chasen from Takayama, bowls.'],
+        ['Workshops', 'Learn to whisk in an hour. Four seats, Saturdays at ten.']
+      ],
+      matchaTitle: 'One matcha, done properly.',
+      matchaBody: 'Three weeks before the May harvest, the tea fields of Uji go under shade. Starved of sun, the leaves keep their chlorophyll and L-theanine: the colour deepens and the bitterness falls away. We buy that first harvest, stone-milled, and open a new tin every two weeks.',
+      facts: [['Origin', 'Uji, Kyoto'], ['Harvest', 'First flush, May'], ['Shade', 'Twenty days'], ['Mill', 'Granite, 30 g an hour']],
+      matchaLink: 'What is in the tin',
+      calmTitle: 'Calm, not a jolt.',
       calm: [
         ['L-theanine', 'Shaded leaves are rich in it. Paired with matcha\'s gentle caffeine it is associated with alert calm rather than a spike and a crash.'],
         ['Catechins', 'Whole-leaf tea keeps its catechins, EGCG among them, the polyphenols green tea is studied for.'],
         ['Fifteen seconds', 'Sifting, pouring, whisking. The ritual is short, and it is the point: a pause you can feel before the first sip.']
       ],
       calmNote: 'We are a tea house, not a clinic: enjoy matcha for how it tastes and how it makes you feel, and ask a doctor about the rest.',
-      waysEyebrow: 'Matcha', waysTitle: 'Three ways to drink it.',
-      shadeEyebrow: 'The shade', shadeTitle: 'Twenty days in the shade.',
-      shadeBody: 'Three weeks before the May harvest, the tea fields of Uji are covered. Starved of sun, the leaves hold on to their chlorophyll and L-theanine: the colour deepens, the bitterness falls away, the umami builds. That shade is where the flavour comes from. Every tin we open is first-harvest tencha, ground on a stone mill at thirty grams an hour, and finished within two weeks of opening.',
-      seals: { uji: 'Uji, Kyoto', first: 'First harvest', stone: 'Stone-milled', whisk: 'Whisked to order' },
-      mochiEyebrow: 'The kitchen', mochiTitle: 'Pounded this morning.',
-      mochiBody: 'Glutinous rice is steamed, pounded and shaped every morning while the first matcha is whisked. Daifuku around sweet azuki, warabi mochi with kinako, tamago sando on shokupan, and whatever the season puts on the counter.',
-      coffeeTitle: 'Slow bar', coffeeBody: 'Nel drip, V60 and espresso. One seasonal single origin, roasted in Belgrade, changed with the solar term.',
-      kitchenTitle: 'Small kitchen', kitchenBody: 'Daifuku and warabi mochi pounded each morning, tamago sando on shokupan, salmon and umeboshi onigiri, ogura toast.',
-      shopTitle: 'Take it home', shopBody: 'Our ceremonial blend in 30 g tins, chasen from Takayama, chawan and chashaku. We show you how.',
-      visitEyebrow: 'Visit', visitTitle: 'Dorćol, Beograd.',
-      appEyebrow: 'Guest app', appTitle: 'Order ahead, collect stamps, reserve a seat.',
-      appBody: 'Add Machiko to your home screen. Every drink earns a stamp; ten stamps are an usucha on the house.',
-      openApp: 'Open the guest app'
+      roomTitle: 'A room for slowing down.',
+      roomBody: 'Twenty seats, raw wood and light through paper. No music louder than the kettle. We are building it in Dorćol now; these are the rooms in Kyoto it borrows from.',
+      roomLink: 'Plan your visit', roomCaption: 'Kyoto, where the idea comes from.',
+      journalTitle: 'From the journal', journalAll: 'All stories',
+      joinTitle: 'Be first through the noren.',
+      joinBody: 'The founding list is invited to the soft opening, 11–17 March 2027, before the doors open to everyone.'
+    },
+    foot: {
+      visit: 'Visit', explore: 'Explore', follow: 'Follow', address: 'Dorćol, Belgrade', addressSoon: 'Street address announced before we open',
+      hours: 'Every day, 08:00–20:00', from: 'from 20 March 2027', privacy: 'Privacy', app: 'Guest app', rights: '© 2026 Machiko',
+      photos: 'Photographs: Pexels, until ours are taken.', top: 'Back to the top'
     },
     menu: {
-      eyebrow: 'Menu', title: 'Made to order, one cup at a time.',
+      title: 'Menu', guide: 'Prices are a guide until we open.', seasonNow: 'In season now',
       lede: 'Matcha is whisked by hand. Coffee is brewed one cup at a time. The season changes the menu; the hours do not.',
       footnote: 'Prices in dinars, service included. Allergens and milk options on request. Any latte can be made koicha-strength.',
       orderInApp: 'Order ahead in the app', thisFortnight: 'this fortnight'
@@ -121,7 +102,7 @@ export const STRINGS = {
       eyebrow: 'Our matcha', title: 'What is in the tin.',
       lede: 'One blend, two cultivars, one grade. We would rather do one matcha properly than carry six.',
       specsTitle: 'The tin', specs: {
-        origin: ['Origin', 'Uji, Kyoto Prefecture'], cultivar: ['Cultivars', 'Samidori · Okumidori'], harvest: ['Harvest', 'First flush, May (ichibancha)'],
+        origin: ['Origin', 'Uji, Kyoto Prefecture'], cultivar: ['Cultivars', 'Samidori and Okumidori'], harvest: ['Harvest', 'First flush, May (ichibancha)'],
         shade: ['Shading', '20 days under tana cloth'], mill: ['Milling', 'Granite stone mill, ~30 g per hour'], grade: ['Grade', 'Ceremonial'], open: ['Freshness', 'A new tin every two weeks; ask to see the date']
       },
       howTitle: 'How we make usucha', steps: [
@@ -139,19 +120,22 @@ export const STRINGS = {
       ]
     },
     visit: {
-      eyebrow: 'Visit', title: 'A quiet room in Dorćol.', galleryEyebrow: 'The space', galleryTitle: 'What you walk into.',
-      kyotoEyebrow: 'Kyoto', kyotoTitle: 'Where the idea comes from.',
-      lede: 'Twenty seats, a counter you can watch from, and a retail corner by the window. Children and dogs welcome; laptops welcome until noon.',
-      hoursTitle: 'Hours', findTitle: 'Find us', reserveTitle: 'Reserve a seat', reserveBody: 'Walk-ins first. For four or more, or for a workshop seat, reserve in the guest app.',
-      directions: 'Two minutes from Skadarlija, five from Trg Republike. Street parking is scarce; the tram stops around the corner.',
-      mapNote: 'Map placeholder: add the Google Maps embed or link once the address is final.', openMap: 'Open in Google Maps',
+      title: 'Dorćol, Belgrade.',
+      lede: 'We open on Saturday 20 March 2027, the spring equinox. Twenty seats, a counter you can watch from, and a shelf of tins and whisks by the window.',
+      openingTitle: 'Opening', opening: [['Soft opening', '11–17 March 2027, for the founding list'], ['Opening day', 'Saturday 20 March 2027']],
+      hoursTitle: 'Hours', hours: 'Every day, 08:00–20:00',
+      findTitle: 'Find us', find: 'Dorćol, Belgrade. The street address goes here as soon as the lease is signed.', openMap: 'Open in Google Maps',
+      goodTitle: 'Good to know', good: ['Walk-ins first. Reserve for four or more, or for a workshop seat.', 'Children and dogs are welcome.', 'Laptops are welcome until noon.', 'Oat, whole and coconut milk. Ask us about allergens.'],
       workshopsTitle: 'Workshops', workshops: [
         ['Usucha basics', '60 minutes, four seats. Sift, whisk, taste, and take home what you make. Saturdays at 10:00.'],
         ['Koicha, the thick way', '45 minutes, four seats. For people who already whisk at home. First Sunday of the month.']
-      ]
+      ],
+      reserve: 'Reserve in the guest app',
+      kyotoTitle: 'Where the idea comes from.', kyotoBody: 'Kyoto keeps its tea rooms small and its gardens raked. We are borrowing both habits.'
     },
     app: {
       today: 'Today', order: 'Order', stamps: 'Stamps', reserve: 'Reserve',
+      stampsLede: 'Every drink earns a stamp. Ten stamps are an usucha on the house.',
       greeting: { morning: 'Good morning', afternoon: 'Good afternoon', evening: 'Good evening' },
       openUntil: 'open until 20:00', closedNow: 'closed now · opens 08:00', quiet: 'quiet right now',
       stampCard: 'Stamp card', of: 'of', stampsLeft: (n) => `${n} more and the next usucha is on the house.`, stampsFull: 'Your next usucha is on the house. Show this at the counter.',
@@ -175,44 +159,14 @@ export const STRINGS = {
     }
   },
   sr: {
-    nav: { menu: 'Meni', matcha: 'Matcha', visit: 'Poseta', order: 'Naruči', stamps: 'Pečati', app: 'Aplikacija', home: 'Početna', journal: 'Priče', join: 'Lista prvih' },
+    nav: { menu: 'Meni', matcha: 'Matcha', journal: 'Priče', visit: 'Poseta', join: 'Prijavi se', order: 'Naruči unapred', app: 'Aplikacija', home: 'Početna', open: 'Otvori meni', close: 'Zatvori meni', stamps: 'Pečati', skip: 'Preskoči na sadržaj' },
     common: {
       seeMenu: 'Pogledaj meni', orderAhead: 'Naruči unapred', fullMenu: 'Ceo meni', back: 'Nazad', close: 'Zatvori',
-      rsd: 'RSD', each: 'kom', openDaily: 'Svakog dana 08:00–20:00', address: '[Ulica i broj], Dorćol, 11000 Beograd',
-      phone: '+381 [telefon]', instagram: '@machiko.beograd', copyright: 'Machiko まちこ · matcha i kafa · 2026',
-      photoCredit: 'Fotografije sa Pexelsa; zameni svojim kada ih budeš imao.'
+      rsd: 'RSD', each: 'kom', openDaily: 'Svakog dana 08:00–20:00', address: 'Dorćol, Beograd'
     },
     season: { term: 'solarni period', fortnight: 'Ove dve nedelje', until: 'do', fallback: 'Pitaj šta je u sezoni.' },
-    rail: {
-      label: 'Delovi ove stranice', top: 'Nazad na vrh',
-      enter: 'Ulaz', bowl: 'Jedna činija', matcha: 'Matcha', room: 'Prostor', shade: 'Hlad', way: 'Put',
-      calm: 'Mir', kitchen: 'Kuhinja', journal: 'Priče', visit: 'Poseta',
-      specs: 'Limenka', how: 'Kako mutimo', faq: 'Pitanja', space: 'Prostor', hours: 'Radno vreme', find: 'Gde smo', workshops: 'Radionice'
-    },
-    hero: {
-      clockBg: 'Beograd', clockKy: 'Kjoto',
-      chipSeason: 'ove dve nedelje', chipUsucha: 'Usucha · 2 g · 70 ml · 70 °C · 15 s', chipOrigin: 'Udži, Kjoto · prva berba · kameni mlin',
-      chipOpening: (n) => `Otvaramo 20.03.2027. · još ${n} ${n % 10 === 1 && n % 100 !== 11 ? 'dan' : 'dana'}`, chipOpenToday: 'Danas otvaramo, na ravnodnevicu', chipOpen: 'Svakog dana · 08:00–20:00',
-      chipStamps: 'Deset pečata, usucha na račun kuće',
-      proof: [['宇治', 'Udži'], ['一番茶', 'Prva berba'], ['石臼', 'Kameni mlin'], ['春分', 'Otvaramo na ravnodnevicu']]
-    },
-    garden: {
-      eyebrow: 'Ichigo ichie · jedan put, jedan susret',
-      title: 'Svaka činija se muti jednom, za tebe.',
-      body: 'Japanski majstori čaja imaju izraz za to: ovaj susret se neće ponoviti. Zato se voda meri, matcha proseje i činija zagreje za jednu osobu. Sedi; doneti ćemo ti je.',
-      cta: 'Kako je pravimo'
-    },
-    marquee: [
-      ['一期一会', 'ichigo ichie', 'jedan put, jedan susret'],
-      ['和敬清寂', 'wa kei sei jaku', 'sklad, poštovanje, čistota, mir'],
-      ['侘寂', 'wabi-sabi', 'lepota nesavršenog'],
-      ['間', 'ma', 'pauza između stvari'],
-      ['旬', 'shun', 'namirnica u najboljem trenutku'],
-      ['一服', 'ippuku', 'jedna činija, jedan predah']
-    ],
     way: {
-      eyebrow: 'Put · od polja do činije', title: 'Šest koraka između brda u Udžiju i tvog stola.',
-      hint: 'Skroluj', steps: [
+      title: 'Šest koraka između brda u Udžiju i tvog stola.', steps: [
         ['畑', 'hatake', 'Polje', 'Brda Udžija, južno od Kjota, gde se čaj gaji vekovima. Prva berba se bere u maju.'],
         ['蔭', 'kage', 'Hlad', 'Dvadeset dana pre berbe žbunovi idu pod pokrivač. Manje sunca, više hlorofila i L-teanina: dublja zelena, mekši ukus.'],
         ['碾', 'hiki', 'Mlin', 'Listovi se pare, suše ravno i melju između granitnog kamenja, tridesetak grama na sat, da se prah nikad ne zagreje.'],
@@ -254,37 +208,48 @@ export const STRINGS = {
       ],
       note: 'Nacrt, za proveru prema Zakonu o zaštiti podataka o ličnosti pre otvaranja liste.'
     },
-    foot: { journal: 'Priče', join: 'Lista prvih gostiju', privacy: 'Privatnost' },
     home: {
-      eyebrow: 'Matcha · wellness · Dorćol, Beograd',
-      title: 'Sat vremena Kjota, u Beogradu.',
-      lede: 'Ceremonijalna matcha iz Udžija, umućena po porudžbini bambusovim chasenom. Spora kafa, mala japanska kuhinja i prostor napravljen za usporavanje.',
-      roomEyebrow: 'Prostor', roomTitle: 'Dvadeset mesta i mnogo tišine.',
-      roomBody: 'Svetlo kroz shoji, sirovo drvo, šank sa kog se sve vidi i prodajni kutak kod prozora. Muzika nikad glasnija od čajnika. Telefoni dobrodošli, laptopovi do podneva.',
-      calmEyebrow: 'Zašto matcha', calmTitle: 'Mir, a ne trzaj.',
-      calmBody: 'Matcha je ceo list, samleven i umućen, pa piješ ono što je biljka stvorila u hladu.',
+      title: ['Sat vremena Kjota,', 'u Beogradu.'],
+      lede: 'Ceremonijalna matcha iz Udžija, umućena ručno za svaku činiju. Spora kafa i mala japanska kuhinja, na Dorćolu.',
+      opening: 'Otvaramo u subotu, 20. marta 2027.', openNow: 'Otvoreno svakog dana, 08:00–20:00',
+      ctaJoin: 'Prijavi se na listu', ctaMenu: 'Pogledaj meni', ctaOrder: 'Naruči unapred',
+      bowlAlt: 'Činija matche, viđena odozgo. Pređi preko čaja da ga umutiš.',
+      hint: 'Umuti je.', hintTouch: 'Umuti je prstom.', whisked: 'Petnaest sekundi ovoga, ručno, za svaku činiju.',
+      todayLabel: 'Danas u kalendaru čaja', onCounter: 'Na šanku',
+      offersTitle: 'Na šanku',
+      offers: [
+        ['Ceremonijalna matcha', 'Usucha i koicha od listova prve berbe iz Udžija, umućene po porudžbini.'],
+        ['Matcha late', 'Usucha preko ovsenog ili punomasnog mleka, topla ili sa ledom.'],
+        ['Spora kafa', 'Nel drip, V60 i espresso. Jedna kafa jednog porekla, pržena u Beogradu.'],
+        ['Kuhinja', 'Daifuku i warabi mochi svakog jutra. Tamago sendvič, onigiri.'],
+        ['Ponesi kući', 'Naša mešavina u limenkama od 30 g, chasen iz Takajame, činije.'],
+        ['Radionice', 'Nauči da mutiš za sat vremena. Četiri mesta, subotom u deset.']
+      ],
+      matchaTitle: 'Jedna matcha, kako treba.',
+      matchaBody: 'Tri nedelje pre majske berbe, čajna polja Udžija idu pod hlad. Bez sunca, listovi zadržavaju hlorofil i L-teanin: boja postaje dublja, a gorčina nestaje. Kupujemo tu prvu berbu, mlevenu na kamenu, i otvaramo novu limenku svake dve nedelje.',
+      facts: [['Poreklo', 'Udži, Kjoto'], ['Berba', 'Prva berba, maj'], ['Hlad', 'Dvadeset dana'], ['Mlin', 'Granit, 30 g na sat']],
+      matchaLink: 'Šta je u limenci',
+      calmTitle: 'Mir, a ne trzaj.',
       calm: [
         ['L-teanin', 'Zasenjeni listovi su bogati njime. U paru sa blagim kofeinom matche povezuje se sa budnim mirom, a ne sa skokom i padom.'],
         ['Katehini', 'Čaj od celog lista zadržava katehine, među njima EGCG, polifenole zbog kojih se zeleni čaj proučava.'],
         ['Petnaest sekundi', 'Prosejavanje, sipanje, mućenje. Ritual je kratak i u tome je poenta: pauza koju osetiš pre prvog gutljaja.']
       ],
       calmNote: 'Mi smo čajdžinica, ne klinika: uživaj u matchi zbog ukusa i osećaja, a za ostalo pitaj lekara.',
-      waysEyebrow: 'Matcha', waysTitle: 'Tri načina da se pije.',
-      shadeEyebrow: 'Hlad', shadeTitle: 'Dvadeset dana u hladu.',
-      shadeBody: 'Tri nedelje pre majske berbe, čajna polja Udžija se prekrivaju. Bez sunca, listovi zadržavaju hlorofil i L-teanin: boja postaje dublja, gorčina nestaje, umami raste. Iz tog hlada dolazi ukus. Svaka limenka koju otvorimo je tencha prve berbe, mlevena na kamenom mlinu brzinom od trideset grama na sat, i potrošena u roku od dve nedelje od otvaranja.',
-      seals: { uji: 'Uji, Kjoto', first: 'Prva berba', stone: 'Kameni mlin', whisk: 'Mućeno po porudžbini' },
-      mochiEyebrow: 'Kuhinja', mochiTitle: 'Tucano jutros.',
-      mochiBody: 'Lepljivi pirinač se kuva na pari, tuca i oblikuje svakog jutra dok se muti prva matcha. Daifuku oko slatkog azukija, warabi mochi sa kinakom, tamago sendvič na shokupanu i šta god sezona stavi na pult.',
-      coffeeTitle: 'Spori bar', coffeeBody: 'Nel drip, V60 i espresso. Jedna sezonska kafa jednog porekla, pržena u Beogradu, menja se sa solarnim periodom.',
-      kitchenTitle: 'Mala kuhinja', kitchenBody: 'Daifuku i warabi mochi tucani svakog jutra, tamago sendvič na shokupanu, onigiri sa lososom i umebošijem, ogura tost.',
-      shopTitle: 'Ponesi kući', shopBody: 'Naša ceremonijalna mešavina u limenkama od 30 g, chasen iz Takajame, chawan i chashaku. Pokazaćemo ti kako.',
-      visitEyebrow: 'Poseta', visitTitle: 'Dorćol, Beograd.',
-      appEyebrow: 'Aplikacija', appTitle: 'Naruči unapred, skupljaj pečate, rezerviši mesto.',
-      appBody: 'Dodaj Machiko na početni ekran. Svako piće donosi pečat; deset pečata je usucha na račun kuće.',
-      openApp: 'Otvori aplikaciju'
+      roomTitle: 'Prostor za usporavanje.',
+      roomBody: 'Dvadeset mesta, sirovo drvo i svetlo kroz papir. Muzika nikad glasnija od čajnika. Upravo ga gradimo na Dorćolu; ovo su sobe u Kjotu na koje se ugleda.',
+      roomLink: 'Isplaniraj posetu', roomCaption: 'Kjoto, odakle dolazi ideja.',
+      journalTitle: 'Iz naših priča', journalAll: 'Sve priče',
+      joinTitle: 'Budi prvi kroz noren.',
+      joinBody: 'Lista prvih gostiju dobija poziv na probno otvaranje, 11–17. marta 2027, pre nego što se vrata otvore za sve.'
+    },
+    foot: {
+      visit: 'Poseta', explore: 'Istraži', follow: 'Prati nas', address: 'Dorćol, Beograd', addressSoon: 'Adresu objavljujemo pre otvaranja',
+      hours: 'Svakog dana, 08:00–20:00', from: 'od 20. marta 2027.', privacy: 'Privatnost', app: 'Aplikacija za goste', rights: '© 2026 Machiko',
+      photos: 'Fotografije: Pexels, dok ne snimimo svoje.', top: 'Nazad na vrh'
     },
     menu: {
-      eyebrow: 'Meni', title: 'Po porudžbini, šolja po šolja.',
+      title: 'Meni', guide: 'Cene su okvirne dok ne otvorimo.', seasonNow: 'Sada u sezoni',
       lede: 'Matcha se muti ručno. Kafa se kuva šolja po šolja. Sezona menja meni; radno vreme ne.',
       footnote: 'Cene u dinarima, usluga uračunata. Alergeni i vrste mleka na upit. Svaki late može biti koicha jačine.',
       orderInApp: 'Naruči unapred u aplikaciji', thisFortnight: 'ove dve nedelje'
@@ -293,7 +258,7 @@ export const STRINGS = {
       eyebrow: 'Naša matcha', title: 'Šta je u limenci.',
       lede: 'Jedna mešavina, dve sorte, jedan kvalitet. Radije radimo jednu matchu kako treba nego da držimo šest.',
       specsTitle: 'Limenka', specs: {
-        origin: ['Poreklo', 'Uji, prefektura Kjoto'], cultivar: ['Sorte', 'Samidori · Okumidori'], harvest: ['Berba', 'Prva berba, maj (ichibancha)'],
+        origin: ['Poreklo', 'Udži, prefektura Kjoto'], cultivar: ['Sorte', 'Samidori i Okumidori'], harvest: ['Berba', 'Prva berba, maj (ichibancha)'],
         shade: ['Zasenjivanje', '20 dana pod tana platnom'], mill: ['Mlevenje', 'Granitni kameni mlin, ~30 g na sat'], grade: ['Kvalitet', 'Ceremonijalna'], open: ['Svežina', 'Nova limenka svake dve nedelje; traži da vidiš datum']
       },
       howTitle: 'Kako pravimo usuchu', steps: [
@@ -311,19 +276,22 @@ export const STRINGS = {
       ]
     },
     visit: {
-      eyebrow: 'Poseta', title: 'Mirna soba na Dorćolu.', galleryEyebrow: 'Prostor', galleryTitle: 'U šta ulaziš.',
-      kyotoEyebrow: 'Kjoto', kyotoTitle: 'Odakle dolazi ideja.',
-      lede: 'Dvadeset mesta, šank sa kog se sve vidi, i prodajni kutak kod prozora. Deca i psi dobrodošli; laptopovi do podneva.',
-      hoursTitle: 'Radno vreme', findTitle: 'Gde smo', reserveTitle: 'Rezerviši mesto', reserveBody: 'Prvo ko dođe. Za četvoro ili više, ili za mesto na radionici, rezerviši u aplikaciji.',
-      directions: 'Dva minuta od Skadarlije, pet od Trga Republike. Parkinga na ulici je malo; tramvaj staje iza ugla.',
-      mapNote: 'Mesto za mapu: dodaj Google Maps embed ili link kada adresa bude konačna.', openMap: 'Otvori u Google mapama',
+      title: 'Dorćol, Beograd.',
+      lede: 'Otvaramo u subotu, 20. marta 2027, na prolećnu ravnodnevicu. Dvadeset mesta, šank sa kog se sve vidi i polica sa limenkama i metlicama kod prozora.',
+      openingTitle: 'Otvaranje', opening: [['Probno otvaranje', '11–17. mart 2027, za listu prvih gostiju'], ['Dan otvaranja', 'Subota, 20. mart 2027.']],
+      hoursTitle: 'Radno vreme', hours: 'Svakog dana, 08:00–20:00',
+      findTitle: 'Gde smo', find: 'Dorćol, Beograd. Tačna adresa stiže ovde čim potpišemo zakup.', openMap: 'Otvori u Google mapama',
+      goodTitle: 'Dobro je znati', good: ['Prvo ko dođe. Rezerviši za četvoro ili više, ili za mesto na radionici.', 'Deca i psi su dobrodošli.', 'Laptopovi su dobrodošli do podneva.', 'Ovseno, punomasno i kokosovo mleko. Pitaj nas za alergene.'],
       workshopsTitle: 'Radionice', workshops: [
         ['Osnove usuche', '60 minuta, četiri mesta. Prosej, umuti, probaj, i ponesi kući šta si napravio. Subotom u 10:00.'],
         ['Koicha, na gust način', '45 minuta, četiri mesta. Za one koji već mute kod kuće. Prve nedelje u mesecu.']
-      ]
+      ],
+      reserve: 'Rezerviši u aplikaciji',
+      kyotoTitle: 'Odakle dolazi ideja.', kyotoBody: 'Kjoto čuva svoje čajne sobe malim, a vrtove izgrabuljanim. Pozajmljujemo obe navike.'
     },
     app: {
       today: 'Danas', order: 'Naruči', stamps: 'Pečati', reserve: 'Rezerviši',
+      stampsLede: 'Svako piće donosi pečat. Deset pečata je usucha na račun kuće.',
       greeting: { morning: 'Dobro jutro', afternoon: 'Dobar dan', evening: 'Dobro veče' },
       openUntil: 'otvoreno do 20:00', closedNow: 'zatvoreno · otvara u 08:00', quiet: 'trenutno mirno',
       stampCard: 'Kartica pečata', of: 'od', stampsLeft: (n) => `Još ${n} i sledeća usucha je na račun kuće.`, stampsFull: 'Sledeća usucha je na račun kuće. Pokaži ovo na šanku.',

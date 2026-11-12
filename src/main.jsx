@@ -4,8 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { registerSW } from 'virtual:pwa-register';
 import App from './App.jsx';
 import { LangProvider } from './lib/LangContext.jsx';
-import './styles/machiko.css';
-import './styles/experience.css';
+import '@fontsource/hina-mincho/latin-400.css';
+import '@fontsource/hina-mincho/latin-ext-400.css';
+import '@fontsource-variable/hanken-grotesk/wght.css';
+import './styles/site.css';
 
 registerSW({ immediate: true });
 

@@ -26,7 +26,7 @@ export default function Stamps() {
       <div className="app-head">
         <div>
           <h1 className="app-head__title">{t('app.stamps')}</h1>
-          <div className="app-head__meta">{t('home.appBody')}</div>
+          <div className="app-head__meta">{t('app.stampsLede')}</div>
         </div>
       </div>
       <section className="glass card">

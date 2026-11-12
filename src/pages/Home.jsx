@@ -1,211 +1,166 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useLang } from '../lib/LangContext.jsx';
-import Page from '../components/Page.jsx';
-import NorenIntro from '../components/NorenIntro.jsx';
-import PhotoBand from '../components/PhotoBand.jsx';
-import SeasonStrip from '../components/SeasonStrip.jsx';
-import MenuRow from '../components/MenuRow.jsx';
-import Seals from '../components/Seals.jsx';
-import Reveal from '../components/Reveal.jsx';
-import Rule from '../components/Rule.jsx';
-import Footer from '../components/Footer.jsx';
-import CalmPoints from '../components/CalmPoints.jsx';
-import SamonGarden from '../components/SamonGarden.jsx';
-import WayGallery from '../components/WayGallery.jsx';
-import Marquee from '../components/Marquee.jsx';
-import StoryCard from '../components/StoryCard.jsx';
-import HeroChips, { Clocks, OPENING, OpeningChip, Proof } from '../components/HeroChips.jsx';
-import { findItem } from '../data/menu.js';
+import { A } from '../lib/go.jsx';
+import { isOpen } from '../data/shop.js';
 import { PUBLISHED } from '../data/journal.js';
-import { alt, src } from '../data/images.js';
-import { IconArrow } from '../components/Icons.jsx';
+import Page from '../components/Page.jsx';
+import Bowl from '../components/Bowl.jsx';
+import Photo from '../components/Photo.jsx';
+import Ink from '../components/Ink.jsx';
+import SeasonLine from '../components/SeasonLine.jsx';
+import StoryCard from '../components/StoryCard.jsx';
+import Footer from '../components/Footer.jsx';
+import { MARK_PATH } from '../components/Logo.jsx';
+import { IconArrow, IconUpRight } from '../components/Icons.jsx';
+
+// What is on the counter: photo, where it leads, and how big it is on a phone.
+const OFFERS = [
+  ['bowlTop', '/matcha'],
+  ['icedPour', '/menu#matcha'],
+  ['pourOver', '/menu#coffee'],
+  ['wagashiCeremony', '/menu#kitchen'],
+  ['utensilsFlat', '/menu#shop'],
+  ['whiskSoft', '/visit#workshops']
+];
 
 export default function Home() {
   const { t } = useLang();
-  const ways = ['usucha', 'koicha', 'matcha-latte'].map(findItem);
-  const stories = PUBLISHED.slice(0, 3);
-  const preOpening = new Date() < OPENING;
-  // Every section the rail on the right can take you to.
-  const rail = (key, jp) => ({ 'data-rail': key, 'data-rail-label': t(`rail.${key}`), 'data-rail-jp': jp });
+  const opened = isOpen();
+  const [ready, setReady] = useState(false);
+  const [whisked, setWhisked] = useState(false);
+  const [touch, setTouch] = useState(false);
+
+  // Raise the curtain once the headline's typeface is in, so nothing jumps.
+  useEffect(() => {
+    let done = false;
+    const go = () => { if (!done) { done = true; setReady(true); } };
+    const fonts = document.fonts?.ready;
+    if (fonts) fonts.then(() => requestAnimationFrame(go)); else go();
+    const fallback = setTimeout(go, 900);
+    setTouch(window.matchMedia('(hover: none)').matches);
+    return () => { done = true; clearTimeout(fallback); };
+  }, []);
 
   return (
-    <Page title={null}>
-      <NorenIntro />
-
-      {/* 00 · Enter: a tea room in Kyoto, the curtain, the card */}
-      <PhotoBand
-        image="teaRoomKyoto"
-        className="hero"
-        priority
-        light
-        {...rail('enter', '入')}
-        overlay={(
-          <>
-            <div className="hero__noren" aria-hidden="true">
-              <span>まちこ</span>
-              <span>抹茶と珈琲</span>
-            </div>
-            <Clocks className="hero__clocks" />
-            <HeroChips />
-          </>
-        )}
-      >
-        <div className="hero__stack">
-          <Reveal className="glass hero__card" delay={0.1}>
-            <div className="eyebrow"><span className="jp">抹茶</span><span>— {t('home.eyebrow')}</span></div>
-            <h1 className="display">{t('home.title')}</h1>
-            <p className="lede">{t('home.lede')}</p>
-            <div className="btn-row">
-              {preOpening
-                ? <Link to="/join" className="btn btn--primary">{t('join.submit')}</Link>
-                : <Link to="/app/order" className="btn btn--primary">{t('common.orderAhead')}</Link>}
-              <Link to="/menu" className="btn btn--ghost">{t('common.seeMenu')}</Link>
-            </div>
-            <OpeningChip className="hero__chip-inline" />
-            <Proof />
-          </Reveal>
+    <Page>
+      <section className={`hero ${ready ? 'is-in' : ''}`}>
+        <div className="hero__stage">
+          <div className="hero__bowl"><Bowl label={t('home.bowlAlt')} ready={ready} onWhisked={() => setWhisked(true)} /></div>
+          <p className="hero__hint hero__fade" aria-live="polite">{whisked ? t('home.whisked') : touch ? t('home.hintTouch') : t('home.hint')}</p>
         </div>
-      </PhotoBand>
-
-      <div className="wrap inner" style={{ marginTop: 18 }}>
-        <Reveal><SeasonStrip to="/menu" /></Reveal>
-      </div>
-
-      {/* 01 · One bowl: the stone garden */}
-      <section className="garden" {...rail('bowl', '一服')}>
-        <SamonGarden />
-        <div className="wrap inner garden__inner">
-          <Reveal className="garden__text">
-            <div className="eyebrow"><span className="jp">一期一会</span><span>— {t('garden.eyebrow')}</span></div>
-            <h2 className="garden__title">{t('garden.title')}</h2>
-            <p className="lede">{t('garden.body')}</p>
-            <Link to="/matcha" className="textlink">{t('garden.cta')} <IconArrow /></Link>
-          </Reveal>
+        <div className="hero__text">
+          <h1 className="d1">{t('home.title').map((line) => <span className="line" key={line}><span>{line}</span></span>)}</h1>
+          <p className="lede hero__fade">{t('home.lede')}</p>
+          <div className="hero__cta hero__fade">
+            {opened
+              ? <a className="btn btn--solid" href={`${import.meta.env.BASE_URL}app/order`}>{t('home.ctaOrder')}</a>
+              : <A className="btn btn--solid" to="/join">{t('home.ctaJoin')}</A>}
+            <A className="link" to="/menu">{t('home.ctaMenu')}<IconArrow /></A>
+          </div>
+          <p className="hero__meta hero__fade">{opened ? t('home.openNow') : t('home.opening')}</p>
         </div>
       </section>
 
-      {/* 02 · Three ways of matcha */}
-      <section className="section wrap inner" {...rail('matcha', '抹茶')}>
-        <Reveal className="stack" style={{ gap: 10 }}>
-          <div className="eyebrow"><span className="jp">抹茶</span><span>— {t('home.waysEyebrow')}</span></div>
-          <h2 className="h2">{t('home.waysTitle')}</h2>
-        </Reveal>
-        <Reveal delay={0.1} className="rows" style={{ marginTop: 22 }}>
-          {ways.map((item) => <MenuRow key={item.id} item={item} to={`/app/order/${item.id}`} />)}
-        </Reveal>
-        <Link to="/menu" className="textlink" style={{ marginTop: 10 }}>{t('common.fullMenu')} <IconArrow /></Link>
-      </section>
+      <SeasonLine />
 
-      {/* 03 · The room */}
-      <PhotoBand image="cafeSunlit" style={{ padding: '72px 0', marginTop: 64 }} light {...rail('room', '間')}>
-        <div className="wrap inner">
-          <Reveal className="glass" style={{ padding: '28px 24px 26px', maxWidth: 560 }}>
-            <div className="stack" style={{ gap: 14 }}>
-              <div className="eyebrow"><span className="jp">間</span><span>— {t('home.roomEyebrow')}</span></div>
-              <h2 className="h2">{t('home.roomTitle')}</h2>
-              <p className="body">{t('home.roomBody')}</p>
-              <Link to="/visit" className="textlink">{t('nav.visit')} <IconArrow /></Link>
-            </div>
-          </Reveal>
+      <section className="section wrap">
+        <div className="section__head">
+          <h2 className="d2">{t('home.offersTitle')}</h2>
+          <A className="link small" to="/menu">{t('common.fullMenu')}<IconArrow /></A>
         </div>
-      </PhotoBand>
-
-      {/* 04 · The shade, over the tea fields */}
-      <PhotoBand image="teaMist" style={{ padding: '72px 0' }} {...rail('shade', '蔭')}>
-        <div className="wrap inner">
-          <Reveal className="glass glass--green on-green" style={{ padding: '28px 24px 26px', maxWidth: 640 }}>
-            <div className="stack" style={{ gap: 16 }}>
-              <div className="eyebrow"><span className="jp">蔭</span><span>— {t('home.shadeEyebrow')}</span></div>
-              <h2 className="h2">{t('home.shadeTitle')}</h2>
-              <p className="body">{t('home.shadeBody')}</p>
-              <Rule seed={3} color="#F4F0E4" />
-              <Seals />
-            </div>
-          </Reveal>
-        </div>
-      </PhotoBand>
-
-      {/* 05 · The way, from field to bowl */}
-      <WayGallery />
-
-      <Marquee />
-
-      {/* 06 · Why matcha: calm, over a raked garden */}
-      <PhotoBand image="zenRaked" style={{ padding: '72px 0' }} light {...rail('calm', '静')}>
-        <div className="wrap inner">
-          <Reveal className="glass" style={{ padding: '28px 24px 26px', maxWidth: 680 }}>
-            <div className="stack" style={{ gap: 16 }}>
-              <div className="eyebrow"><span className="jp">静</span><span>— {t('home.calmEyebrow')}</span></div>
-              <h2 className="h2">{t('home.calmTitle')}</h2>
-              <p className="body">{t('home.calmBody')}</p>
-              <CalmPoints />
-              <div className="caption" style={{ textTransform: 'none', letterSpacing: '0.04em', fontSize: 12, lineHeight: 1.5 }}>{t('home.calmNote')}</div>
-            </div>
-          </Reveal>
-        </div>
-      </PhotoBand>
-
-      {/* 07 · The kitchen: mochi, coffee, take-home */}
-      <section className="section wrap inner section--two" {...rail('kitchen', '餅')}>
-        <Reveal className="glass tile" style={{ padding: 0 }}>
-          <img className="tile__img" src={src('mochiHands', 1200)} alt={alt('mochiHands')} loading="lazy" decoding="async" style={{ aspectRatio: '4 / 5' }} />
-        </Reveal>
-        <Reveal delay={0.1} className="stack" style={{ gap: 16, paddingTop: 24 }}>
-          <div className="eyebrow"><span className="jp">餅</span><span>— {t('home.mochiEyebrow')}</span></div>
-          <h2 className="h2">{t('home.mochiTitle')}</h2>
-          <p className="body">{t('home.mochiBody')}</p>
-          <Link to="/menu#kitchen" className="textlink">{t('home.kitchenTitle')} <IconArrow /></Link>
-        </Reveal>
-      </section>
-
-      <section className="section wrap inner">
-        <div className="tiles">
-          {[
-            { img: 'nelDrip', jp: '珈琲', title: 'home.coffeeTitle', body: 'home.coffeeBody', to: '/menu#coffee' },
-            { img: 'onigiriBoard', jp: '台所', title: 'home.kitchenTitle', body: 'home.kitchenBody', to: '/menu#kitchen' },
-            { img: 'utensilsFlat', jp: '売店', title: 'home.shopTitle', body: 'home.shopBody', to: '/menu#shop' }
-          ].map((c, i) => (
-            <Reveal key={c.img} delay={i * 0.08}>
-              <Link to={c.to} className="glass tile">
-                <img className="tile__img" src={src(c.img, 900)} alt={alt(c.img)} loading="lazy" decoding="async" />
-                <div className="tile__body">
-                  <div className="eyebrow"><span className="jp">{c.jp}</span></div>
-                  <div className="h3">{t(c.title)}</div>
-                  <div className="row__note">{t(c.body)}</div>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
+        <div className="offers">
+          {OFFERS.map(([photo, to], i) => {
+            const [title, body] = t('home.offers')[i];
+            return (
+              <A key={to} to={to} morph className="offer">
+                <Photo k={photo} morph sizes={i % 3 === 0 ? '(min-width: 900px) 33vw, 92vw' : '(min-width: 900px) 33vw, 46vw'} priority={i === 0} />
+                <span className="offer__go" aria-hidden="true"><IconUpRight /></span>
+                <span className="offer__text">
+                  <span className="offer__title">{title}</span>
+                  <span className="offer__body">{body}</span>
+                </span>
+              </A>
+            );
+          })}
         </div>
       </section>
 
-      {/* 08 · From the journal */}
-      <section className="section wrap inner" {...rail('journal', '物語')}>
-        <Reveal className="section-head">
-          <h2>{t('journal.homeTitle')} <span className="jp">物語</span></h2>
-          <Link to="/journal" className="textlink">{t('journal.all')} <IconArrow /></Link>
-        </Reveal>
-        <div className="story-row">
-          {stories.map((s, i) => <Reveal key={s.slug} delay={i * 0.08}><StoryCard story={s} /></Reveal>)}
+      <section className="section wrap chapter chapter--inset">
+        <div className="chapter__body">
+          <div className="chapter__head">
+            <span className="vert chapter__kanji" aria-hidden="true">抹茶</span>
+            <Ink className="d2">{t('home.matchaTitle')}</Ink>
+          </div>
+          <div className="chapter__text">
+            <p className="copy">{t('home.matchaBody')}</p>
+            <dl className="facts">
+              {t('home.facts').map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+            </dl>
+            <A className="link" to="/matcha">{t('home.matchaLink')}<IconArrow /></A>
+          </div>
+        </div>
+        <div className="chapter__media">
+          <Photo k="teaLeaves" className="photo--main" drift unveil sizes="(min-width: 900px) 40vw, 92vw" />
+          <Photo k="foamBowl" className="photo--inset" sizes="(min-width: 900px) 18vw, 40vw" />
         </div>
       </section>
 
-      {/* 09 · Visit: the guest app over a Kyoto riverside, then the footer */}
-      <PhotoBand image="kyotoRiver" style={{ padding: '72px 0', marginTop: 72 }} {...rail('visit', '訪問')}>
-        <div className="wrap inner">
-          <Reveal className="glass" style={{ padding: '28px 24px 26px', maxWidth: 560 }}>
-            <div className="stack" style={{ gap: 14 }}>
-              <div className="eyebrow"><span className="jp">注文</span><span>— {t('home.appEyebrow')}</span></div>
-              <h2 className="h2">{t('home.appTitle')}</h2>
-              <p className="body">{t('home.appBody')}</p>
-              <div className="btn-row" style={{ marginTop: 6 }}>
-                <Link to="/app" className="btn btn--primary">{t('home.openApp')}</Link>
-                {preOpening && <Link to="/join" className="btn btn--ghost">{t('nav.join')}</Link>}
-              </div>
-            </div>
-          </Reveal>
+      <section className="section wrap calm">
+        <div className="calm__head">
+          <Ink className="d2">{t('home.calmTitle')}</Ink>
+          <p className="micro faint" style={{ maxWidth: '30em' }}>{t('home.calmNote')}</p>
         </div>
-      </PhotoBand>
+        <dl className="calm__list">
+          {t('home.calm').map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      </section>
+
+      <section className="section wrap chapter chapter--flip">
+        <div className="chapter__body">
+          <div className="chapter__head">
+            <span className="vert chapter__kanji" aria-hidden="true">間</span>
+            <Ink className="d2">{t('home.roomTitle')}</Ink>
+          </div>
+          <div className="chapter__text">
+            <p className="copy">{t('home.roomBody')}</p>
+            <A className="link" to="/visit">{t('home.roomLink')}<IconArrow /></A>
+          </div>
+        </div>
+        <div className="chapter__media">
+          <div className="trio">
+            <Photo k="tatamiCeremony" drift sizes="(min-width: 900px) 34vw, 62vw" />
+            <Photo k="mossPath" drift sizes="(min-width: 900px) 17vw, 31vw" />
+            <Photo k="teaRoomBowl" drift sizes="(min-width: 900px) 38vw, 70vw" />
+          </div>
+          <p className="caption">{t('home.roomCaption')}</p>
+        </div>
+      </section>
+
+      <section className="section section--tight wrap">
+        <div className="section__head">
+          <h2 className="d2">{t('home.journalTitle')}</h2>
+          <A className="link small" to="/journal">{t('home.journalAll')}<IconArrow /></A>
+        </div>
+        <div className="stories">
+          {PUBLISHED.slice(0, 3).map((s) => <StoryCard key={s.slug} story={s} />)}
+        </div>
+      </section>
+
+      {!opened && (
+        <section className="wrap">
+          <div className="band on-dark">
+            <div className="band__main">
+              <h2 className="d2">{t('home.joinTitle')}</h2>
+              <p className="lede">{t('home.joinBody')}</p>
+              <A className="btn btn--paper" to="/join">{t('home.ctaJoin')}</A>
+            </div>
+            <div className="band__dates">
+              {t('visit.opening').map(([k, v]) => <span key={k}>{k}: {v}</span>)}
+            </div>
+            <svg className="band__mark" viewBox="0 0 100 100" aria-hidden="true"><path d={MARK_PATH} /></svg>
+          </div>
+        </section>
+      )}
 
       <Footer />
     </Page>

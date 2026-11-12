@@ -57,7 +57,7 @@ export const ITEMS = [
     options: { size: SIZE }
   },
   {
-    id: 'kuri-hojicha', cat: 'matcha', jp: '栗ほうじ茶ラテ', price: 560, img: 'latteBooks', seasonal: true,
+    id: 'kuri-hojicha', cat: 'matcha', jp: '栗ほうじ茶ラテ', price: 560, img: 'steamBowl', seasonal: true,
     name: { en: 'Kuri hojicha latte', sr: 'Kuri hojicha late' },
     note: { en: 'Roasted tea with a paste of Serbian chestnut. Toasty, caramel, almost no caffeine.', sr: 'Pečeni čaj sa pastom od srpskog kestena. Zapečen, karamel, skoro bez kofeina.' },
     spec: '180 ml · hot or iced',
@@ -71,7 +71,7 @@ export const ITEMS = [
     spec: '18 g · 150 ml · 4 min'
   },
   {
-    id: 'v60', cat: 'coffee', jp: '', price: 380, img: 'pourOverHand',
+    id: 'v60', cat: 'coffee', jp: '', price: 380, img: 'pourOverScale',
     name: { en: 'V60 pour-over', sr: 'V60 pour-over' },
     note: { en: "This term's single origin, roasted in Belgrade. Ask what is in the grinder.", sr: 'Kafa jednog porekla ovog solarnog perioda, pržena u Beogradu. Pitaj šta je u mlinu.' },
     spec: '15 g · 250 ml · 93 °C'
@@ -103,7 +103,7 @@ export const ITEMS = [
     spec: ''
   },
   {
-    id: 'warabi-mochi', cat: 'kitchen', jp: 'わらび餅', price: 390, img: 'mochiGreen',
+    id: 'warabi-mochi', cat: 'kitchen', jp: 'わらび餅', price: 390, img: 'wagashiPine',
     name: { en: 'Warabi mochi', sr: 'Warabi mochi' },
     note: { en: 'Bracken-starch mochi, kinako and kuromitsu. Made this morning.', sr: 'Mochi od skroba paprati, kinako i kuromitsu. Napravljen jutros.' },
     spec: ''
@@ -128,7 +128,7 @@ export const ITEMS = [
   },
   // ---- Take home
   {
-    id: 'tin', cat: 'shop', jp: '抹茶 缶', price: 2900, img: 'powderSpoon',
+    id: 'tin', cat: 'shop', jp: '抹茶 缶', price: 2900, img: 'chasenShadow',
     name: { en: 'Machiko ceremonial blend, 30 g', sr: 'Machiko ceremonijalna mešavina, 30 g' },
     note: { en: 'The tin we whisk from. Samidori and Okumidori, first harvest, stone-milled in Uji.', sr: 'Limenka iz koje mutimo. Samidori i Okumidori, prva berba, mleveno na kamenom mlinu u Udžiju.' },
     spec: ''

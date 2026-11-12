@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useLang } from '../lib/LangContext.jsx';
 import Page from '../components/Page.jsx';
-import PhotoBand from '../components/PhotoBand.jsx';
-import Reveal from '../components/Reveal.jsx';
 import Footer from '../components/Footer.jsx';
-import { OpeningChip } from '../components/HeroChips.jsx';
+import { A } from '../lib/go.jsx';
+import { IconArrow } from '../components/Icons.jsx';
 
 // The founding list. The QR codes on the window poster and the flyers open
 // this page (machiko.rs/join). It posts to the Brevo form set in
@@ -52,26 +51,24 @@ export default function Join() {
 
   return (
     <Page title={t('join.eyebrow')}>
-      <PhotoBand image="norenKyoto" className="join" light>
-        <div className="wrap inner join__grid">
-          <Reveal className="glass join__intro">
-            <div className="eyebrow"><span className="jp">暖簾</span><span>— {t('join.eyebrow')}</span></div>
-            <h1 className="display join__title">{t('join.title')}</h1>
+      <div className="wrap">
+        <div className="page-head join" style={{ paddingBottom: 'clamp(56px, 9vw, 112px)' }}>
+          <div className="join__intro">
+            <h1 className="d1">{t('join.title')}</h1>
             <p className="lede">{t('join.lede')}</p>
-            <ul className="join__perks">
+            <ul className="perks">
               {t('join.perks').map((p, i) => <li key={p}><span className="jp" aria-hidden="true">{['一', '二', '三'][i]}</span>{p}</li>)}
             </ul>
-            <OpeningChip className="join__chip" />
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.1} className="glass glass--strong join__card">
+          <div className="card-form">
             {state === 'done' ? (
-              <div className="join__done" role="status">
-                <span className="jp join__done-mark" aria-hidden="true">受</span>
-                <p className="lede">{t('join.done')}</p>
+              <div className="form__done" role="status">
+                <span className="jp" aria-hidden="true">受</span>
+                <p className="d3 serif">{t('join.done')}</p>
               </div>
             ) : (
-              <form className="form" onSubmit={submit} noValidate={false}>
+              <form className="form" onSubmit={submit}>
                 <label className="field">
                   <span className="field__label">{t('join.name')}</span>
                   <input type="text" name="FIRSTNAME" autoComplete="given-name" value={form.name} onChange={set('name')} />
@@ -95,16 +92,15 @@ export default function Join() {
                 </label>
                 <input className="sr-only" tabIndex={-1} autoComplete="off" aria-hidden="true" name="email_address_check" value={form.trap} onChange={set('trap')} />
                 {(problem || state === 'error') && <p className="form__problem" role="alert">{problem || t('join.error')}</p>}
-                <button type="submit" className="btn btn--primary btn--block" disabled={state === 'sending'}>
+                <button type="submit" className="btn btn--solid btn--block" disabled={state === 'sending'}>
                   {state === 'sending' ? t('join.sending') : t('join.submit')}
                 </button>
-                <Link to="/privacy" className="textlink form__privacy">{t('join.privacy')} →</Link>
-                {!ENDPOINT && <p className="form__note">{t('join.notConnected')}</p>}
+                <A to="/privacy" className="link small" style={{ width: 'fit-content' }}>{t('join.privacy')}<IconArrow /></A>
               </form>
             )}
-          </Reveal>
+          </div>
         </div>
-      </PhotoBand>
+      </div>
       <Footer />
     </Page>
   );

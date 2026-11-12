@@ -1,93 +1,74 @@
-import { Link } from 'react-router-dom';
 import { useLang } from '../lib/LangContext.jsx';
+import { A } from '../lib/go.jsx';
+import { SHOP, isOpen } from '../data/shop.js';
 import Page from '../components/Page.jsx';
-import PhotoBand from '../components/PhotoBand.jsx';
-import Reveal from '../components/Reveal.jsx';
+import Photo from '../components/Photo.jsx';
+import Ink from '../components/Ink.jsx';
 import Footer from '../components/Footer.jsx';
-import { alt, src } from '../data/images.js';
+import { IconArrow } from '../components/Icons.jsx';
 
 export default function Visit() {
   const { t } = useLang();
-  const workshops = t('visit.workshops');
-  const rail = (key, label, jp) => ({ 'data-rail': key, 'data-rail-label': label, 'data-rail-jp': jp });
+  const opened = isOpen();
   return (
-    <Page title={t('visit.eyebrow')}>
-      <PhotoBand image="kyotoStreet" style={{ padding: '72px 0 48px' }} light {...rail('top', t('nav.visit'), '訪問')}>
-        <div className="wrap inner">
-          <Reveal className="glass" style={{ padding: '26px 24px', maxWidth: 620 }}>
-            <div className="stack" style={{ gap: 12 }}>
-              <div className="eyebrow"><span className="jp">訪問</span><span>— {t('visit.eyebrow')}</span></div>
-              <h1 className="display" style={{ fontSize: 'clamp(36px, 8vw, 56px)' }}>{t('visit.title')}</h1>
-              <p className="lede">{t('visit.lede')}</p>
+    <Page title={t('nav.visit')}>
+      <div className="wrap">
+        <header className="page-head page-head--split">
+          <div className="page-head__text">
+            <h1 className="d1">{t('visit.title')}</h1>
+            <p className="lede">{t('visit.lede')}</p>
+            {!opened && <div><A className="btn btn--solid" to="/join">{t('home.ctaJoin')}</A></div>}
+          </div>
+          <Photo k="norenTwilight" className="page-hero" target priority sizes="(min-width: 900px) 42vw, 92vw" />
+        </header>
+
+        <section className="section section--tight info">
+          {!opened && (
+            <div>
+              <h2>{t('visit.openingTitle')}</h2>
+              <dl>{t('visit.opening').map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
             </div>
-          </Reveal>
-        </div>
-      </PhotoBand>
-
-      <section className="section wrap inner" {...rail('space', t('rail.space'), '間')}>
-        <Reveal className="stack" style={{ gap: 10, marginBottom: 22 }}>
-          <div className="eyebrow"><span className="jp">間</span><span>— {t('visit.galleryEyebrow')}</span></div>
-          <h2 className="h2">{t('visit.galleryTitle')}</h2>
-        </Reveal>
-        <div className="tiles">
-          {['cafeMinimal', 'tatamiShoji', 'cafeGreen'].map((k, i) => (
-            <Reveal key={k} delay={i * 0.08} className="glass tile" style={{ padding: 0 }}>
-              <img className="tile__img" src={src(k, 900)} alt={alt(k)} loading="lazy" decoding="async" />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="section wrap inner" {...rail('kyoto', t('visit.kyotoEyebrow'), '京都')}>
-        <Reveal className="stack" style={{ gap: 10, marginBottom: 22 }}>
-          <div className="eyebrow"><span className="jp">京都</span><span>— {t('visit.kyotoEyebrow')}</span></div>
-          <h2 className="h2">{t('visit.kyotoTitle')}</h2>
-        </Reveal>
-        <div className="mosaic">
-          {['norenTwilight', 'teaRoomBowl', 'higashiyama', 'kiyomizu', 'norenLantern', 'kyotoDusk'].map((k, i) => (
-            <Reveal key={k} delay={(i % 3) * 0.06} className={`glass tile mosaic__item mosaic__item--${i + 1}`} style={{ padding: 0 }}>
-              <img className="tile__img" src={src(k, 900)} alt={alt(k)} loading="lazy" decoding="async" />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="section wrap inner section--two" style={{ alignItems: 'start' }}>
-        <div className="stack" style={{ gap: 28 }}>
-          <Reveal className="glass" style={{ padding: '22px 20px' }} {...rail('hours', t('rail.hours'), '時間')}>
-            <div className="stack" style={{ gap: 10 }}>
-              <div className="eyebrow"><span className="jp">時間</span><span>— {t('visit.hoursTitle')}</span></div>
-              <div className="h3">{t('common.openDaily')}</div>
-              <div className="caption" style={{ textTransform: 'none', letterSpacing: '0.04em', fontSize: 13 }}>{t('common.address')}</div>
-              <div className="caption" style={{ textTransform: 'none', letterSpacing: '0.04em', fontSize: 13 }}>{t('common.phone')} · {t('common.instagram')}</div>
+          )}
+          <div>
+            <h2>{t('visit.hoursTitle')}</h2>
+            <p>{t('visit.hours')}</p>
+          </div>
+          <div>
+            <h2>{t('visit.findTitle')}</h2>
+            <div className="stack" style={{ gap: 12, alignItems: 'flex-start' }}>
+              <p>{SHOP.address || t('visit.find')}</p>
+              {SHOP.mapsUrl && <a className="link small" href={SHOP.mapsUrl} target="_blank" rel="noreferrer">{t('visit.openMap')}<IconArrow /></a>}
+              <a className="link small" href={`mailto:${SHOP.email}`}>{SHOP.email}</a>
             </div>
-          </Reveal>
-          <Reveal className="stack" style={{ gap: 12 }} {...rail('find', t('rail.find'), '道')}>
-            <div className="eyebrow"><span className="jp">道</span><span>— {t('visit.findTitle')}</span></div>
-            <p className="body">{t('visit.directions')}</p>
-            <div className="map-stub"><span className="caption">{t('visit.mapNote')}</span></div>
-            <a className="textlink" href="https://www.google.com/maps/search/?api=1&query=Dor%C4%87ol%2C+Beograd" target="_blank" rel="noreferrer">{t('visit.openMap')} →</a>
-          </Reveal>
-        </div>
-        <div className="stack" style={{ gap: 28 }}>
-          <Reveal className="glass tile" style={{ padding: 0 }}>
-            <img className="tile__img" src={src('kyotoPatio', 1200)} alt={alt('kyotoPatio')} loading="lazy" decoding="async" style={{ aspectRatio: '4 / 5' }} />
-          </Reveal>
-          <Reveal className="stack" style={{ gap: 12 }}>
-            <div className="eyebrow"><span className="jp">席</span><span>— {t('visit.reserveTitle')}</span></div>
-            <p className="body">{t('visit.reserveBody')}</p>
-            <Link to="/app/reserve" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>{t('app.reserve')}</Link>
-          </Reveal>
-          <Reveal className="stack" style={{ gap: 12 }} {...rail('workshops', t('rail.workshops'), '稽古')}>
-            <div className="eyebrow"><span className="jp">稽古</span><span>— {t('visit.workshopsTitle')}</span></div>
-            <ol className="steps" style={{ listStyle: 'none' }}>
-              {workshops.map(([title, body], i) => (
-                <li key={title}><span className="step__n">{['一', '二'][i]}</span><span className="step__body"><b>{title}</b><span>{body}</span></span></li>
-              ))}
-            </ol>
-          </Reveal>
-        </div>
-      </section>
+          </div>
+          <div className="plain">
+            <h2>{t('visit.goodTitle')}</h2>
+            <ul>{t('visit.good').map((g) => <li key={g}>{g}</li>)}</ul>
+          </div>
+          <div id="workshops" style={{ scrollMarginTop: 120 }}>
+            <h2>{t('visit.workshopsTitle')}</h2>
+            <div className="stack" style={{ gap: 18, alignItems: 'flex-start' }}>
+              <dl>
+                {t('visit.workshops').map(([k, v]) => <div key={k}><dd>{k}</dd><dt style={{ fontSize: '1rem', maxWidth: '34em' }}>{v}</dt></div>)}
+              </dl>
+              {opened && <a className="link small" href={`${import.meta.env.BASE_URL}app/reserve`}>{t('visit.reserve')}<IconArrow /></a>}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section--tight">
+          <div className="section__head" style={{ alignItems: 'start', flexDirection: 'column', gap: 14 }}>
+            <Ink className="d2">{t('visit.kyotoTitle')}</Ink>
+            <p className="copy">{t('visit.kyotoBody')}</p>
+          </div>
+          <div className="mosaic">
+            <Photo k="higashiyama" drift sizes="(min-width: 900px) 56vw, 92vw" />
+            <Photo k="mossCheck" drift sizes="(min-width: 900px) 40vw, 46vw" />
+            <Photo k="kyotoAlley" drift sizes="(min-width: 900px) 32vw, 46vw" />
+            <Photo k="zenRaked" drift sizes="(min-width: 900px) 64vw, 92vw" />
+          </div>
+        </section>
+      </div>
       <Footer />
     </Page>
   );
