@@ -4,13 +4,19 @@
 // Scores and the audits that did not pass are printed; full reports go to qa-out/.
 import { createRequire } from 'node:module';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const require = createRequire(import.meta.url);
 const BASE = (process.env.QA_URL || 'https://machiko.rs').replace(/\/$/, '');
 const OUT = process.env.QA_OUT || 'qa-out';
 const PAGES = (process.env.LH_PAGES || '/,/menu,/join').split(',');
 mkdirSync(OUT, { recursive: true });
+// scripts/qa.mjs leaves this file when the host's robot check stopped the test machine:
+// Lighthouse would only measure the challenge page.
+if (existsSync(`${OUT}/blocked`)) {
+  const note = 'LIGHTHOUSE: not run, for the same reason as the browser checks (the host\'s robot check).';
+  console.log(note); writeFileSync(`${OUT}/lighthouse.txt`, `${note}\n`); process.exit(0);
+}
 const chrome = process.env.CHROME_PATH || require('playwright').chromium.executablePath();
 const lines = [];
 const say = (s) => { console.log(s); lines.push(s); };

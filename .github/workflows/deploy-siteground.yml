@@ -149,8 +149,11 @@ jobs:
         run: |
           bundle=$(grep -o 'assets/index-[^"]*\.js' dist/index.html | head -1)
           sleep 5
-          if curl -sS -m 30 "https://$DOMAIN/" | grep -qF "$bundle"; then
+          page=$(curl -sS -m 30 "https://$DOMAIN/" || true)
+          if echo "$page" | grep -qF "$bundle"; then
             echo "::notice::https://$DOMAIN is serving this build."
+          elif echo "$page" | grep -qiE "sgcaptcha|Robot Challenge"; then
+            echo "::notice::Uploaded. SiteGround's robot check stopped this machine from reading the page, so the build could not be confirmed from here; open https://$DOMAIN to see it."
           else
             echo "::warning::Uploaded, but https://$DOMAIN is not serving this build yet. Check that the domain points at SiteGround and that SSL is on, then flush the cache in Site Tools (Speed > Caching)."
           fi

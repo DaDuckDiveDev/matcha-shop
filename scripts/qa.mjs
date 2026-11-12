@@ -314,11 +314,40 @@ async function flows(browser) {
   await ctx.close();
 }
 
+// ---------------------------------------------------------------- the host's robot check
+// SiteGround sometimes stops a test machine at the door: GitHub's servers share
+// their addresses with real robots, and every address then answers 202 with a
+// "Robot Challenge Screen". That is the host protecting the site, not a fault in
+// the site, and we do not try to get past it. We wait and ask twice more; if it
+// still stands, the run says "not tested" instead of listing false failures.
+const CHALLENGE = /sgcaptcha|Robot Challenge Screen/i;
+const challenged = (r) => r.status === 202 || CHALLENGE.test(r.text || '');
+async function stoppedAtTheDoor() {
+  for (let i = 0; i < 3; i++) {
+    if (!challenged(await head(`${BASE}/`))) return false;
+    if (i < 2) await new Promise((r) => setTimeout(r, 40000));
+  }
+  return true;
+}
+function notTested(when) {
+  const note = `Not tested: SiteGround's robot check stopped this test machine ${when} (pages answered with its "Robot Challenge Screen"). The site is not at fault. Run the checks again later, or from your own computer: QA_URL=${BASE} node scripts/qa.mjs`;
+  console.log(`\n${note}`);
+  if (process.env.GITHUB_ACTIONS) console.log(`::warning title=QA not run::${note}`);
+  writeFileSync(`${OUT}/blocked`, note);
+  writeFileSync(`${OUT}/report.json`, JSON.stringify({ base: BASE, at: new Date().toISOString(), blocked: true, note, rows }, null, 1));
+  writeFileSync(`${OUT}/report.md`, `# QA — ${BASE}\n\n${note}\n`);
+  process.exit(0);
+}
+
 // ---------------------------------------------------------------- run
+if (LIVE && await stoppedAtTheDoor()) notTested('before the first check');
 const browser = await chromium.launch({ args: ['--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 try { await server(); await pages(browser); await flows(browser); }
 catch (e) { fail('qa', 'the checks stopped early', String(e.message).split('\n')[0]); }
 await browser.close();
+
+// the robot check can also start halfway through a run
+if (LIVE && rows.some((r) => r.level !== 'PASS' && CHALLENGE.test(r.detail))) notTested('partway through');
 
 const count = (l) => rows.filter((r) => r.level === l).length;
 const summary = `\n${count('PASS')} passed, ${count('WARN')} to look at, ${count('FAIL')} failed — ${BASE}`;
