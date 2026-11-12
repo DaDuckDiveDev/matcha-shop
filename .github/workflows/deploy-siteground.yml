@@ -107,11 +107,22 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           # Strip the passphrase from this temporary copy so sftp can run unattended.
           if [ -n "$SFTP_KEY_PASSPHRASE" ]; then
-            ssh-keygen -p -P "$SFTP_KEY_PASSPHRASE" -N "" -f ~/.ssh/deploy_key > /dev/null
+            ssh-keygen -p -P "$SFTP_KEY_PASSPHRASE" -N "" -f ~/.ssh/deploy_key > /dev/null 2>&1 || true
           fi
           # The key must now open without a password, or the upload cannot sign in.
-          if ! ssh-keygen -y -P "" -f ~/.ssh/deploy_key > ~/.ssh/deploy_key.pub 2> /dev/null; then
-            echo "::error::SFTP_KEY cannot be opened. Either it is not a complete private key (it must include the BEGIN and END lines), or it has a password and SFTP_KEY_PASSPHRASE is missing or wrong."; exit 1
+          if ! why=$(ssh-keygen -y -P "" -f ~/.ssh/deploy_key 2>&1 > ~/.ssh/deploy_key.pub); then
+            if ! grep -q "BEGIN .*PRIVATE KEY" ~/.ssh/deploy_key; then
+              echo "::error::SFTP_KEY is not a private key: it has no BEGIN line. Paste the whole private key file, first line to last (on a Mac: pbcopy < ~/.ssh/the_key_file)."
+            elif echo "$why" | grep -qi "passphrase"; then
+              if [ -n "$SFTP_KEY_PASSPHRASE" ]; then
+                echo "::error::The key still needs a password after using SFTP_KEY_PASSPHRASE: that secret is wrong."
+              else
+                echo "::error::The key has a password and the SFTP_KEY_PASSPHRASE secret is not set. Add it (the password you type when you use this key), then run the workflow again."
+              fi
+            else
+              echo "::error::SFTP_KEY cannot be read as a private key ($why). It was probably cut short when pasted: paste the whole file again."
+            fi
+            exit 1
           fi
           echo "Key in use (public fingerprint, safe to show): $(ssh-keygen -lf ~/.ssh/deploy_key.pub | awk '{print $2, $4}')"
           ssh-keyscan -t ed25519 -p "$SFTP_PORT" "$SFTP_HOST" > ~/.ssh/known_hosts 2> /dev/null
