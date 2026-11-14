@@ -16,7 +16,7 @@ export const TIERS = [
 
 export const REWARDS = [
   { id: 'upgrade', cost: 150, name: { en: 'A larger cup or coconut milk', sr: 'Veća šolja ili kokosovo mleko' } },
-  { id: 'mochi', cost: 400, name: { en: 'Mochi of the morning', sr: 'Jutarnji moči' } },
+  { id: 'mochi', cost: 400, name: { en: 'Mochi of the morning', sr: 'Jutarnji mochi' } },
   { id: 'usucha', cost: 600, name: { en: 'A bowl of usucha', sr: 'Činija usuche' } },
   { id: 'workshop', cost: 3000, name: { en: 'A seat at a workshop', sr: 'Mesto na radionici' } },
   { id: 'tin', cost: 4500, name: { en: 'A 40 g tin of ceremonial matcha', sr: 'Limenka ceremonijalne matche, 40 g' } }
