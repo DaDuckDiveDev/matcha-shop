@@ -674,7 +674,7 @@ body.app .row__note { font-size: 0.9375rem; }
 .tile { padding: 18px; display: flex; flex-direction: column; gap: 4px; }
 .tile dd { font-family: var(--serif); font-size: 2.25rem; line-height: 1; }
 .tile dt { font-size: 0.8125rem; color: var(--ink-2); }
-.tile__sub { font-size: 0.8125rem; color: var(--ink-3); }
+.tile dd.tile__sub { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.45; color: var(--ink-3); }
 
 /* ---------- the guest card on the home page ---------- */
 .pass-stage { perspective: 1100px; display: grid; place-items: center; padding: 8px 0; }

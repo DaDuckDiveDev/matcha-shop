@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "Machiko",
+    "slug": "machiko",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "rs.machiko.app"
+    },
+    "android": {
+      "package": "rs.machiko.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FBFAF6",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "scheme": "machiko",
+    "backgroundColor": "#FBFAF6",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FBFAF6"
+    }
+  }
+}

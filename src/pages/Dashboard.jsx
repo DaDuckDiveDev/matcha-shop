@@ -64,7 +64,7 @@ function WeekBars({ weeks, label, paceLabel, locale }) {
   const ticks = [0, Math.round(max / 2 / 10) * 10, Math.round(max / 10) * 10].filter((v, i, a) => a.indexOf(v) === i && v <= max);
   return (
     <figure className="chart">
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
+      <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label={label}>
         {ticks.map((v) => (
           <g key={v}><line x1={L} x2={W - R} y1={y(v)} y2={y(v)} className="chart__grid" /><text x={L - 8} y={y(v)} className="chart__tick" textAnchor="end" dominantBaseline="middle">{v}</text></g>
         ))}
@@ -75,7 +75,7 @@ function WeekBars({ weeks, label, paceLabel, locale }) {
           const h = Math.max(1, y(0) - y(w.n));
           const r = Math.min(4, h, bw / 2);
           return (
-            <g key={w.week} onMouseEnter={() => setAt(i)} onFocus={() => setAt(i)} tabIndex={0} role="listitem" aria-label={`${w.week}: ${w.n}`} className="chart__col">
+            <g key={w.week} onMouseEnter={() => setAt(i)} onFocus={() => setAt(i)} tabIndex={0} role="img" aria-label={`${w.week}: ${w.n}`} className="chart__col">
               <rect x={L + band * i} y={T} width={band} height={H - T - B} fill="transparent" />
               <path d={`M${x} ${y(0)} V${y(w.n) + r} Q${x} ${y(w.n)} ${x + r} ${y(w.n)} H${x + bw - r} Q${x + bw} ${y(w.n)} ${x + bw} ${y(w.n) + r} V${y(0)} Z`} className={`chart__bar ${i === at ? 'is-at' : ''}`} />
               {i === at && <text x={x + bw / 2} y={y(w.n) - 8} textAnchor="middle" className="chart__value">{w.n.toLocaleString(locale)}</text>}
@@ -182,7 +182,7 @@ export default function Dashboard() {
       )}
 
       <dl className="tiles tiles--4">
-        {tiles.map(([v, k, sub]) => <div key={k} className="glass tile"><dd className="tnum">{v}</dd><dt>{k}</dt>{sub && <span className="tile__sub">{sub}</span>}</div>)}
+        {tiles.map(([v, k, sub]) => <div key={k} className="glass tile"><dd className="tnum">{v}</dd><dt>{k}</dt>{sub && <dd className="tile__sub">{sub}</dd>}</div>)}
       </dl>
 
       <div className="dash__grid">
