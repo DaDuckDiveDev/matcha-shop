@@ -58,6 +58,11 @@ export const STRINGS = {
       note: 'Draft, to be checked against the Law on Personal Data Protection before the list opens.'
     },
     home: {
+      appTitle: 'Your card, in your pocket.',
+      appBody: 'The guest app opens with the shop. Order ahead and the whisking starts when you confirm. Every drink is a stamp, every 10 RSD is a point, and the card is always with you because it is on your phone. No download from a store: it opens from this site.',
+      appFacts: [['Ten stamps', 'an usucha on the house'], ['Every 10 RSD', 'one point'], ['Three tiers', 'Usucha, Koicha, Chajin'], ['Order ahead', 'ready when you arrive']],
+      appLink: 'See the guest app',
+      appPass: { points: '2,480', word: 'points', stamps: '6 of 10 stamps. Four more and the next usucha is on the house.', alt: 'A Machiko guest card: 2,480 points, Koicha tier, six of ten stamps' },
       title: ['An hour of Kyoto,', 'in Belgrade.'],
       lede: 'Ceremonial matcha from Uji, whisked by hand for every bowl. Slow coffee and a small Japanese kitchen, in Dorćol.',
       opening: 'Opens Saturday 20 March 2027', openNow: 'Open every day, 08:00–20:00',
@@ -222,6 +227,11 @@ export const STRINGS = {
       note: 'Nacrt, za proveru prema Zakonu o zaštiti podataka o ličnosti pre otvaranja liste.'
     },
     home: {
+      appTitle: 'Tvoja kartica, u džepu.',
+      appBody: 'Aplikacija za goste otvara se kad i radnja. Naruči unapred i počinjemo da mutimo kad potvrdiš. Svako piće je pečat, svakih 10 RSD je poen, a kartica je uvek uz tebe jer je na telefonu. Bez preuzimanja iz prodavnice: otvara se sa ovog sajta.',
+      appFacts: [['Deset pečata', 'usucha na račun kuće'], ['Svakih 10 RSD', 'jedan poen'], ['Tri nivoa', 'Usucha, Koicha, Chajin'], ['Naruči unapred', 'spremno kad stigneš']],
+      appLink: 'Pogledaj aplikaciju',
+      appPass: { points: '2.480', word: 'poena', stamps: '6 od 10 pečata. Još četiri i sledeća usucha je na račun kuće.', alt: 'Machiko kartica gosta: 2.480 poena, nivo Koicha, šest od deset pečata' },
       title: ['Sat vremena Kjota,', 'u Beogradu.'],
       lede: 'Ceremonijalna matcha iz Udžija, umućena ručno za svaku činiju. Spora kafa i mala japanska kuhinja, na Dorćolu.',
       opening: 'Otvaramo u subotu, 20. marta 2027.', openNow: 'Otvoreno svakog dana, 08:00–20:00',

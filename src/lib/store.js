@@ -1,13 +1,17 @@
-// Guest state, kept on the phone. Cart, stamps, order history and the
+// Guest state, kept on the phone. Cart, stamps, points, order history and the
 // reservation requests live here until a backend exists. Everything is
 // wrapped in try/catch so a blocked localStorage never breaks the UI.
 import { useCallback, useEffect, useState } from 'react';
+import { pointsFor } from '../data/loyalty.js';
 
 const KEY = 'machiko.guest.v1';
 
 const initial = {
   name: '',
   stamps: 6,
+  points: 0,      // what can be spent
+  lifetime: 0,    // everything ever earned; sets the tier
+  ledger: [],     // [{ id, at, kind: 'order' | 'reward', pts, ref }]
   cart: [], // [{ key, itemId, choice, qty }]
   orders: [], // [{ id, items, total, at, pickup }]
   reservations: [],
@@ -60,12 +64,32 @@ export const store = {
   removeFromCart: (key) => setState((s) => ({ cart: s.cart.filter((c) => c.key !== key) })),
   clearCart: () => setState({ cart: [] }),
   placeOrder: (order) =>
-    setState((s) => ({
-      cart: [],
-      orders: [order, ...s.orders].slice(0, 20),
-      lastOrder: order,
-      stamps: Math.min(10, s.stamps + order.items.reduce((n, i) => n + i.qty, 0))
-    })),
+    setState((s) => {
+      const pts = pointsFor(order.total);
+      return {
+        cart: [],
+        orders: [{ ...order, pts }, ...s.orders].slice(0, 20),
+        lastOrder: order,
+        stamps: Math.min(10, s.stamps + order.items.reduce((n, i) => n + i.qty, 0)),
+        points: s.points + pts,
+        lifetime: s.lifetime + pts,
+        ledger: [{ id: `o-${order.id}-${order.at}`, at: order.at, kind: 'order', pts, ref: order.id }, ...s.ledger].slice(0, 60)
+      };
+    }),
+  // Spend points on a reward. Returns nothing; the view reads the new balance.
+  redeemReward: (reward) =>
+    setState((s) => {
+      if (s.points < reward.cost) return {};
+      const at = Date.now();
+      return { points: s.points - reward.cost, ledger: [{ id: `r-${reward.id}-${at}`, at, kind: 'reward', pts: -reward.cost, ref: reward.id }, ...s.ledger].slice(0, 60) };
+    }),
+  // Preview only: a pretend purchase, so the points can be tried before opening day.
+  demoPurchase: (total = 1040) =>
+    setState((s) => {
+      const at = Date.now();
+      const pts = pointsFor(total);
+      return { points: s.points + pts, lifetime: s.lifetime + pts, ledger: [{ id: `d-${at}`, at, kind: 'order', pts, ref: 'demo' }, ...s.ledger].slice(0, 60) };
+    }),
   addStamp: () => setState((s) => ({ stamps: Math.min(10, s.stamps + 1) })),
   redeem: () => setState((s) => ({ stamps: s.stamps >= 10 ? 0 : s.stamps })),
   addReservation: (r) => setState((s) => ({ reservations: [r, ...s.reservations].slice(0, 20) }))

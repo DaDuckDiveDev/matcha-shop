@@ -5,6 +5,7 @@ export const IconClose = () => (<svg {...base}><path d="M5 5l12 12M17 5L5 17" />
 export const IconList = () => (<svg {...base}><path d="M4 6h14M4 11h14M4 16h9" /></svg>);
 export const IconCup = () => (<svg {...base}><path d="M4 8h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8zM16 9h2a2 2 0 0 1 0 4h-2" /></svg>);
 export const IconStamp = () => (<svg {...base}><rect x="4.5" y="4.5" width="13" height="13" rx="1" /><path d="M8 11h6M11 8v6" /></svg>);
+export const IconUser = () => (<svg {...base}><circle cx="11" cy="8" r="3.5" /><path d="M4 18.5c1.2-3.2 3.8-4.8 7-4.8s5.8 1.6 7 4.8" /></svg>);
 export const IconPin = () => (<svg {...base}><path d="M11 19s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z" /><circle cx="11" cy="9" r="2" /></svg>);
 export const IconLeaf = () => (<svg {...base}><path d="M4 18C4 9 9 4 18 4c0 9-5 14-14 14z" /><path d="M4 18l8-8" /></svg>);
 export const IconCalendar = () => (<svg {...base}><rect x="3.5" y="5.5" width="15" height="12" rx="1" /><path d="M3.5 9.5h15M7 3.5v4M15 3.5v4" /></svg>);

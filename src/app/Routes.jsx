@@ -7,6 +7,7 @@ import Cart from './Cart.jsx';
 import Status from './Status.jsx';
 import Stamps from './Stamps.jsx';
 import Reserve from './Reserve.jsx';
+import You from './You.jsx';
 
 export default function AppRoutes() {
   return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         <Route path="status/:id" element={<Status />} />
         <Route path="stamps" element={<Stamps />} />
         <Route path="reserve" element={<Reserve />} />
+        <Route path="you" element={<You />} />
       </Route>
     </Routes>
   );

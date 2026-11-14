@@ -5,7 +5,7 @@ import { useLang } from '../lib/LangContext.jsx';
 import { useStore } from '../lib/store.js';
 import { Mark } from '../components/Logo.jsx';
 import { LangToggle } from '../components/Nav.jsx';
-import { IconCalendar, IconCup, IconStamp, IconSun } from '../components/Icons.jsx';
+import { IconCalendar, IconCup, IconStamp, IconSun, IconUser } from '../components/Icons.jsx';
 import { isOpen } from '../data/shop.js';
 
 // Before opening day the app takes no orders: it says when it opens and
@@ -16,7 +16,7 @@ export const inPreview = () => { try { return !isOpen() && sessionStorage.getIte
 
 // The guest app shell: paper, white cards and four tabs in a floating bar. Everything inside is a view, so the PWA opens straight here.
 export default function AppShell() {
-  const { t } = useLang();
+  const { t, pick } = useLang();
   const { cart, stamps } = useStore();
   const location = useLocation();
   const count = cart.reduce((n, c) => n + c.qty, 0);
@@ -74,6 +74,7 @@ export default function AppShell() {
           {stamps >= 10 && <span className="app-nav__dot" />}
         </NavLink>
         <NavLink to="/app/reserve"><IconCalendar />{t('app.reserve')}</NavLink>
+        <NavLink to="/app/you"><IconUser />{pick({ en: 'You', sr: 'Ti' })}</NavLink>
       </nav>
     </div>
   );

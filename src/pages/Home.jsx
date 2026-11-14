@@ -9,6 +9,7 @@ import Photo from '../components/Photo.jsx';
 import Ink from '../components/Ink.jsx';
 import SeasonLine from '../components/SeasonLine.jsx';
 import StoryCard from '../components/StoryCard.jsx';
+import PassCard from '../components/PassCard.jsx';
 import Footer from '../components/Footer.jsx';
 import { MARK_PATH } from '../components/Logo.jsx';
 import { IconArrow, IconUpRight } from '../components/Icons.jsx';
@@ -134,6 +135,25 @@ export default function Home() {
             <Photo k="teaRoomBowl" drift sizes="(min-width: 900px) 38vw, 70vw" />
           </div>
           <p className="caption">{t('home.roomCaption')}</p>
+        </div>
+      </section>
+
+      <section className="section wrap chapter chapter--pass">
+        <div className="chapter__body">
+          <div className="chapter__head">
+            <span className="vert chapter__kanji" aria-hidden="true">判子</span>
+            <Ink className="d2">{t('home.appTitle')}</Ink>
+          </div>
+          <div className="chapter__text">
+            <p className="copy">{t('home.appBody')}</p>
+            <dl className="facts">
+              {t('home.appFacts').map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+            </dl>
+            <a className="link" href={`${import.meta.env.BASE_URL}app`}>{t('home.appLink')}<IconArrow /></a>
+          </div>
+        </div>
+        <div className="chapter__media">
+          <PassCard points={t('home.appPass').points} tier="Koicha" jp="濃茶" labels={t('home.appPass')} />
         </div>
       </section>
 

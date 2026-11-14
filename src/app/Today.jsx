@@ -7,6 +7,7 @@ import { currentSekki, fmtRange } from '../data/sekki.js';
 import { defaultChoice, findItem, fmtRsd, unitPrice } from '../data/menu.js';
 import { alt, src } from '../data/images.js';
 import { IconArrow } from '../components/Icons.jsx';
+import { standing } from '../data/loyalty.js';
 
 function greetingKey(h) {
   if (h < 12) return 'morning';
@@ -16,7 +17,8 @@ function greetingKey(h) {
 
 export default function Today() {
   const { t, lang, pick } = useLang();
-  const { name, stamps, lastOrder } = useStore();
+  const { name, stamps, lastOrder, points, lifetime } = useStore();
+  const { tier } = standing(lifetime);
   const { canInstall, installed, install } = useInstallPrompt();
   const navigate = useNavigate();
   const now = new Date();
@@ -45,6 +47,10 @@ export default function Today() {
 
       <section className="glass card">
         <StampCard stamps={stamps} />
+        <Link to="/app/stamps" className="points-line">
+          <span><span className="tnum">{points.toLocaleString(lang === 'sr' ? 'sr-Latn-RS' : 'en-GB')}</span> {pick({ en: 'points', sr: 'poena' })} · {pick(tier.name)} <span className="jp" lang="ja">{tier.jp}</span></span>
+          <IconArrow />
+        </Link>
       </section>
 
       <section className="glass card card--row">

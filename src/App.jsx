@@ -15,6 +15,8 @@ import { startSmooth, stopSmooth } from './lib/smooth.js';
 
 // The guest app is its own download: the website does not carry it.
 const AppRoutes = lazy(() => import('./app/Routes.jsx'));
+// The owners' dashboard is another: nobody reading the menu downloads it.
+const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 
 function Site() {
   const location = useLocation();
@@ -46,5 +48,6 @@ function Site() {
 export default function App() {
   const location = useLocation();
   if (location.pathname.startsWith('/app')) return <Suspense fallback={null}><AppRoutes /></Suspense>;
+  if (location.pathname.startsWith('/dashboard')) return <Suspense fallback={null}><Dashboard /></Suspense>;
   return <Site />;
 }
