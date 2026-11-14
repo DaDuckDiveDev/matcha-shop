@@ -35,7 +35,7 @@ const check = (cond, a, w, d) => (cond ? pass(a, w, d) : fail(a, w, d));
 
 const STORIES = ['twenty-days-in-the-shade', 'usucha-and-koicha', 'a-menu-of-twenty-four-seasons', 'how-to-whisk-a-bowl-at-home'];
 const PAGES = ['/', '/menu', '/matcha', '/visit', '/journal', ...STORIES.map((s) => `/journal/${s}`), '/join', '/privacy'];
-const KNOWN = new Set([...PAGES, '/app', '/app/', '/app/order', '/app/stamps', '/app/reserve', '/app/cart']);
+const KNOWN = new Set([...PAGES, '/app', '/app/', '/app/order', '/app/stamps', '/app/reserve', '/app/cart', '/app/you', '/dashboard']);
 
 // ---------------------------------------------------------------- server
 async function head(url, opts = {}) {
@@ -302,6 +302,22 @@ async function flows(browser) {
     await page.click('a:has-text("View order")'); await page.waitForTimeout(800);
     await page.fill('#guest-name', 'QA'); await page.click('button:has-text("Confirm order")'); await page.waitForTimeout(1200);
     return (/\/app\/status\//.test(page.url()) && (await page.locator('.ticket__num').count()) === 1) || `ended at ${page.url()}`;
+  });
+  await step('app: the order earned points', async () => {
+    await page.goto(`${BASE}/app/stamps`, { waitUntil: 'networkidle' }); await page.waitForTimeout(600);
+    const points = Number(await page.locator('[data-points]').getAttribute('data-points'));
+    return points > 0 || `the card shows ${points} points after an order`;
+  });
+  await step('app: the guest page lists the order', async () => {
+    await page.goto(`${BASE}/app/you`, { waitUntil: 'networkidle' }); await page.waitForTimeout(600);
+    return (await page.locator('.ledger li').count()) >= 1 || 'no order on the guest page';
+  });
+  await step('dashboard: opens, and says so while its numbers are samples', async () => {
+    await page.goto(`${BASE}/dashboard`, { waitUntil: 'networkidle' }); await page.waitForTimeout(700);
+    if ((await page.locator('.dash').count()) !== 1) return 'no dashboard';
+    const robots = await page.locator('meta[name="robots"]').last().getAttribute('content');
+    if (!/noindex/.test(robots || '')) return 'the dashboard can be indexed';
+    return (await page.locator('[data-dash-state]').count()) === 1 || (await page.locator('.chart').count()) === 1 || 'neither a note nor a chart';
   });
   await step('app: reserve form sends', async () => {
     await page.goto(`${BASE}/app/reserve`, { waitUntil: 'networkidle' }); await page.waitForTimeout(600);
