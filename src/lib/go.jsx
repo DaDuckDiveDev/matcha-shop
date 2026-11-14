@@ -28,10 +28,14 @@ export function useGo() {
       commit();
       if (morph) document.documentElement.dataset.morph = '1';
     });
-    vt.finished.finally(() => {
+    const tidy = () => {
       delete document.documentElement.dataset.morph;
       if (morph?.isConnected) morph.style.viewTransitionName = '';
-    });
+    };
+    // A transition the browser gives up on (a rotated phone, a resized window)
+    // is not an error: the page has already changed, only the animation is skipped.
+    vt.ready.catch(() => {});
+    vt.finished.then(tidy, tidy);
   }, [navigate]);
 }
 
