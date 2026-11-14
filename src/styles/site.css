@@ -677,7 +677,8 @@ body.app .row__note { font-size: 0.9375rem; }
 .tile dd.tile__sub { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.45; color: var(--ink-3); }
 
 /* ---------- the guest card on the home page ---------- */
-.pass-stage { perspective: 1100px; display: grid; place-items: center; padding: 8px 0; }
+.pass-stage { perspective: 1100px; display: grid; justify-items: center; gap: 22px; padding: 8px 0; }
+.pass__caption { text-align: center; }
 .pass { --rx: 0deg; --ry: 0deg; --lx: 30%; --ly: 20%; position: relative; width: min(100%, 440px); aspect-ratio: 1.42; border-radius: 28px; padding: clamp(18px, 4.6cqi, 26px); display: grid; grid-template-rows: auto 1fr auto auto; gap: 10px; background: radial-gradient(120% 90% at var(--lx) var(--ly), rgba(201, 219, 168, 0.2), transparent 55%), linear-gradient(160deg, #2F4A28, var(--uji-deep) 60%); color: var(--on-uji); box-shadow: 0 0 0 1px rgba(22, 25, 21, 0.2), 0 50px 90px -50px rgba(22, 25, 21, 0.7); transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .5s var(--ease); container-type: inline-size; }
 .pass__top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.875rem; }
 .pass__brand { font-family: var(--serif); font-size: 1.25rem; }

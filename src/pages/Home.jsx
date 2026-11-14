@@ -153,7 +153,7 @@ export default function Home() {
           </div>
         </div>
         <div className="chapter__media">
-          <PassCard points={t('home.appPass').points} tier="Koicha" jp="濃茶" labels={t('home.appPass')} />
+          <PassCard labels={t('home.appPass')} />
         </div>
       </section>
 
