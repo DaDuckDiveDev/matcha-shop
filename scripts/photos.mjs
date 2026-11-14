@@ -16,6 +16,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(root, 'public/photos');
@@ -41,38 +42,42 @@ mkdirSync(OUT, { recursive: true });
 let generated = {};
 try { generated = JSON.parse(readFileSync(join(root, 'src/data/generated.json'), 'utf8')); } catch { generated = {}; }
 
+// The picture to prepare and the name its copies are saved under. A made
+// picture gets its own name (the Pexels number, "-m" and a few characters
+// from its address), because the upload never replaces a photograph that is
+// already on the server under the same name.
 async function original({ key, id }) {
   const own = join(root, 'photos-src', `${key}.jpg`);
-  if (existsSync(own)) return readFileSync(own);
+  if (existsSync(own)) return { input: readFileSync(own), stem: id };
   if (generated[key]) {
     try {
       const made = await fetch(generated[key], { signal: AbortSignal.timeout(45000) });
-      if (made.ok) return Buffer.from(await made.arrayBuffer());
+      if (made.ok) return { input: Buffer.from(await made.arrayBuffer()), stem: `${id}-m${createHash('sha1').update(generated[key]).digest('hex').slice(0, 6)}` };
       console.warn(`photos: ${key} made picture answered ${made.status}, using the Pexels photo`);
     } catch (err) { console.warn(`photos: ${key} made picture not fetched (${err.message}), using the Pexels photo`); }
   }
   const url = `${ORIGIN}/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=2400`;
   const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return Buffer.from(await res.arrayBuffer());
+  return { input: Buffer.from(await res.arrayBuffer()), stem: id };
 }
 
 async function prepare(photo) {
   const done = manifest[photo.id];
-  if (!force && done && done.w.every((w) => existsSync(join(OUT, `${photo.id}-${w}.avif`)))) return 'kept';
-  const input = await original(photo);
+  if (!force && done && done.w.every((w) => existsSync(join(OUT, `${done.f || photo.id}-${w}.avif`)))) return 'kept';
+  const { input, stem } = await original(photo);
   const meta = await sharp(input).metadata();
   const widths = WIDTHS.filter((w) => w <= meta.width);
   if (!widths.length) widths.push(meta.width);
   for (const w of widths) {
     const pipe = sharp(input).rotate().resize({ width: w, withoutEnlargement: true });
-    await pipe.clone().avif({ quality: 52, effort: 4 }).toFile(join(OUT, `${photo.id}-${w}.avif`));
-    await pipe.clone().jpeg({ quality: 78, mozjpeg: true }).toFile(join(OUT, `${photo.id}-${w}.jpg`));
+    await pipe.clone().avif({ quality: 52, effort: 4 }).toFile(join(OUT, `${stem}-${w}.avif`));
+    await pipe.clone().jpeg({ quality: 78, mozjpeg: true }).toFile(join(OUT, `${stem}-${w}.jpg`));
   }
   const preview = await sharp(input).rotate().resize({ width: 24 }).blur(1.2).webp({ quality: 40 }).toBuffer();
   const { dominant } = await sharp(input).stats();
   const hex = '#' + [dominant.r, dominant.g, dominant.b].map((v) => v.toString(16).padStart(2, '0')).join('');
-  manifest[photo.id] = { w: widths, ar: +(meta.width / meta.height).toFixed(4), ph: `data:image/webp;base64,${preview.toString('base64')}`, c: hex };
+  manifest[photo.id] = { w: widths, ar: +(meta.width / meta.height).toFixed(4), ph: `data:image/webp;base64,${preview.toString('base64')}`, c: hex, ...(stem !== photo.id ? { f: stem } : {}) };
   return 'made';
 }
 

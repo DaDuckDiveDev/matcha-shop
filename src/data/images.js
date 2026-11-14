@@ -77,8 +77,9 @@ export function picture(key) {
   if (!p) return null;
   const m = manifest[p.id];
   if (m) {
-    const set = (ext) => m.w.map((w) => `${local(p.id, w, ext)} ${w}w`).join(', ');
-    return { alt: p.alt, avif: set('avif'), jpg: set('jpg'), src: local(p.id, m.w[Math.min(1, m.w.length - 1)], 'jpg'), preview: m.ph, colour: m.c };
+    const f = m.f || p.id;   // a made picture is saved under its own name
+    const set = (ext) => m.w.map((w) => `${local(f, w, ext)} ${w}w`).join(', ');
+    return { alt: p.alt, avif: set('avif'), jpg: set('jpg'), src: local(f, m.w[Math.min(1, m.w.length - 1)], 'jpg'), preview: m.ph, colour: m.c };
   }
   return { alt: p.alt, avif: '', jpg: REMOTE_WIDTHS.map((w) => `${remote(p.id, w)} ${w}w`).join(', '), src: remote(p.id, 800), preview: '', colour: '' };
 }
@@ -88,7 +89,7 @@ export function src(key, w = 1200) {
   const p = photos[key];
   if (!p) return '';
   const m = manifest[p.id];
-  if (m) return local(p.id, m.w.find((x) => x >= w) || m.w[m.w.length - 1], 'jpg');
+  if (m) return local(m.f || p.id, m.w.find((x) => x >= w) || m.w[m.w.length - 1], 'jpg');
   return remote(p.id, w);
 }
 
