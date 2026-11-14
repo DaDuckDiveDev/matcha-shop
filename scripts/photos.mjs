@@ -12,6 +12,7 @@
 //
 // To use your own photograph, drop a JPEG at photos-src/<key>.jpg (the key
 // from images.js, for example photos-src/bowlTop.jpg) and run it again.
+// A picture made for Machiko is listed in src/data/generated.json instead.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,9 +35,22 @@ let manifest = {};
 try { manifest = JSON.parse(readFileSync(MANIFEST, 'utf8')); } catch { manifest = {}; }
 mkdirSync(OUT, { recursive: true });
 
+// Pictures made for Machiko (src/data/generated.json: key -> address). One of
+// these comes before the Pexels photo of the same key; if its address ever
+// stops answering, the Pexels photo is used again, so the site never shows a gap.
+let generated = {};
+try { generated = JSON.parse(readFileSync(join(root, 'src/data/generated.json'), 'utf8')); } catch { generated = {}; }
+
 async function original({ key, id }) {
   const own = join(root, 'photos-src', `${key}.jpg`);
   if (existsSync(own)) return readFileSync(own);
+  if (generated[key]) {
+    try {
+      const made = await fetch(generated[key], { signal: AbortSignal.timeout(45000) });
+      if (made.ok) return Buffer.from(await made.arrayBuffer());
+      console.warn(`photos: ${key} made picture answered ${made.status}, using the Pexels photo`);
+    } catch (err) { console.warn(`photos: ${key} made picture not fetched (${err.message}), using the Pexels photo`); }
+  }
   const url = `${ORIGIN}/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=2400`;
   const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);

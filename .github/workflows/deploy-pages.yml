@@ -32,7 +32,7 @@ jobs:
           path: |
             public/photos
             src/data/photos.manifest.json
-          key: photos-${{ hashFiles('src/data/images.js', 'scripts/photos.mjs') }}
+          key: photos-${{ hashFiles('src/data/images.js', 'src/data/generated.json', 'scripts/photos.mjs') }}
       - run: npm run photos
       - name: Build the preview
         env:

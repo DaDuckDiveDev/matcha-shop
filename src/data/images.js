@@ -5,6 +5,10 @@
 // scripts/photos.mjs). A photo that has not been prepared is loaded from
 // Pexels directly, so the site works either way.
 //
+// src/data/generated.json lists pictures made for Machiko (generated, not
+// photographed). A key listed there uses that picture and keeps the Pexels
+// photo as its fallback.
+//
 // Each entry: id, alt text, photographer (Pexels handle).
 import manifest from './photos.manifest.json';
 
@@ -52,7 +56,7 @@ export const photos = {
   steamBowl: { id: 31199969, alt: 'Steam rising from a bowl of matcha as it is prepared', by: 'silviopelegrin' },
   utensilsFlat: { id: 8474084, alt: 'Matcha things from above: a bamboo whisk, bowls and green powder', by: 'cup-of-couple' },
   ceremonySet: { id: 7113832, alt: 'A quiet tea set with ceramic bowls and a bamboo whisk, from above', by: 'ekaterina-bolovtsova' },
-  bowlTop: { id: 15712200, alt: 'Bright green matcha in a rustic ceramic bowl with a bamboo whisk, from above', by: 'andrii-zholobovych' },
+  bowlTop: { id: 15712200, alt: 'Bright green matcha in a dark ceramic bowl with a bamboo whisk, from above', by: 'andrii-zholobovych' }, // a made picture replaces this one: see generated.json
   foamBowl: { id: 29574692, alt: 'Frothy matcha in a ceramic bowl with a bamboo whisk', by: 'anna-androshuk' },
   whiskSoft: { id: 8474186, alt: 'A bamboo whisk in a hand, mixing matcha', by: 'cup-of-couple' },
   chasenShadow: { id: 8474098, alt: 'A bamboo whisk casting a long shadow on white', by: 'cup-of-couple' },
