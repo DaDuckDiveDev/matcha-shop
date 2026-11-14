@@ -26,7 +26,8 @@ const ORIGIN = process.env.PHOTOS_ORIGIN || 'https://images.pexels.com';
 const force = process.argv.includes('--force');
 
 const source = readFileSync(join(root, 'src/data/images.js'), 'utf8');
-const photos = [...source.matchAll(/^\s*(\w+):\s*\{\s*id:\s*(\d+)/gm)].map((m) => ({ key: m[1], id: m[2] }));
+// `fallback` is the Pexels photo to use for a made picture that has no Pexels number of its own.
+const photos = [...source.matchAll(/^\s*(\w+):\s*\{\s*id:\s*(\d+)(?:,\s*fallback:\s*(\d+))?/gm)].map((m) => ({ key: m[1], id: m[2], pexels: m[3] || m[2] }));
 
 let sharp;
 try { sharp = (await import('sharp')).default; } catch { sharp = null; }
@@ -46,7 +47,7 @@ try { generated = JSON.parse(readFileSync(join(root, 'src/data/generated.json'),
 // picture gets its own name (the Pexels number, "-m" and a few characters
 // from its address), because the upload never replaces a photograph that is
 // already on the server under the same name.
-async function original({ key, id }) {
+async function original({ key, id, pexels }) {
   const own = join(root, 'photos-src', `${key}.jpg`);
   if (existsSync(own)) return { input: readFileSync(own), stem: id };
   if (generated[key]) {
@@ -56,7 +57,7 @@ async function original({ key, id }) {
       console.warn(`photos: ${key} made picture answered ${made.status}, using the Pexels photo`);
     } catch (err) { console.warn(`photos: ${key} made picture not fetched (${err.message}), using the Pexels photo`); }
   }
-  const url = `${ORIGIN}/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=2400`;
+  const url = `${ORIGIN}/photos/${pexels}/pexels-photo-${pexels}.jpeg?auto=compress&cs=tinysrgb&w=2400`;
   const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return { input: Buffer.from(await res.arrayBuffer()), stem: id };

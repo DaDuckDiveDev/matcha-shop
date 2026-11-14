@@ -5,7 +5,7 @@ import Photo from './Photo.jsx';
 // swipe. On a wide screen, in browsers with scroll timelines, the page holds
 // still while the row slides past: the stylesheet does that on its own
 // (see ".way" there), so there is no script here at all.
-const PHOTOS = ['teaRows', 'teaMist', 'powderTray', 'scoop', 'whiskClose', 'steamBowl'];
+const PHOTOS = ['teaRows', 'teaMist', 'stoneMill', 'scoop', 'whiskClose', 'steamBowl'];
 
 export default function WayGallery() {
   const { t } = useLang();

@@ -21,6 +21,7 @@ export const photos = {
   heroWhisk: { id: 8474184, alt: 'A hand whisking matcha with a bamboo chasen', by: 'cup-of-couple' },
   handsWhisk: { id: 8004576, alt: 'Hands preparing matcha with a whisk and a ceramic cup', by: 'darina-belonogova' },
   bowlRustic: { id: 38275684, alt: 'Vivid green matcha in a rustic ceramic bowl with a bamboo whisk', by: 'julias-torten-und-tortchen' },
+  stoneMill: { id: 90000001, fallback: 38987827, alt: 'A granite stone mill with fine green matcha gathering at its rim', by: 'machiko' }, // made for Machiko (generated.json); the fallback is the powder tray
   powderTray: { id: 38987827, alt: 'Matcha powder in a bowl with a bamboo whisk on a tray', by: 'charles-chen' },
   scoop: { id: 8329633, alt: 'A bamboo scoop of matcha over a traditional tea set', by: 'anna-pou' },
   latteCup: { id: 38737533, alt: 'A matcha latte in a pale blue ceramic cup on a wooden table', by: 'alyona-nagel' },
@@ -81,7 +82,8 @@ export function picture(key) {
     const set = (ext) => m.w.map((w) => `${local(f, w, ext)} ${w}w`).join(', ');
     return { alt: p.alt, avif: set('avif'), jpg: set('jpg'), src: local(f, m.w[Math.min(1, m.w.length - 1)], 'jpg'), preview: m.ph, colour: m.c };
   }
-  return { alt: p.alt, avif: '', jpg: REMOTE_WIDTHS.map((w) => `${remote(p.id, w)} ${w}w`).join(', '), src: remote(p.id, 800), preview: '', colour: '' };
+  const pexels = p.fallback || p.id;
+  return { alt: p.alt, avif: '', jpg: REMOTE_WIDTHS.map((w) => `${remote(pexels, w)} ${w}w`).join(', '), src: remote(pexels, 800), preview: '', colour: '' };
 }
 
 // One address at about the width asked for (the guest app's thumbnails).
@@ -90,7 +92,7 @@ export function src(key, w = 1200) {
   if (!p) return '';
   const m = manifest[p.id];
   if (m) return local(m.f || p.id, m.w.find((x) => x >= w) || m.w[m.w.length - 1], 'jpg');
-  return remote(p.id, w);
+  return remote(p.fallback || p.id, w);
 }
 
 export function alt(key) {
