@@ -68,10 +68,13 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: `${base}index.html`,
+        // public/teatalk/ is a separate static site (a client draft), not a page of this app:
+        // the service worker must leave its addresses to the network and keep its files out of the offline copy.
+        navigateFallbackDenylist: [/\/teatalk(\/|$)/],
         // The shell, the two text fonts and the icons are kept for offline use;
         // photographs are cached as they are seen.
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
-        globIgnores: ['photos/**', 'brand/**', '**/*cyrillic*', '**/*vietnamese*'],
+        globIgnores: ['photos/**', 'brand/**', 'teatalk/**', '**/*cyrillic*', '**/*vietnamese*'],
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.includes('/photos/') || url.hostname === 'images.pexels.com',

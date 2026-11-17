@@ -96,3 +96,9 @@ Reservations go to the API when `API_URL` is set. Without it, set `VITE_RESERVE_
 - Serbian pages rendered at build time for search engines; today the Serbian copy is applied in the browser.
 - Point-of-sale integration so order status and stamps are real, and payment at checkout.
 - Privacy-friendly analytics (Plausible or similar).
+
+## The TeaTalk draft at /teatalk
+
+`public/teatalk/` holds a finished static build of a website draft for a client pitch (TeaTalk, a Chinese tea house in Belgrade). It is not part of this app: it is copied into `dist/` as it is and served at `machiko.rs/teatalk/`. The page is marked noindex, and `vite.config.js` keeps it out of the service worker (`navigateFallbackDenylist`, `globIgnores`).
+
+To take it down: delete `public/teatalk/` and the two lines in `vite.config.js`, then remove the `teatalk` folder on the server by hand, because the upload never deletes anything.
